@@ -7,73 +7,73 @@ export default function ProjectPanel({ project, index }) {
 
   useGSAP(() => onMotionOK(() => {
     gsap.from(ref.current.querySelectorAll('[data-panel-item]'), {
-      opacity: 0, y: 24, duration: 0.7, ease: EASE, stagger: 0.1,
-      scrollTrigger: { trigger: ref.current, start: 'top 70%', once: true },
+      opacity: 0, y: 16, duration: 0.6, ease: EASE, stagger: 0.08,
+      scrollTrigger: { trigger: ref.current, start: 'top 75%', once: true },
     })
   }), { scope: ref })
 
   return (
-    <article
-      ref={ref}
-      className="border-t border-line py-20 md:py-28 grid md:grid-cols-[1fr_1.1fr] gap-12 md:gap-16"
-    >
+    <article ref={ref} className="py-16 md:py-20 grid md:grid-cols-[1fr_1.15fr] gap-10 md:gap-16">
       <div className="md:sticky md:top-24 md:self-start">
-        <p data-panel-item className="font-mono text-xs text-accent mb-4">
+        <p data-panel-item className="font-pixel text-[16px] text-sand tracking-widest mb-5">
           {String(index + 1).padStart(2, '0')}
         </p>
-        <h3 data-panel-item className="text-3xl md:text-4xl font-bold tracking-tight">
-          {project.name}
+        <h3 data-panel-item className="font-pixel text-[24px] md:text-[32px] text-copper leading-[1.5]">
+          {project.name.toUpperCase()}
         </h3>
-        <p data-panel-item className="mt-3 font-mono text-sm text-fg-dim">{project.kicker}</p>
+        <p data-panel-item className="mt-4 text-sm text-sand">{project.kicker}</p>
 
         <div data-panel-item className="mt-8 flex flex-wrap gap-3">
           <a href={project.repo} target="_blank" rel="noopener noreferrer"
-             className="text-sm border border-line rounded-full px-4 py-2 hover:border-accent transition-colors">
-            Kode ↗
+             className="font-pixel text-[16px] border-2 border-copper bg-surface text-cream px-4 py-3 tracking-wider transition-transform hover:-translate-y-0.5"
+             style={{ boxShadow: '4px 4px 0 var(--color-shadow)' }}>
+            KODE ↗
           </a>
           {project.docs && (
             <a href={project.docs} target="_blank" rel="noopener noreferrer"
-               className="text-sm border border-line rounded-full px-4 py-2 hover:border-accent transition-colors">
-              Dokumentasi ↗
+               className="font-pixel text-[16px] border-2 border-copper bg-surface text-cream px-4 py-3 tracking-wider transition-transform hover:-translate-y-0.5"
+               style={{ boxShadow: '4px 4px 0 var(--color-shadow)' }}>
+              DOKUMENTASI ↗
             </a>
           )}
         </div>
       </div>
 
       <div>
-        <p data-panel-item className="text-lg text-fg-dim leading-relaxed">{project.summary}</p>
+        <p data-panel-item className="text-cream/80 leading-relaxed">{project.summary}</p>
 
         {project.shot && (
-          <img
-            data-panel-item
-            src={project.shot}
-            alt={`Tangkapan layar ${project.name}`}
-            loading="lazy"
-            className="mt-10 w-full rounded-xl border border-line"
-          />
+          <img data-panel-item src={project.shot} alt={`Tangkapan layar ${project.name}`}
+               loading="lazy" className="mt-8 w-full border-2 border-copper"
+               style={{ boxShadow: '4px 4px 0 var(--color-shadow)' }} />
         )}
 
-        <dl data-panel-item className="mt-10 grid grid-cols-2 sm:grid-cols-3 gap-4">
+        {/* Metrik bergaya HUD game: blok terisi, angka besar. */}
+        <dl data-panel-item className="mt-8 grid grid-cols-2 sm:grid-cols-3 gap-3">
           {project.metrics.map((m) => (
-            <div key={m.label} className="border border-line rounded-xl p-4">
-              <dt className="font-mono text-[11px] uppercase tracking-wide text-fg-dim">{m.label}</dt>
-              <dd className="mt-2 text-2xl font-bold">{m.value}</dd>
-              <dd className="mt-1 text-xs text-fg-dim leading-snug">{m.note}</dd>
+            <div key={m.label} className="border-2 border-copper bg-surface p-4">
+              <dt className="font-pixel text-[16px] text-sand tracking-wider leading-relaxed">
+                {m.label}
+              </dt>
+              <dd className="mt-3 font-pixel text-sm text-cream leading-relaxed">{m.value}</dd>
+              <dd className="mt-2 text-xs text-cream/60 leading-snug">{m.note}</dd>
             </div>
           ))}
         </dl>
 
-        <ul data-panel-item className="mt-10 space-y-3">
+        <ul data-panel-item className="mt-8 space-y-3">
           {project.highlights.map((h) => (
-            <li key={h} className="text-sm text-fg-dim leading-relaxed pl-5 relative">
-              <span className="absolute left-0 text-accent" aria-hidden="true">·</span>
+            <li key={h} className="text-sm text-cream/80 leading-relaxed pl-5 relative">
+              <span className="absolute left-0 text-copper" aria-hidden="true">▪</span>
               {h}
             </li>
           ))}
         </ul>
 
+        {/* Caveat diberi bobot visual setara metrik, tidak disembunyikan. */}
         {project.caveat && (
-          <p data-panel-item className="mt-10 text-sm text-fg-dim border-l-2 border-line pl-5 leading-relaxed">
+          <p data-panel-item className="mt-8 text-sm text-cream/80 border-2 border-copper/60 bg-surface/50 p-5 leading-relaxed">
+            <span className="font-pixel text-[16px] text-sand block mb-3 tracking-wider">CATATAN</span>
             {project.caveat}
           </p>
         )}

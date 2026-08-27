@@ -1,12 +1,34 @@
 @import "tailwindcss";
 
+/* Font piksel. Press Start 2P adalah font 8-bit kanonik, tapi sangat lebar dan
+   melelahkan untuk paragraf — jadi dipakai HANYA untuk heading dan label
+   pendek. Body memakai Pixelify Sans yang tetap terasa piksel tapi masih
+   nyaman dibaca panjang.
+
+   ATURAN UKURAN — jangan dilanggar:
+   Press Start 2P digambar pada grid 8x8 piksel. Ia hanya render TAJAM pada
+   ukuran KELIPATAN 8 (16, 24, 32, 40, 56). Pada 9px/10px/11px pikselnya jatuh
+   di antara piksel layar sehingga tebalnya tidak rata dan hasilnya buram —
+   merusak justru hal yang ingin dicapai. Versi pertama file ini memakai
+   9-11px dan salah dua kali: tidak tajam, dan di bawah ambang terbaca.
+
+   Batas bawah 16px, bukan 14px. Press Start 2P tidak punya descender pendek
+   dan seluruh glyph mengisi kotak em, jadi 8px terlalu kecil untuk dibaca
+   meski ia kelipatan 8. */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Pixelify+Sans:wght@400..700&display=swap');
+
 @theme {
-  --color-ink: #09090b;
-  --color-ink-soft: #18181b;
-  --color-line: #27272a;
-  --color-fg: #fafafa;
-  --color-fg-dim: #a1a1aa;
-  --color-accent: #38bdf8;
+  /* Palet terkunci — rasio kontras sudah DIUKUR, bukan diperkirakan.
+     Memakai warna di luar perannya akan merusak keterbacaan. */
+  --color-ink: #2C3639;      /* latar */
+  --color-surface: #3F4E4F;  /* permukaan/kartu. JANGAN jadi border: 1,43:1 */
+  --color-copper: #A27B5C;   /* border 2px, heading besar, blok isian. 3,26:1 */
+  --color-sand: #B89B83;     /* label kecil, angka, tautan. 4,76:1 */
+  --color-cream: #DCD7C9;    /* teks utama. 8,62:1 di latar, 6,05:1 di surface */
+  --color-shadow: #1A2123;   /* hard offset shadow */
+
+  --font-pixel: 'Press Start 2P', ui-monospace, monospace;
+  --font-body: 'Pixelify Sans', ui-monospace, monospace;
 }
 
 html {
@@ -19,13 +41,42 @@ html {
 }
 
 body {
-  color: var(--color-fg);
-  -webkit-font-smoothing: antialiased;
+  color: var(--color-cream);
+  font-family: var(--font-body);
+  /* Font piksel TIDAK boleh di-antialias — itu yang membuatnya jadi buram
+     dan kehilangan seluruh karakter 8-bit-nya. */
+  -webkit-font-smoothing: none;
+  font-smooth: never;
 }
 
-/* Fokus keyboard harus selalu terlihat — tema gelap membuat outline default
-   nyaris tak tampak. */
+/* Semua sprite dan gambar piksel: jangan diinterpolasi saat diperbesar. */
+.pixelated {
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+}
+
+/* Fokus keyboard harus sangat terlihat — dan tetap kotak, bukan membulat. */
 :focus-visible {
-  outline: 2px solid var(--color-accent);
-  outline-offset: 3px;
+  outline: 2px solid var(--color-sand);
+  outline-offset: 2px;
+}
+
+/* Scanline overlay. Opacity ditahan sangat rendah dengan sengaja: begitu
+   scanline-nya "terasa", ia sudah mengganggu pembacaan. */
+.scanlines::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.28) 0 1px,
+    transparent 1px 3px
+  );
+  opacity: 0.09;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scanlines::before { display: none; }
 }

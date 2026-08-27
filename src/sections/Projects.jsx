@@ -4,13 +4,15 @@ import { projects } from '../data/projects.js'
 
 export default function Projects() {
   return (
-    <section id="projects" className="px-6 md:px-16 max-w-5xl mx-auto py-28 md:py-40">
+    <section id="projects" className="px-6 md:px-16 max-w-6xl mx-auto py-24 md:py-36">
       <SectionHeading
         index="02"
-        title="Project"
-        sub="Empat project pribadi. Angka yang ditampilkan bisa ditelusuri ke hasil yang dipublikasikan di repo masing-masing — termasuk yang hasilnya kurang bagus."
+        title="PROJECT"
+        sub="Empat project pribadi. Angka yang ditampilkan bisa ditelusuri ke hasil yang dipublikasikan — termasuk yang hasilnya kurang bagus."
       />
-      {projects.map((p, i) => <ProjectPanel key={p.slug} project={p} index={i} />)}
+      <div className="divide-y-2 divide-copper/40">
+        {projects.map((p, i) => <ProjectPanel key={p.slug} project={p} index={i} />)}
+      </div>
     </section>
   )
 }

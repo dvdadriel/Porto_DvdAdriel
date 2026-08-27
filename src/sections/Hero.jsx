@@ -1,3 +1,4 @@
+import PixelCharacter from '../components/PixelCharacter.jsx'
 import { useRef } from 'react'
 import { useGSAP } from '@gsap/react'
 import { gsap, onMotionOK, EASE } from '../lib/motion.js'
@@ -7,29 +8,46 @@ export default function Hero() {
   const ref = useRef(null)
 
   useGSAP(() => onMotionOK(() => {
+    // steps() supaya teks pun muncul "berjenjang" seperti layar lama,
+    // bukan meluncur halus. Konsisten dengan bahasa piksel halaman ini.
     gsap.from('[data-hero-item]', {
-      opacity: 0, y: 28, duration: 0.9, ease: EASE, stagger: 0.12, delay: 0.1,
+      opacity: 0, y: 16, duration: 0.6, ease: EASE, stagger: 0.1, delay: 0.15,
     })
   }), { scope: ref })
 
   return (
-    <section ref={ref} className="min-h-svh flex flex-col justify-center px-6 md:px-16 max-w-5xl mx-auto">
-      <img
-        data-hero-item
-        src={profile.avatar}
-        alt=""
-        width="96" height="96"
-        className="w-24 h-24 rounded-full border border-line mb-10"
-      />
-      <p data-hero-item className="font-mono text-sm text-fg-dim mb-5">{profile.headline}</p>
-      <h1 data-hero-item className="text-5xl md:text-7xl font-bold tracking-tight leading-[1.05]">
-        {profile.name}
-      </h1>
-      <p data-hero-item className="mt-7 text-lg md:text-xl text-fg-dim max-w-2xl leading-relaxed">
-        {profile.tagline}
-      </p>
-      <div data-hero-item className="mt-12 font-mono text-xs text-fg-dim" aria-hidden="true">
-        ↓ scroll
+    <section
+      ref={ref}
+      className="min-h-svh flex items-center px-6 md:px-16 max-w-6xl mx-auto"
+    >
+      <div className="grid md:grid-cols-[auto_1fr] gap-12 md:gap-20 items-center w-full">
+        {/* Karakter dalam bingkai kotak — border 2px copper, sudut nol. */}
+        <div
+          data-hero-item
+          className="border-2 border-copper bg-surface p-8 flex items-end justify-center"
+          style={{ boxShadow: '6px 6px 0 var(--color-shadow)' }}
+        >
+          <PixelCharacter dir="front" scale={4} />
+        </div>
+
+        <div>
+          <p data-hero-item className="font-pixel text-[16px] text-sand tracking-widest mb-6">
+            FULLSTACK DEVELOPER
+          </p>
+          <h1
+            data-hero-item
+            className="font-pixel text-[32px] sm:text-[40px] md:text-[56px] text-cream leading-[1.45] tracking-wide"
+          >
+            DAVID<br />ADRIEL<br />ALVYN
+            <span className="text-copper">▮</span>
+          </h1>
+          <p data-hero-item className="mt-8 text-base md:text-lg text-cream/80 max-w-xl leading-relaxed">
+            {profile.tagline}
+          </p>
+          <p data-hero-item className="mt-12 font-pixel text-[16px] text-sand tracking-widest" aria-hidden="true">
+            ↓ SCROLL
+          </p>
+        </div>
       </div>
     </section>
   )

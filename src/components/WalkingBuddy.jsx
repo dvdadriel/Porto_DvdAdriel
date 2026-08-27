@@ -18,9 +18,9 @@ import PixelCharacter from './PixelCharacter.jsx'
  * prefers-reduced-motion ia TIDAK dirender sama sekali — tujuannya semata gerak,
  * jadi menyembunyikannya tidak menghilangkan informasi apa pun.
  */
-export default function WalkingBuddy({ scale = 3 }) {
+export default function WalkingBuddy({ size = 80 }) {
   const box = useRef(null)
-  const [state, setState] = useState({ dir: 'front', flip: false, walking: false })
+  const [state, setState] = useState({ flip: false })
 
   useGSAP(() => onMotionOK(() => {
     const el = box.current
@@ -28,44 +28,35 @@ export default function WalkingBuddy({ scale = 3 }) {
 
     // quickTo: setter GSAP yang dioptimasi untuk update per-frame.
     // Diberi easing supaya langkahnya tidak menyentak saat scroll cepat.
-    const moveX = gsap.quickTo(el, 'x', { duration: 0.5, ease: 'power2.out' })
+    const moveX = gsap.quickTo(el, 'x', { duration: 0.45, ease: 'power2.out' })
 
-    let stopTimer
     const st = ScrollTrigger.create({
       start: 0,
       end: 'max',
       onUpdate: (self) => {
         // Lebar jelajah: sisakan margin supaya tidak menempel tepi layar.
-        const margin = 24
-        const span = Math.max(0, window.innerWidth - 40 * scale - margin * 2)
+        const margin = 20
+        const span = Math.max(0, window.innerWidth - size - margin * 2)
         moveX(margin + self.progress * span)
 
-        // Selalu sprite 'right' (satu-satunya tampak samping yang menghadap
-        // kanan), lalu dicerminkan untuk arah sebaliknya. Sprite 'left' TIDAK
-        // dipakai untuk arah karena ia juga menghadap kanan.
-        setState({ dir: 'right', flip: self.direction !== 1, walking: true })
-
-        // Scroll berhenti -> karakter berhenti dan menghadap depan.
-        clearTimeout(stopTimer)
-        stopTimer = setTimeout(() => setState({ dir: 'front', flip: false, walking: false }), 320)
+        // Cerminkan arah menghadap: menghadap kanan saat scroll ke bawah, kiri saat scroll ke atas
+        setState({ flip: self.direction === -1 })
       },
     })
 
-    return () => { clearTimeout(stopTimer); st.kill() }
-  }), { dependencies: [scale] })
+    return () => { st.kill() }
+  }), { dependencies: [size] })
 
   return (
     <div
       ref={box}
       aria-hidden="true"
-      className="fixed bottom-0 left-0 z-40 pointer-events-none hidden md:block"
+      className="fixed bottom-2 left-0 z-40 pointer-events-none hidden md:block"
     >
       <PixelCharacter
-        dir={state.dir}
-        walking={state.walking}
+        action="walking"
         flip={state.flip}
-        scale={scale}
-        cadence={0.26}
+        size={size}
       />
     </div>
   )

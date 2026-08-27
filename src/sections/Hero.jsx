@@ -24,10 +24,10 @@ export default function Hero() {
         {/* Karakter dalam bingkai kotak — border 2px copper, sudut nol. */}
         <div
           data-hero-item
-          className="border-2 border-copper bg-surface p-8 flex items-end justify-center"
+          className="border-2 border-copper bg-surface p-6 md:p-8 flex items-center justify-center"
           style={{ boxShadow: '6px 6px 0 var(--color-shadow)' }}
         >
-          <PixelCharacter dir="front" scale={4} />
+          <PixelCharacter action="waving" size={200} />
         </div>
 
         <div>

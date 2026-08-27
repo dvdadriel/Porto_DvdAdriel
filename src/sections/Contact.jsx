@@ -20,9 +20,14 @@ export default function Contact() {
             github.com/dvdadriel ↗
           </a>
         </div>
-        <div className="mt-16 flex items-end gap-4">
-          <PixelCharacter dir="right" flip walking scale={2} />
-          <p className="font-pixel text-[16px] text-cream/50 pb-1 tracking-wider">
+        <div className="mt-16 flex items-center gap-5">
+          <div
+            className="border-2 border-copper bg-surface p-2 flex items-center justify-center shrink-0"
+            style={{ boxShadow: '4px 4px 0 var(--color-shadow)' }}
+          >
+            <PixelCharacter action="dancing" size={80} />
+          </div>
+          <p className="font-pixel text-[16px] text-cream/50 tracking-wider">
             {profile.name.toUpperCase()} · 2026
           </p>
         </div>

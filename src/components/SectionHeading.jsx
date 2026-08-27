@@ -1,6 +1,6 @@
-export default function SectionHeading({ index, title, sub }) {
+export default function SectionHeading({ index, title, sub, className = 'mb-12' }) {
   return (
-    <div className="mb-12">
+    <div className={className}>
       <p className="font-pixel text-[16px] text-sand mb-4 tracking-widest">{index}</p>
       <h2 className="font-pixel text-[24px] md:text-[40px] text-copper leading-[1.5] tracking-wide">
         {title}

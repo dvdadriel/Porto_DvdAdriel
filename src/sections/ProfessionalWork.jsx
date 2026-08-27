@@ -41,7 +41,7 @@ export default function ProfessionalWork() {
               "ini yang saya kerjakan" — inilah gerak yang membuat halaman hidup. */}
           <div className="mt-16">
             <div className="flex items-end gap-4 mb-6">
-              <PixelCharacter dir="right" walking scale={3} />
+              <PixelCharacter action="walking" size={64} />
               <p className="font-pixel text-[16px] text-sand tracking-widest pb-2">
                 SEMBILAN SITUS
               </p>

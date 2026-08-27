@@ -22,7 +22,7 @@ export default function App() {
         <About />
         <Contact />
       </main>
-      <WalkingBuddy scale={3} />
+      <WalkingBuddy size={84} />
     </>
   )
 }

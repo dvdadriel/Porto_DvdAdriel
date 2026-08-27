@@ -22,9 +22,14 @@ export default function About() {
             <p className="mt-1 text-sm text-sand">{major} · {period}</p>
           </div>
         </Reveal>
-        {/* Karakter tampak belakang — ia "menghadap" ke isi halaman. */}
+        {/* Karakter penyerta */}
         <div className="hidden md:block">
-          <PixelCharacter dir="back" scale={3} />
+          <div
+            className="border-2 border-copper bg-surface p-3 flex items-center justify-center"
+            style={{ boxShadow: '4px 4px 0 var(--color-shadow)' }}
+          >
+            <PixelCharacter action="waving" size={90} />
+          </div>
         </div>
       </div>
     </section>

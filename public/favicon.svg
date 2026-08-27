@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" shape-rendering="crispEdges">
+  <!--
+    Diamond yang sama dengan logo DAVID.EXE di navbar — tab dan halaman memakai
+    tanda yang sama.
+
+    shape-rendering="crispEdges" menjaga tepinya tetap tajam saat favicon
+    diperkecil ke 16px; tanpa itu browser meng-antialias dan piksel-pikselnya
+    jadi kabur.
+
+    Latarnya diisi penuh, bukan transparan: favicon transparan hilang di tab
+    bar yang gelap, dan copper di atas ink adalah kontras yang sudah diukur.
+  -->
+  <rect width="16" height="16" fill="#2C3639" />
+
+  <g fill="#A27B5C">
+    <rect x="7" y="1" width="2" height="2" />
+    <rect x="5" y="3" width="6" height="2" />
+    <rect x="3" y="5" width="10" height="2" />
+    <rect x="1" y="7" width="14" height="2" />
+    <rect x="3" y="9" width="10" height="2" />
+    <rect x="5" y="11" width="6" height="2" />
+    <rect x="7" y="13" width="2" height="2" />
+  </g>
+
+  <!-- Rongga tengah, mengulang bentuk berlubang pada ikon navbar. -->
+  <g fill="#2C3639">
+    <rect x="7" y="5" width="2" height="6" />
+    <rect x="5" y="7" width="6" height="2" />
+  </g>
+</svg>

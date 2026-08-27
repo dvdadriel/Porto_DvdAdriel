@@ -34,9 +34,12 @@ export default function About() {
           className="border-2 border-copper bg-surface p-4 sm:p-5 space-y-3"
           style={{ boxShadow: '4px 4px 0 var(--color-shadow)' }}
         >
+          {/* leading-none di kedua sisi: font-pixel mengisi penuh kotak em-nya, jadi
+              tanpa ini glyph ★ dan judulnya terlihat tidak sejajar meski
+              containernya sudah items-center. */}
           <div className="flex items-center gap-2 border-b border-copper/40 pb-2.5">
-            <span className="text-copper">★</span>
-            <h3 className="font-pixel text-[11px] sm:text-[13px] text-cream">
+            <span className="text-copper leading-none">★</span>
+            <h3 className="font-pixel text-[11px] sm:text-[13px] text-cream leading-none">
               {t.about.philosophyTitle}
             </h3>
           </div>
@@ -44,12 +47,6 @@ export default function About() {
           <p className="text-xs sm:text-[13px] text-cream/90 leading-relaxed font-normal text-justify sm:text-left">
             {t.about.bioParagraph}
           </p>
-
-          <div className="border-t border-copper/30 pt-3">
-            <div className="border border-copper/50 bg-ink/70 p-3 font-pixel text-[9px] sm:text-[10px] text-sand leading-relaxed">
-              {t.about.quote}
-            </div>
-          </div>
         </div>
 
         {/* Kolom Kanan: Quest Pendidikan & Lokasi */}
@@ -85,7 +82,7 @@ export default function About() {
       </div>
 
       {/* Down Arrow Indicator to Contact */}
-      <SectionDownArrow targetId="contact" label="CONTACT" />
+      <SectionDownArrow targetId="work" label={t.nav.work} />
     </section>
   )
 }

@@ -82,6 +82,36 @@ export function WhatsappIcon({ className = "w-5 h-5", color = "currentColor" }) 
   )
 }
 
+/**
+ * Globe untuk pemilih bahasa.
+ *
+ * Dibangun dari GARIS, tanpa rect pelubang berwarna latar seperti ikon lain di file
+ * ini. Trik `fill="#2C3639"` itu mengasumsikan ikonnya selalu duduk di atas latar
+ * ink — tombol bahasa berlatar surface dan berubah jadi copper saat hover, jadi
+ * lubang hardcoded akan terlihat sebagai bercak salah warna. Di sini rongganya
+ * memang kosong, sehingga latar apa pun tembus dengan benar.
+ */
+export function GlobeIcon({ className = "w-4 h-4", color = "currentColor" }) {
+  return (
+    <svg viewBox="0 0 16 16" fill={color} className={`pixelated inline-block ${className}`} aria-hidden="true">
+      {/* cincin luar — oktagon 12x12 berpusat di (8,8) */}
+      <rect x="6" y="2" width="4" height="2" fill={color} />
+      <rect x="4" y="4" width="2" height="2" fill={color} />
+      <rect x="10" y="4" width="2" height="2" fill={color} />
+      <rect x="2" y="6" width="2" height="4" fill={color} />
+      <rect x="12" y="6" width="2" height="4" fill={color} />
+      <rect x="4" y="10" width="2" height="2" fill={color} />
+      <rect x="10" y="10" width="2" height="2" fill={color} />
+      <rect x="6" y="12" width="4" height="2" fill={color} />
+      {/* Khatulistiwa saja. Meridian vertikal sudah dicoba dan dibuang: pada
+          ukuran render ~16px, cincin plus dua garis dalam menyisakan celah tipis
+          2 unit dan seluruhnya melebur jadi tanda plus. Satu garis horizontal di
+          dalam cincin cukup untuk membacanya sebagai bola dunia. */}
+      <rect x="4" y="7" width="8" height="2" fill={color} />
+    </svg>
+  )
+}
+
 export function CoinIcon({ className = "w-4 h-4", color = "#D4AF37" }) {
   return (
     <svg viewBox="0 0 16 16" fill={color} className={`pixelated inline-block animate-pulse ${className}`} aria-hidden="true">

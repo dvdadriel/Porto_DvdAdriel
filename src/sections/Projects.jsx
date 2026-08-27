@@ -102,6 +102,21 @@ export default function Projects() {
               <span>↗</span>
             </a>
 
+            {/* Tombol aplikasi live. Muncul hanya kalau `live` sudah diisi di
+                projects.js, jadi tidak pernah ada tautan menuju domain mati. */}
+            {staticProjectData.live && (
+              <a
+                href={staticProjectData.live}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-pixel text-[10px] sm:text-[11px] border-2 border-copper bg-copper text-ink hover:bg-cream px-3.5 py-2 transition-colors flex items-center gap-1.5"
+                style={{ boxShadow: '2px 2px 0 var(--color-shadow)' }}
+              >
+                <span>{t.projects.liveDemo}</span>
+                <span>↗</span>
+              </a>
+            )}
+
             {project.demoUrl && (
               <a
                 href={project.demoUrl}
@@ -119,14 +134,30 @@ export default function Projects() {
         {/* Right Column: Highlights & Screenshot / Caveat */}
         <div className="space-y-3">
           {staticProjectData.shot && (
-            <div className="border-2 border-copper/70 overflow-hidden" style={{ boxShadow: '3px 3px 0 var(--color-shadow)' }}>
+            /* Gambar 1918x963 sebelumnya dipaksa ke h-32/h-40. Pada kotak sependek
+               itu object-cover hanya menyisakan sudut kiri-atas — header gelap yang
+               nyaris kosong — sehingga terbaca seperti tidak ada gambar. Pada 220px
+               potongannya masih memuat header, IDX Stocks, dan kartu Momentum.
+
+               `pixelated` dibuang: itu untuk sprite, dan pada tangkapan layar ia
+               membuat teksnya kotak-kotak dan makin tak terbaca. Dibungkus tautan
+               supaya versi penuhnya bisa dilihat — thumbnail sekecil ini tidak
+               akan pernah terbaca sendiri. */
+            <a
+              href={staticProjectData.shot}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block border-2 border-copper/70 hover:border-copper transition-colors"
+              style={{ boxShadow: '3px 3px 0 var(--color-shadow)' }}
+              title="Buka tangkapan layar ukuran penuh"
+            >
               <img
                 src={staticProjectData.shot}
-                alt={`Screenshot ${project.name}`}
-                className="w-full h-32 sm:h-40 object-cover object-top pixelated"
+                alt={`Tangkapan layar dasbor ${project.name}`}
+                className="w-full h-[220px] object-cover object-top block"
                 loading="lazy"
               />
-            </div>
+            </a>
           )}
 
           <div>

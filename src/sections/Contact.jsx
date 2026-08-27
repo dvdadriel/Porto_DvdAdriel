@@ -21,7 +21,7 @@ export default function Contact() {
           </a>
         </div>
         <div className="mt-16 flex items-end gap-4">
-          <PixelCharacter dir="left" walking scale={2} />
+          <PixelCharacter dir="right" flip walking scale={2} />
           <p className="font-pixel text-[16px] text-cream/50 pb-1 tracking-wider">
             {profile.name.toUpperCase()} · 2026
           </p>

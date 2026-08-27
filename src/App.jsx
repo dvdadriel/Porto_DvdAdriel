@@ -4,6 +4,7 @@ import Projects from './sections/Projects.jsx'
 import TechStack from './sections/TechStack.jsx'
 import About from './sections/About.jsx'
 import Contact from './sections/Contact.jsx'
+import WalkingBuddy from './components/WalkingBuddy.jsx'
 
 export default function App() {
   return (
@@ -21,6 +22,7 @@ export default function App() {
         <About />
         <Contact />
       </main>
+      <WalkingBuddy scale={3} />
     </>
   )
 }

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="480" viewBox="0 0 480 480">
+  <rect width="480" height="480" fill="#18181b"/>
+  <circle cx="240" cy="190" r="76" fill="#27272a"/>
+  <path d="M104 420c0-75 61-136 136-136s136 61 136 136z" fill="#27272a"/>
+  <text x="240" y="462" font-family="ui-monospace,monospace" font-size="22" fill="#52525b" text-anchor="middle">FOTO MENYUSUL</text>
+</svg>

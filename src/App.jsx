@@ -1,3 +1,5 @@
+import React, { useState, useEffect, useRef } from 'react'
+import Navbar from './components/Navbar.jsx'
 import Hero from './sections/Hero.jsx'
 import ProfessionalWork from './sections/ProfessionalWork.jsx'
 import Projects from './sections/Projects.jsx'
@@ -7,13 +9,40 @@ import Contact from './sections/Contact.jsx'
 import WalkingBuddy from './components/WalkingBuddy.jsx'
 
 export default function App() {
+  const [activeSection, setActiveSection] = useState('hero')
+
+  useEffect(() => {
+    const sections = document.querySelectorAll('section, footer')
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id)
+          }
+        })
+      },
+      { threshold: 0.45 }
+    )
+
+    sections.forEach((s) => observer.observe(s))
+
+    return () => observer.disconnect()
+  }, [])
+
   return (
-    <>
-      <a href="#work"
-         className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[60] focus:border-2 focus:border-copper focus:bg-surface focus:px-4 focus:py-3 focus:font-pixel focus:text-[16px]">
+    <div className="relative bg-ink text-cream min-h-screen">
+      {/* Top Fixed 8-bit Navigation Header */}
+      <Navbar activeSection={activeSection} />
+
+      {/* Screen Reader Skip Link */}
+      <a
+        href="#work"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-20 focus:left-4 focus:z-[60] focus:border-2 focus:border-copper focus:bg-surface focus:px-4 focus:py-3 focus:font-pixel focus:text-[14px]"
+      >
         LEWATI KE KONTEN
       </a>
-      {/* scanlines: overlay tetap, opacity sangat rendah, mati saat reduced-motion */}
+
+      {/* Main Container with Scanlines */}
       <main className="scanlines bg-ink text-cream">
         <Hero />
         <ProfessionalWork />
@@ -22,7 +51,9 @@ export default function App() {
         <About />
         <Contact />
       </main>
-      <WalkingBuddy size={84} />
-    </>
+
+      {/* 8-bit Walking Buddy (Follows scroll track) */}
+      <WalkingBuddy size={76} />
+    </div>
   )
 }

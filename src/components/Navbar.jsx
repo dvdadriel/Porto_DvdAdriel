@@ -92,7 +92,10 @@ export default function Navbar({ activeSection }) {
         </a>
 
         {/* Desktop Navigation Links - Pixel Chevrons vertically centered */}
-        <nav className="hidden md:flex items-center gap-1 sm:gap-2">
+        {/* Ambang lg (1024px), bukan md (768px): pada tablet enam item nav berhuruf
+            Press Start 2P tidak muat berdampingan dengan logo dan pemilih bahasa,
+            jadi ia berdesakan atau meluber. Di tablet dia collapse jadi hamburger. */}
+        <nav className="hidden lg:flex items-center gap-1 sm:gap-2">
           {NAV_ITEMS.map((item) => {
             const isActive = active === item.id
             return (
@@ -144,7 +147,7 @@ export default function Navbar({ activeSection }) {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden font-pixel text-[12px] p-2 bg-surface border border-copper text-cream cursor-pointer"
+            className="lg:hidden font-pixel text-[12px] p-2 bg-surface border border-copper text-cream cursor-pointer"
             aria-label="Toggle menu"
           >
             {mobileMenuOpen ? '✕' : '☰'}
@@ -154,7 +157,7 @@ export default function Navbar({ activeSection }) {
 
       {/* Mobile Menu Drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-ink border-b-2 border-copper px-6 py-4 flex flex-col gap-2">
+        <div className="lg:hidden bg-ink border-b-2 border-copper px-6 py-4 flex flex-col gap-2">
           {NAV_ITEMS.map((item) => (
             <a
               key={item.id}

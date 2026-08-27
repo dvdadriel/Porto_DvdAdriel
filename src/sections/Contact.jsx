@@ -82,22 +82,35 @@ export default function Contact() {
           {contacts.map((c) => {
             const Icon = c.icon
             return (
+              /* min-w-0 di kartu DAN di span nilainya, keduanya wajib.
+
+                 Grid item default punya min-width:auto, jadi ia tidak boleh
+                 menyusut di bawah lebar min-content-nya. Dan `truncate` memakai
+                 white-space:nowrap, yang membuat min-content span tetap selebar
+                 teks PENUH — jadi teksnya tidak pernah benar-benar terpotong, ia
+                 justru mendorong kartunya melebihi sel grid dan keluar layar.
+                 Di 375px kartunya jadi 379px sementara selnya 343px, dan tombol
+                 aksinya terpotong di tepi kanan.
+
+                 min-w-0 mengizinkan penyusutan, sehingga truncate baru bekerja
+                 sebagaimana namanya. shrink-0 pada tombol menjaga aksinya utuh —
+                 yang boleh menyusut adalah nilainya, bukan tombolnya. */
               <div
                 key={c.label}
-                className="border-2 border-copper bg-surface p-3.5 sm:p-4 flex flex-col justify-between transition-all hover:border-copper"
+                className="min-w-0 border-2 border-copper bg-surface p-3.5 sm:p-4 flex flex-col justify-between transition-all hover:border-copper"
                 style={{ boxShadow: '3px 3px 0 var(--color-shadow)' }}
               >
-                <div className="flex items-center justify-between border-b border-copper/40 pb-2 mb-2">
-                  <div className="flex items-center gap-2">
-                    <Icon className="w-4 h-4 text-copper" />
-                    <span className="font-pixel text-[10px] sm:text-[11px] text-sand tracking-wider">
+                <div className="flex items-center justify-between gap-2 border-b border-copper/40 pb-2 mb-2">
+                  <div className="flex items-center gap-2 min-w-0">
+                    <Icon className="w-4 h-4 text-copper shrink-0" />
+                    <span className="font-pixel text-[10px] sm:text-[11px] text-sand tracking-wider truncate">
                       {c.label}
                     </span>
                   </div>
                   {c.extraBtn && (
                     <button
                       onClick={c.extraBtn.onClick}
-                      className="font-pixel text-[9px] px-2 py-0.5 border border-copper bg-ink text-cream hover:bg-copper transition-colors cursor-pointer"
+                      className="shrink-0 font-pixel text-[9px] px-2 py-0.5 border border-copper bg-ink text-cream hover:bg-copper transition-colors cursor-pointer"
                     >
                       {c.extraBtn.text}
                     </button>
@@ -105,12 +118,14 @@ export default function Contact() {
                 </div>
 
                 <div className="flex items-center justify-between gap-2 mt-1">
-                  <span className="text-xs sm:text-sm text-cream font-mono truncate">{c.value}</span>
+                  <span className="min-w-0 truncate text-xs sm:text-sm text-cream font-mono">
+                    {c.value}
+                  </span>
                   <a
                     href={c.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-pixel text-[10px] text-copper hover:text-cream transition-colors whitespace-nowrap"
+                    className="shrink-0 font-pixel text-[10px] text-copper hover:text-cream transition-colors whitespace-nowrap"
                   >
                     {c.action}
                   </a>

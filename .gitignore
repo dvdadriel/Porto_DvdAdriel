@@ -8,4 +8,4 @@ dist/
 !.env.example
 .claude
 .impeccable
-docs
+docs/

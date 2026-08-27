@@ -1,3 +1,12 @@
+// Tautan aplikasi yang berjalan. Isi saat subdomain-nya sudah aktif — biarkan
+// null sampai saat itu, karena tombol yang menuju domain mati lebih buruk
+// daripada tidak ada tombol. URL disimpan di sini, bukan di translations.js:
+// URL bukan konten terjemahan, dan per-bahasa berarti dua salinan yang bisa
+// berbeda diam-diam.
+//
+//   idx-screener → Render      (mis. 'https://idx.domain-anda.com')
+//   news-update  → Cloudflare  (mis. 'https://news.domain-anda.com')
+
 export const projects = [
   {
     slug: 'idx-screener',
@@ -20,6 +29,7 @@ export const projects = [
       'Profit factor di bawah 1 — kerugian melebihi keuntungan. Sistemnya bekerja; strateginya belum terbukti. Hasil dan batasannya dipublikasikan apa adanya.',
     repo: 'https://github.com/dvdadriel/idx-screener',
     docs: 'https://github.com/dvdadriel/idx-screener/blob/main/docs/backtest-results.md',
+    live: null,
     shot: '/shots/idx-screener.png',
   },
   {
@@ -41,6 +51,7 @@ export const projects = [
     caveat: null,
     repo: 'https://github.com/dvdadriel/News-Update',
     docs: null,
+    live: null,
     shot: null,
   },
   {
@@ -63,6 +74,7 @@ export const projects = [
       'Belum ada test. Untuk sistem dengan empat service dan panggilan antar-service, itu kekurangan terbesarnya — dan dicatat terbuka di README-nya.',
     repo: 'https://github.com/dvdadriel/Go-Courier',
     docs: 'https://github.com/dvdadriel/Go-Courier/blob/main/documentation.md',
+    live: null,
     shot: null,
   },
   {
@@ -85,6 +97,7 @@ export const projects = [
       'Status HTTP selalu 200 — kode error hanya ada di body JSON. Cacat warisan yang saya dokumentasikan alih-alih sembunyikan; perbaikannya perubahan kontrak untuk setiap endpoint.',
     repo: 'https://github.com/dvdadriel/Go-FoodStore',
     docs: 'https://github.com/dvdadriel/Go-FoodStore/blob/main/docs/Go-FoodStore.postman_collection.json',
+    live: null,
     shot: null,
   },
 ]

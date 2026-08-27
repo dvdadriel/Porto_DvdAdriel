@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import ShuffleText from './ShuffleText.jsx'
+import { GlobeIcon } from './PixelIcons.jsx'
 import { useLanguage } from '../context/LanguageContext.jsx'
 
 function LupisDiamondIcon({ className = "w-3.5 h-3.5" }) {
@@ -47,10 +48,10 @@ export default function Navbar({ activeSection }) {
 
   const NAV_ITEMS = [
     { id: 'hero', label: t.nav.hero, num: '00' },
-    { id: 'work', label: t.nav.work, num: '01' },
-    { id: 'projects', label: t.nav.projects, num: '02' },
-    { id: 'stack', label: t.nav.stack, num: '03' },
-    { id: 'about', label: t.nav.about, num: '04' },
+    { id: 'about', label: t.nav.about, num: '01' },
+    { id: 'work', label: t.nav.work, num: '02' },
+    { id: 'projects', label: t.nav.projects, num: '03' },
+    { id: 'stack', label: t.nav.stack, num: '04' },
     { id: 'contact', label: t.nav.contact, num: '05' },
   ]
 
@@ -119,15 +120,25 @@ export default function Navbar({ activeSection }) {
 
         {/* Right Side: Language Switcher */}
         <div className="flex items-center gap-3">
+          {/* Hanya bahasa yang AKTIF yang ditampilkan. Sebelumnya tombol ini
+              menampilkan keduanya ("ID [EN]"), yang justru ambigu: pembaca tidak
+              tahu mana yang sedang berlaku dan mana tujuan kliknya. Aksinya
+              dijelaskan lewat aria-label dan title, bukan dengan menaruh dua
+              bahasa di layar.
+
+              Globe-nya ikon SVG piksel, bukan emoji 🌐. Emoji adalah satu-satunya
+              glyph non-piksel di navbar penuh Press Start 2P, punya ascent sendiri
+              yang menyulitkan perataan, dan warnanya tidak bisa ikut berubah saat
+              hover. SVG mewarisi currentColor, jadi ia menguat bersama teksnya. */}
           <button
             onClick={toggleLang}
+            aria-label={lang === 'id' ? 'Switch to English' : 'Ubah ke Bahasa Indonesia'}
             title={lang === 'id' ? 'Switch to English' : 'Ubah ke Bahasa Indonesia'}
-            className="font-pixel text-[10px] sm:text-[11px] bg-surface hover:bg-copper hover:text-cream text-sand border-2 border-copper px-2.5 py-1 transition-all active:translate-y-0.5 cursor-pointer flex items-center gap-1.5"
+            className="font-pixel text-[10px] sm:text-[11px] bg-surface hover:bg-copper hover:text-cream text-sand border-2 border-copper px-2.5 py-1.5 transition-all active:translate-y-0.5 cursor-pointer flex items-center gap-1.5 leading-none"
             style={{ boxShadow: '2px 2px 0 var(--color-shadow)' }}
           >
-            <span className="text-copper group-hover:text-cream">🌐</span>
-            <span>{lang.toUpperCase()}</span>
-            <span className="text-[8px] opacity-60">[{lang === 'id' ? 'EN' : 'ID'}]</span>
+            <GlobeIcon className="w-4 h-4" />
+            <span className="leading-none">{lang.toUpperCase()}</span>
           </button>
 
           {/* Mobile Menu Button */}

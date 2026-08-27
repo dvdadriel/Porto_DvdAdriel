@@ -61,6 +61,23 @@ body {
   image-rendering: -moz-crisp-edges;
 }
 
+/* Indikator "lanjut ke bawah". Dua frame diskrit, bukan bounce halus: gerak
+   bertangga adalah kosakata 8-bit yang sesungguhnya, sementara bounce
+   cubic-bezier terbaca sebagai animasi web biasa. Sekaligus menghormati
+   reduced-motion, yang utilitas bounce bawaan Tailwind tidak lakukan. */
+@keyframes nudge-down {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(3px); }
+}
+
+.nudge-down {
+  animation: nudge-down 1.1s steps(1, end) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nudge-down { animation: none; }
+}
+
 /* Fokus keyboard harus sangat terlihat — dan tetap kotak, bukan membulat. */
 :focus-visible {
   outline: 2px solid var(--color-sand);

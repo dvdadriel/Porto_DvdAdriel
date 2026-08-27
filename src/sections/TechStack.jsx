@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import ShuffleText from '../components/ShuffleText.jsx'
+import SectionDownArrow from '../components/SectionDownArrow.jsx'
 import { useLanguage } from '../context/LanguageContext.jsx'
 
 export default function TechStack() {
@@ -9,7 +10,7 @@ export default function TechStack() {
   return (
     <section
       id="stack"
-      className="min-h-screen lg:h-screen snap-start snap-always flex flex-col justify-center px-4 sm:px-8 lg:px-16 max-w-6xl mx-auto pt-16 pb-8 relative overflow-hidden"
+      className="min-h-screen lg:h-screen snap-start snap-always flex flex-col justify-center px-4 sm:px-8 lg:px-16 max-w-6xl mx-auto pt-16 pb-12 relative overflow-hidden"
     >
       <div className="mb-4 sm:mb-6">
         <p className="font-pixel text-[12px] sm:text-[14px] text-sand tracking-widest">{t.stack.sectionNum}</p>
@@ -66,6 +67,9 @@ export default function TechStack() {
         <span>{t.stack.footerLeft}</span>
         <span className="text-copper animate-pulse">{t.stack.footerRight}</span>
       </div>
+
+      {/* Down Arrow Indicator to About */}
+      <SectionDownArrow targetId="about" label="ABOUT" />
     </section>
   )
 }

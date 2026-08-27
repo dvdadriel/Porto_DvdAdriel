@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import PixelCharacter from '../components/PixelCharacter.jsx'
 import ShuffleText from '../components/ShuffleText.jsx'
+import SectionDownArrow from '../components/SectionDownArrow.jsx'
 import { useLanguage } from '../context/LanguageContext.jsx'
 import { projects } from '../data/projects.js'
 
@@ -14,7 +15,7 @@ export default function Projects() {
   return (
     <section
       id="projects"
-      className="min-h-screen lg:h-screen snap-start snap-always flex flex-col justify-center px-4 sm:px-8 lg:px-16 max-w-6xl mx-auto pt-16 pb-8 relative overflow-hidden"
+      className="min-h-screen lg:h-screen snap-start snap-always flex flex-col justify-center px-4 sm:px-8 lg:px-16 max-w-6xl mx-auto pt-16 pb-12 relative overflow-hidden"
     >
       {/* Header: Title + Coding GIF */}
       <div className="flex items-center justify-between gap-4 mb-3 sm:mb-5">
@@ -56,10 +57,10 @@ export default function Projects() {
         })}
       </div>
 
-      {/* Active Project Card (Fixed Bug: Title dynamically updates with key={project.name}) */}
+      {/* Active Project Card */}
       <div
         key={project.slug}
-        className="border-2 border-copper bg-surface p-4 sm:p-5 grid lg:grid-cols-[1.1fr_1fr] gap-5 lg:gap-7 items-start relative overflow-y-auto max-h-[58vh] lg:max-h-[64vh]"
+        className="border-2 border-copper bg-surface p-4 sm:p-5 grid lg:grid-cols-[1.1fr_1fr] gap-5 lg:gap-7 items-start relative overflow-y-auto max-h-[56vh] lg:max-h-[62vh]"
         style={{ boxShadow: '6px 6px 0 var(--color-shadow)' }}
       >
         {/* Left Column: Project Overview & Metrics */}
@@ -152,6 +153,9 @@ export default function Projects() {
           )}
         </div>
       </div>
+
+      {/* Down Arrow Indicator to Stack */}
+      <SectionDownArrow targetId="stack" label="STACK" />
     </section>
   )
 }

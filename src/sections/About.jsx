@@ -1,8 +1,8 @@
 import React from 'react'
 import PixelCharacter from '../components/PixelCharacter.jsx'
 import ShuffleText from '../components/ShuffleText.jsx'
+import SectionDownArrow from '../components/SectionDownArrow.jsx'
 import { useLanguage } from '../context/LanguageContext.jsx'
-import { profile } from '../data/profile.js'
 
 export default function About() {
   const { t } = useLanguage()
@@ -10,7 +10,7 @@ export default function About() {
   return (
     <section
       id="about"
-      className="min-h-screen lg:h-screen snap-start snap-always flex flex-col justify-center px-4 sm:px-8 lg:px-16 max-w-6xl mx-auto pt-16 pb-8 relative overflow-hidden"
+      className="min-h-screen lg:h-screen snap-start snap-always flex flex-col justify-center px-4 sm:px-8 lg:px-16 max-w-6xl mx-auto pt-16 pb-12 relative overflow-hidden"
     >
       <div className="flex items-center justify-between gap-4 mb-4 sm:mb-6">
         <div>
@@ -85,6 +85,9 @@ export default function About() {
           </div>
         </div>
       </div>
+
+      {/* Down Arrow Indicator to Contact */}
+      <SectionDownArrow targetId="contact" label="CONTACT" />
     </section>
   )
 }

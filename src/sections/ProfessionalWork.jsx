@@ -1,6 +1,7 @@
 import React from 'react'
 import PixelCharacter from '../components/PixelCharacter.jsx'
 import ShuffleText from '../components/ShuffleText.jsx'
+import SectionDownArrow from '../components/SectionDownArrow.jsx'
 import { useLanguage } from '../context/LanguageContext.jsx'
 import { work } from '../data/work.js'
 
@@ -11,7 +12,7 @@ export default function ProfessionalWork() {
   return (
     <section
       id="work"
-      className="min-h-screen lg:h-screen snap-start snap-always flex flex-col justify-center px-4 sm:px-8 lg:px-16 max-w-6xl mx-auto pt-16 pb-8 relative overflow-hidden"
+      className="min-h-screen lg:h-screen snap-start snap-always flex flex-col justify-center px-4 sm:px-8 lg:px-16 max-w-6xl mx-auto pt-16 pb-12 relative overflow-hidden"
     >
       <div className="flex items-center justify-between gap-4 mb-4 sm:mb-6">
         <div>
@@ -104,6 +105,9 @@ export default function ProfessionalWork() {
           </p>
         </div>
       </div>
+
+      {/* Down Arrow Indicator to Projects */}
+      <SectionDownArrow targetId="projects" label="PROJECTS" />
     </section>
   )
 }

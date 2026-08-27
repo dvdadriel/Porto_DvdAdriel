@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import PixelCharacter from '../components/PixelCharacter.jsx'
 import ShuffleText from '../components/ShuffleText.jsx'
-import { MailIcon, LinkedinIcon, PhoneIcon, GithubIcon, WhatsappIcon } from '../components/PixelIcons.jsx'
+import { MailIcon, LinkedinIcon, PhoneIcon, GithubIcon } from '../components/PixelIcons.jsx'
+import { useLanguage } from '../context/LanguageContext.jsx'
 import { profile } from '../data/profile.js'
 
 export default function Contact() {
+  const { t } = useLanguage()
   const [copied, setCopied] = useState(false)
 
   const handleCopyEmail = () => {
@@ -15,36 +17,36 @@ export default function Contact() {
 
   const contacts = [
     {
-      label: 'EMAIL',
+      label: t.contact.emailLabel,
       value: profile.email,
       href: `mailto:${profile.email}`,
       icon: MailIcon,
-      action: 'KIRIM EMAIL ↗',
+      action: t.contact.sendEmail,
       extraBtn: {
-        text: copied ? 'TERCOPY! ✓' : 'COPY',
+        text: copied ? t.contact.copiedBtn : t.contact.copyBtn,
         onClick: handleCopyEmail,
       },
     },
     {
-      label: 'LINKEDIN',
+      label: t.contact.linkedinLabel,
       value: 'linkedin.com/in/dvdadriel',
       href: profile.linkedin,
       icon: LinkedinIcon,
-      action: 'CONNECT ↗',
+      action: t.contact.connectLinkedin,
     },
     {
-      label: 'TELEPON / WA',
+      label: t.contact.phoneLabel,
       value: profile.phone,
       href: profile.whatsapp,
       icon: PhoneIcon,
-      action: 'CHAT WA ↗',
+      action: t.contact.chatWa,
     },
     {
-      label: 'GITHUB',
+      label: t.contact.githubLabel,
       value: 'github.com/dvdadriel',
       href: profile.github,
       icon: GithubIcon,
-      action: 'LIHAT REPO ↗',
+      action: t.contact.viewRepo,
     },
   ]
 
@@ -56,12 +58,12 @@ export default function Contact() {
       <div>
         <div className="flex items-center justify-between gap-4 mb-4 sm:mb-6">
           <div>
-            <p className="font-pixel text-[12px] sm:text-[14px] text-sand tracking-widest">05</p>
+            <p className="font-pixel text-[12px] sm:text-[14px] text-sand tracking-widest">{t.contact.sectionNum}</p>
             <h2 className="font-pixel text-[20px] sm:text-[30px] md:text-[36px] text-copper leading-[1.3] tracking-wide">
-              <ShuffleText text="HUBUNGI SAYA" />
+              <ShuffleText text={t.contact.title} key={t.contact.title} />
             </h2>
-            <p className="mt-2 text-xs sm:text-sm text-cream/75">
-              Terbuka untuk peluang kerja full-time, diskusi arsitektur backend, dan proyek menarik.
+            <p className="mt-2 text-xs sm:text-sm text-cream/75 font-normal">
+              {t.contact.subtitle}
             </p>
           </div>
 
@@ -71,7 +73,7 @@ export default function Contact() {
             style={{ boxShadow: '4px 4px 0 var(--color-shadow)' }}
             title="Pixel character dancing"
           >
-            <PixelCharacter action="dancing" size={76} />
+            <PixelCharacter action="dancing" size={72} />
           </div>
         </div>
 
@@ -82,7 +84,7 @@ export default function Contact() {
             return (
               <div
                 key={c.label}
-                className="border-2 border-copper bg-surface p-3.5 sm:p-4 flex flex-col justify-between transition-all hover:border-copper/100"
+                className="border-2 border-copper bg-surface p-3.5 sm:p-4 flex flex-col justify-between transition-all hover:border-copper"
                 style={{ boxShadow: '3px 3px 0 var(--color-shadow)' }}
               >
                 <div className="flex items-center justify-between border-b border-copper/40 pb-2 mb-2">
@@ -119,14 +121,11 @@ export default function Contact() {
         </div>
       </div>
 
-      {/* Footer Bottom Bar */}
-      <div className="border-t-2 border-copper/50 pt-4 mt-6 flex flex-col sm:flex-row items-center justify-between gap-2 font-pixel text-[10px] text-sand/80">
+      {/* Footer Bottom Bar (Only Name and Year 2026 as requested in #11) */}
+      <div className="border-t-2 border-copper/50 pt-4 mt-6 flex items-center justify-center font-pixel text-[11px] text-sand/80">
         <div className="flex items-center gap-2">
           <span className="text-copper">▮</span>
           <span>{profile.name.toUpperCase()} · 2026</span>
-        </div>
-        <div className="text-[9px] text-cream/50">
-          VITE · REACT 19 · TAILWIND CSS · GSAP · 8-BIT SLATE & COPPER
         </div>
       </div>
     </footer>

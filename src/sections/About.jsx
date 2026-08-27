@@ -1,10 +1,11 @@
 import React from 'react'
 import PixelCharacter from '../components/PixelCharacter.jsx'
 import ShuffleText from '../components/ShuffleText.jsx'
+import { useLanguage } from '../context/LanguageContext.jsx'
 import { profile } from '../data/profile.js'
 
 export default function About() {
-  const { school, major, period } = profile.education
+  const { t } = useLanguage()
 
   return (
     <section
@@ -13,9 +14,9 @@ export default function About() {
     >
       <div className="flex items-center justify-between gap-4 mb-4 sm:mb-6">
         <div>
-          <p className="font-pixel text-[12px] sm:text-[14px] text-sand tracking-widest">04</p>
+          <p className="font-pixel text-[12px] sm:text-[14px] text-sand tracking-widest">{t.about.sectionNum}</p>
           <h2 className="font-pixel text-[20px] sm:text-[30px] md:text-[36px] text-copper leading-[1.3] tracking-wide">
-            <ShuffleText text="TENTANG SAYA" />
+            <ShuffleText text={t.about.title} key={t.about.title} />
           </h2>
         </div>
 
@@ -36,20 +37,20 @@ export default function About() {
           <div className="flex items-center gap-2 border-b border-copper/40 pb-3 mb-4">
             <span className="text-copper">★</span>
             <h3 className="font-pixel text-[12px] sm:text-[14px] text-cream">
-              FILOSOFI REKAYASA
+              {t.about.philosophyTitle}
             </h3>
           </div>
 
-          <p className="text-xs sm:text-sm text-cream/85 leading-relaxed">
-            Saya lebih tertarik pada apakah sesuatu <span className="text-copper font-bold">benar-benar bekerja</span> daripada apakah ia hanya sekadar terlihat bekerja di permukaan.
+          <p className="text-xs sm:text-sm text-cream/90 leading-relaxed font-normal">
+            {t.about.philosophy1}
           </p>
 
-          <p className="mt-3 text-xs sm:text-sm text-cream/75 leading-relaxed">
-            Karena itu, setiap repositori dan sistem yang saya bangun selalu menyertakan uji performa, batas validitas yang jelas (known caveats), serta pengukuran metrik nyata sebelum membuat klaim apapun.
+          <p className="mt-3 text-xs sm:text-sm text-cream/75 leading-relaxed font-normal">
+            {t.about.philosophy2}
           </p>
 
           <div className="mt-5 border border-copper/50 bg-ink/70 p-3 font-pixel text-[10px] text-sand leading-relaxed">
-            &ldquo;Measure twice, claim once. Real code over vanity metrics.&rdquo;
+            {t.about.quote}
           </div>
         </div>
 
@@ -61,14 +62,14 @@ export default function About() {
           >
             <div className="flex items-center justify-between border-b border-copper/40 pb-2 mb-3">
               <span className="font-pixel text-[11px] sm:text-[12px] text-sand tracking-wider">
-                PENDIDIKAN
+                {t.about.educationTitle}
               </span>
-              <span className="text-[10px] font-mono text-copper">ACADEMIC QUEST</span>
+              <span className="text-[10px] font-mono text-copper">{t.about.educationBadge}</span>
             </div>
 
-            <p className="font-pixel text-[12px] sm:text-[14px] text-cream">{school}</p>
-            <p className="text-xs sm:text-sm text-sand mt-1">{major}</p>
-            <p className="font-pixel text-[10px] text-sand/60 mt-1">{period}</p>
+            <p className="font-pixel text-[12px] sm:text-[13px] text-cream">{t.about.school}</p>
+            <p className="text-xs sm:text-sm text-sand mt-1 font-normal">{t.about.major}</p>
+            <p className="font-pixel text-[10px] text-sand/60 mt-1">{t.about.period}</p>
           </div>
 
           <div
@@ -76,10 +77,10 @@ export default function About() {
             style={{ boxShadow: '3px 3px 0 var(--color-shadow)' }}
           >
             <p className="font-pixel text-[10px] sm:text-[11px] text-sand mb-2">
-              LOKASI & DOMISILI:
+              {t.about.locationTitle}
             </p>
-            <p className="text-xs sm:text-sm text-cream flex items-center gap-2">
-              <span className="text-copper">📍</span> {profile.location} (WIB / GMT+7)
+            <p className="text-xs sm:text-sm text-cream flex items-center gap-2 font-normal">
+              <span className="text-copper">📍</span> {t.about.location}
             </p>
           </div>
         </div>

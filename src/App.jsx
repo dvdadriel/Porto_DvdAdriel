@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
+import { LanguageProvider } from './context/LanguageContext.jsx'
 import Navbar from './components/Navbar.jsx'
 import Hero from './sections/Hero.jsx'
 import ProfessionalWork from './sections/ProfessionalWork.jsx'
@@ -6,9 +7,8 @@ import Projects from './sections/Projects.jsx'
 import TechStack from './sections/TechStack.jsx'
 import About from './sections/About.jsx'
 import Contact from './sections/Contact.jsx'
-import WalkingBuddy from './components/WalkingBuddy.jsx'
 
-export default function App() {
+function MainContent() {
   const [activeSection, setActiveSection] = useState('hero')
 
   useEffect(() => {
@@ -31,7 +31,7 @@ export default function App() {
 
   return (
     <div className="relative bg-ink text-cream min-h-screen">
-      {/* Top Fixed 8-bit Navigation Header */}
+      {/* Top Fixed 8-bit Navigation Header with Language Switcher */}
       <Navbar activeSection={activeSection} />
 
       {/* Screen Reader Skip Link */}
@@ -42,7 +42,7 @@ export default function App() {
         LEWATI KE KONTEN
       </a>
 
-      {/* Main Container with Scanlines */}
+      {/* Full-screen Snap Scroll Main Container */}
       <main className="scanlines bg-ink text-cream">
         <Hero />
         <ProfessionalWork />
@@ -51,9 +51,14 @@ export default function App() {
         <About />
         <Contact />
       </main>
-
-      {/* 8-bit Walking Buddy (Follows scroll track) */}
-      <WalkingBuddy size={76} />
     </div>
+  )
+}
+
+export default function App() {
+  return (
+    <LanguageProvider>
+      <MainContent />
+    </LanguageProvider>
   )
 }

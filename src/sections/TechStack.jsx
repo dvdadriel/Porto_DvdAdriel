@@ -1,27 +1,9 @@
 import React, { useState } from 'react'
 import ShuffleText from '../components/ShuffleText.jsx'
-import { profile } from '../data/profile.js'
-
-const CATEGORIZED_STACK = [
-  {
-    category: 'LANGUAGES & RUNTIMES',
-    items: ['Go (1.24)', 'Ruby (3.3+)', 'PHP (8.x)', 'Python', 'JavaScript / TypeScript'],
-  },
-  {
-    category: 'FRAMEWORKS & SERVICES',
-    items: ['Ruby on Rails 8.1', 'Laravel', 'React 19', 'gRPC & Protocol Buffers', 'Cloudflare Workers'],
-  },
-  {
-    category: 'DATABASES & STORAGE',
-    items: ['PostgreSQL', 'MySQL', 'Solid Queue / Redis', 'Cloudflare Workers KV'],
-  },
-  {
-    category: 'INFRASTRUCTURE & TOOLS',
-    items: ['Docker & Compose', 'GitHub Actions CI/CD', 'Vite & Tailwind CSS', 'GSAP Animation'],
-  },
-]
+import { useLanguage } from '../context/LanguageContext.jsx'
 
 export default function TechStack() {
+  const { t } = useLanguage()
   const [hoveredSkill, setHoveredSkill] = useState(null)
 
   return (
@@ -30,17 +12,17 @@ export default function TechStack() {
       className="min-h-screen lg:h-screen snap-start snap-always flex flex-col justify-center px-4 sm:px-8 lg:px-16 max-w-6xl mx-auto pt-16 pb-8 relative overflow-hidden"
     >
       <div className="mb-4 sm:mb-6">
-        <p className="font-pixel text-[12px] sm:text-[14px] text-sand tracking-widest">03</p>
+        <p className="font-pixel text-[12px] sm:text-[14px] text-sand tracking-widest">{t.stack.sectionNum}</p>
         <h2 className="font-pixel text-[20px] sm:text-[30px] md:text-[36px] text-copper leading-[1.3] tracking-wide">
-          <ShuffleText text="SKILL & TECH INVENTORY" />
+          <ShuffleText text={t.stack.title} key={t.stack.title} />
         </h2>
-        <p className="mt-2 text-xs sm:text-sm text-cream/70">
-          Alat tempur yang terbiasa digunakan di level produksi dan sistem performa tinggi.
+        <p className="mt-2 text-xs sm:text-sm text-cream/75 font-normal">
+          {t.stack.subtitle}
         </p>
       </div>
 
       <div className="grid sm:grid-cols-2 gap-4 lg:gap-6">
-        {CATEGORIZED_STACK.map((group) => (
+        {t.stack.categories.map((group) => (
           <div
             key={group.category}
             className="border-2 border-copper bg-surface p-4 sm:p-5 flex flex-col justify-between"
@@ -48,7 +30,7 @@ export default function TechStack() {
           >
             <div>
               <div className="flex items-center justify-between border-b border-copper/40 pb-2 mb-3">
-                <h3 className="font-pixel text-[11px] sm:text-[12px] text-sand tracking-wider">
+                <h3 className="font-pixel text-[10px] sm:text-[11px] text-sand tracking-wider">
                   {group.category}
                 </h3>
                 <span className="text-copper font-mono text-[10px]">■■</span>
@@ -62,10 +44,10 @@ export default function TechStack() {
                       key={skill}
                       onMouseEnter={() => setHoveredSkill(skill)}
                       onMouseLeave={() => setHoveredSkill(null)}
-                      className={`font-pixel text-[10px] sm:text-[11px] px-2.5 py-1.5 border transition-all cursor-default select-none ${
+                      className={`font-pixel text-[9px] sm:text-[10px] px-2.5 py-1.5 border transition-all cursor-default select-none ${
                         isHovered
                           ? 'border-cream bg-copper text-cream -translate-y-0.5 scale-105'
-                          : 'border-copper/70 bg-ink/70 text-cream/90 hover:border-copper'
+                          : 'border-copper/70 bg-ink/80 text-cream/90 hover:border-copper'
                       }`}
                       style={{ boxShadow: '2px 2px 0 var(--color-shadow)' }}
                     >
@@ -80,9 +62,9 @@ export default function TechStack() {
       </div>
 
       {/* Retro Skill Stat Footer */}
-      <div className="mt-4 border-2 border-copper/60 bg-ink/60 p-2.5 px-4 flex items-center justify-between text-[11px] font-pixel text-sand">
-        <span>INVENTORY STATS: 100% VERIFIED</span>
-        <span className="text-copper animate-pulse">★ READY TO DEPLOY</span>
+      <div className="mt-4 border-2 border-copper/60 bg-ink/60 p-2.5 px-4 flex items-center justify-between text-[10px] sm:text-[11px] font-pixel text-sand">
+        <span>{t.stack.footerLeft}</span>
+        <span className="text-copper animate-pulse">{t.stack.footerRight}</span>
       </div>
     </section>
   )

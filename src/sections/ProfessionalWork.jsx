@@ -1,10 +1,11 @@
 import React from 'react'
-import SectionHeading from '../components/SectionHeading.jsx'
 import PixelCharacter from '../components/PixelCharacter.jsx'
 import ShuffleText from '../components/ShuffleText.jsx'
+import { useLanguage } from '../context/LanguageContext.jsx'
 import { work } from '../data/work.js'
 
 export default function ProfessionalWork() {
+  const { t } = useLanguage()
   const currentWork = work[0]
 
   return (
@@ -14,9 +15,9 @@ export default function ProfessionalWork() {
     >
       <div className="flex items-center justify-between gap-4 mb-4 sm:mb-6">
         <div>
-          <p className="font-pixel text-[12px] sm:text-[14px] text-sand tracking-widest">01</p>
+          <p className="font-pixel text-[12px] sm:text-[14px] text-sand tracking-widest">{t.work.sectionNum}</p>
           <h2 className="font-pixel text-[20px] sm:text-[30px] md:text-[36px] text-copper leading-[1.3] tracking-wide">
-            <ShuffleText text="PENGALAMAN KERJA" />
+            <ShuffleText text={t.work.title} key={t.work.title} />
           </h2>
         </div>
         <div
@@ -36,23 +37,25 @@ export default function ProfessionalWork() {
           <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-copper/40 pb-3">
             <div>
               <h3 className="font-pixel text-[14px] sm:text-[18px] text-cream">
-                {currentWork.role}
+                {t.work.role}
               </h3>
-              <p className="text-sand text-sm mt-1">@ {currentWork.company}</p>
+              <p className="text-sand text-sm mt-1">@ {t.work.company}</p>
             </div>
             <span className="font-pixel text-[10px] sm:text-[11px] bg-ink px-2.5 py-1 text-copper border border-copper/60">
-              {currentWork.period.toUpperCase()}
+              {t.work.period}
             </span>
           </div>
 
-          <p className="mt-4 text-xs sm:text-sm text-cream/80 leading-relaxed">
-            {currentWork.summary}
+          <p className="mt-4 text-xs sm:text-sm text-cream/85 leading-relaxed font-normal">
+            {t.work.summary}
           </p>
 
           <div className="mt-4 space-y-2">
-            <p className="font-pixel text-[10px] text-sand tracking-wider">FOKUS TANGGUNG JAWAB:</p>
-            <ul className="space-y-1.5 text-xs sm:text-sm text-cream/70">
-              {currentWork.doing.map((d) => (
+            <p className="font-pixel text-[10px] text-sand tracking-wider">
+              {t.work.focusTitle}
+            </p>
+            <ul className="space-y-1.5 text-xs sm:text-sm text-cream/80">
+              {t.work.duties.map((d) => (
                 <li key={d} className="flex items-start gap-2">
                   <span className="text-copper">▪</span>
                   <span>{d}</span>
@@ -69,9 +72,11 @@ export default function ProfessionalWork() {
         >
           <div className="flex items-center justify-between mb-3 border-b border-copper/40 pb-2">
             <span className="font-pixel text-[11px] sm:text-[12px] text-sand tracking-wider">
-              9 MULTI-BRAND SITUS
+              {t.work.sitesTitle}
             </span>
-            <span className="text-[10px] font-mono text-sand/60">PRODUKSI</span>
+            <span className="text-[10px] font-mono text-sand/75 bg-ink px-2 py-0.5 border border-copper/50">
+              {t.work.sitesBadge}
+            </span>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
@@ -87,15 +92,15 @@ export default function ProfessionalWork() {
                 <span className="block font-pixel text-[10px] sm:text-[11px] text-cream group-hover:text-copper truncate">
                   {c.brand}
                 </span>
-                <span className="block mt-1 text-[9px] sm:text-[10px] text-sand/70 truncate">
+                <span className="block mt-1 text-[9px] sm:text-[10px] text-sand/70 truncate font-mono">
                   {c.url.replace('https://', '')} ↗
                 </span>
               </a>
             ))}
           </div>
 
-          <p className="mt-4 text-[11px] text-cream/50 leading-relaxed italic border-t border-copper/30 pt-3">
-            * {currentWork.note}
+          <p className="mt-4 text-[11px] text-cream/60 leading-relaxed italic border-t border-copper/30 pt-3">
+            * {t.work.note}
           </p>
         </div>
       </div>

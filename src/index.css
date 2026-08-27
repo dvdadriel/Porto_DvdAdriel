@@ -27,7 +27,7 @@
   --color-shadow: #1A2123;   /* hard offset shadow */
 
   --font-pixel: 'Press Start 2P', ui-monospace, monospace;
-  --font-body: 'Pixelify Sans', ui-monospace, monospace;
+  --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
 }
 
 html {
@@ -46,10 +46,8 @@ html {
 body {
   color: var(--color-cream);
   font-family: var(--font-body);
-  /* Font piksel TIDAK boleh di-antialias — itu yang membuatnya jadi buram
-     dan kehilangan seluruh karakter 8-bit-nya. */
-  -webkit-font-smoothing: none;
-  font-smooth: never;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Semua sprite dan gambar piksel: jangan diinterpolasi saat diperbesar. */

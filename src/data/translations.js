@@ -11,7 +11,7 @@ export const translations = {
     hero: {
       headline: 'FULLSTACK DEVELOPER',
       name: 'DAVID ADRIEL ALVYN',
-      tagline: 'Seorang mahasiswa dari Universitas Bina Nusantara yang menempuh jurusan Computer Science selama kurang lebih 3.5 tahun. Dapat membuat aplikasi berbasis website dan mobile. Memiliki kemampuan dalam menggunakan berbagai bahasa pemrograman, seperti Ruby dengan framework Ruby on Rails, PHP dengan framework Laravel, Javascript, Go Languange, C Language, serta Outsystems. Saya memiliki kegemaran dalam membuat aplikasi saat memiliki waktu luang. Saya juga merupakan orang yang dapat berkolaborasi dengan partner dan divisi lain, suka belajar hal-hal baru, dapat bekerja di bawah tekanan, memiliki time management yang baik, dan dapat beradaptasi dengan mudah. Saya memiliki pengalaman bekerja sebagai Web Developer di salah satu perusahaan IT, dimana saya memiliki tugas untuk mengembangkan dan memelihara aplikasi berbasis website maupun mobile, serta berkolaborasi dengan banyak divisi dalam mengembangkan aplikasi.',
+      tagline: 'Mahasiswa Computer Science Binus (~3.5 thn) & Web Developer. Membangun aplikasi web dan mobile dengan Go, Rails, Laravel, React, dan Outsystems.',
       startBtn: 'JELAJAHI KARYA',
       contactBtn: 'HUBUNGI SAYA ↗',
       stageBadge: 'STAGE 1-1: BIODATA',
@@ -157,7 +157,9 @@ export const translations = {
     about: {
       sectionNum: '04',
       title: 'TENTANG SAYA',
-      philosophyTitle: 'FILOSOFI & PRINSIP',
+      philosophyTitle: 'BIODATA & PENGALAMAN',
+      bioParagraph: 'Seorang mahasiswa dari Universitas Bina Nusantara yang menempuh jurusan Computer Science selama kurang lebih 3.5 tahun. Dapat membuat aplikasi berbasis website dan mobile. Memiliki kemampuan dalam menggunakan berbagai bahasa pemrograman, seperti Ruby dengan framework Ruby on Rails, PHP dengan framework Laravel, Javascript, Go Languange, C Language, serta Outsystems. Saya memiliki kegemaran dalam membuat aplikasi saat memiliki waktu luang. Saya juga merupakan orang yang dapat berkolaborasi dengan partner dan divisi lain, suka belajar hal-hal baru, dapat bekerja di bawah tekanan, memiliki time management yang baik, dan dapat beradaptasi dengan mudah. Saya memiliki pengalaman bekerja sebagai Web Developer di salah satu perusahaan IT, dimana saya memiliki tugas untuk mengembangkan dan memelihara aplikasi berbasis website maupun mobile, serta berkolaborasi dengan banyak divisi dalam mengembangkan aplikasi.',
+      philosophyTitle2: 'FILOSOFI REKAYASA',
       philosophy1: 'Memiliki kegemaran tinggi dalam membangun aplikasi berbasis website dan mobile saat waktu luang. Suka mempelajari teknologi baru, mampu beradaptasi dengan cepat, dan berkolaborasi erat lintas partner maupun divisi.',
       philosophy2: 'Terbiasa bekerja efektif di bawah tekanan dengan time management yang disiplin, memprioritaskan kode yang andal, bersih, dan berdampak nyata di lingkungan produksi.',
       quote: '“Solutif, adaptif, dan konsisten menghadirkan aplikasi web & mobile yang andal.”',
@@ -197,7 +199,7 @@ export const translations = {
     hero: {
       headline: 'FULLSTACK DEVELOPER',
       name: 'DAVID ADRIEL ALVYN',
-      tagline: 'A Computer Science graduate from Bina Nusantara University (~3.5 years). Skilled in building robust web and mobile applications. Proficient in multiple programming languages and frameworks including Ruby on Rails, PHP with Laravel, JavaScript, Go Language, C Language, and OutSystems. Passionate about software engineering during free time, quick to learn and adapt, adept at cross-division collaboration, resilient under pressure, and possessing strong time management skills. Experienced as a Web Developer developing, maintaining, and scaling production-grade web and mobile applications.',
+      tagline: 'Computer Science graduate from Binus (~3.5 yrs) & Web Developer. Engineering robust web and mobile applications with Go, Rails, Laravel, React, and OutSystems.',
       startBtn: 'EXPLORE WORK',
       contactBtn: 'GET IN TOUCH ↗',
       stageBadge: 'STAGE 1-1: BIODATA',
@@ -343,7 +345,9 @@ export const translations = {
     about: {
       sectionNum: '04',
       title: 'ABOUT ME',
-      philosophyTitle: 'PHILOSOPHY & PRINCIPLES',
+      philosophyTitle: 'BIOGRAPHY & EXPERIENCE',
+      bioParagraph: 'A Computer Science graduate from Bina Nusantara University (~3.5 years). Skilled in building robust web and mobile applications. Proficient in multiple programming languages and frameworks including Ruby on Rails, PHP with Laravel, JavaScript, Go Language, C Language, and OutSystems. Passionate about software engineering during free time, quick to learn and adapt, adept at cross-division collaboration, resilient under pressure, and possessing strong time management skills. Experienced as a Web Developer developing, maintaining, and scaling production-grade web and mobile applications.',
+      philosophyTitle2: 'PHILOSOPHY & PRINCIPLES',
       philosophy1: 'Passionate about engineering impactful web and mobile solutions during free time. Quick to learn new technologies, highly adaptive, and experienced in collaborating seamlessly across diverse divisions.',
       philosophy2: 'Thriving under pressure with disciplined time management, prioritizing reliable, clean, and measurable code that creates tangible impact in production environments.',
       quote: '“Adaptive, collaborative, and dedicated to delivering robust web & mobile applications.”',

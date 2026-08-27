@@ -1,0 +1,31 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #09090b;
+  --color-ink-soft: #18181b;
+  --color-line: #27272a;
+  --color-fg: #fafafa;
+  --color-fg-dim: #a1a1aa;
+  --color-accent: #38bdf8;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--color-ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+body {
+  color: var(--color-fg);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Fokus keyboard harus selalu terlihat — tema gelap membuat outline default
+   nyaris tak tampak. */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}

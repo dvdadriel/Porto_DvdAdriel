@@ -29,11 +29,8 @@ function MainContent() {
     return () => observer.disconnect()
   }, [])
 
-  // Tidak ada bg-ink di sini maupun di <main>: latar dan grid titiknya dipegang
-  // <html> di index.css. Mengecat ulang di atasnya menutup corak itu sepenuhnya —
-  // browser tetap menghitungnya, tapi tidak ada satu piksel pun yang terlihat.
   return (
-    <div className="relative text-cream min-h-screen">
+    <div className="relative bg-ink text-cream min-h-screen">
       {/* Top Fixed 8-bit Navigation Header with Language Switcher */}
       <Navbar activeSection={activeSection} />
 
@@ -46,12 +43,12 @@ function MainContent() {
       </a>
 
       {/* Full-screen Snap Scroll Main Container */}
-      <main className="scanlines text-cream">
+      <main className="scanlines bg-ink text-cream">
         <Hero />
-        <About />
         <ProfessionalWork />
         <Projects />
         <TechStack />
+        <About />
         <Contact />
       </main>
     </div>

@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>David Adriel Alvyn | Fullstack Developer</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&amp;family=Space+Mono:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            bg: "#0A0A0C",
+                            surface: "#141418",
+                            border: "#2A2A30",
+                            primary: "#EDEDED",
+                            secondary: "#9A9AA5",
+                            accent: "#3BF07C",
+                            amber: "#F2C14E",
+                            danger: "#FF5C57"
+                        }
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0px",
+                        "none": "0px",
+                        "sm": "0px",
+                        "md": "0px",
+                        "lg": "0px",
+                        "xl": "0px",
+                        "2xl": "0px",
+                        "3xl": "0px",
+                        "full": "0px"
+                    },
+                    spacing: {
+                        '2': '8px',
+                        '4': '16px',
+                        '6': '24px',
+                        '8': '32px',
+                        '12': '48px',
+                        '16': '64px',
+                        '32': '128px',
+                    },
+                    fontFamily: {
+                        "headline": ["Space Mono", "monospace"],
+                        "display": ["Space Mono", "monospace"],
+                        "body": ["JetBrains Mono", "monospace"],
+                        "label": ["Space Mono", "monospace"]
+                    },
+                    fontSize: {
+                        'xs': '14px',
+                        'sm': '14px',
+                        'base': '16px',
+                        'lg': '18px',
+                        'xl': '20px',
+                        '2xl': '24px',
+                        '3xl': '32px',
+                        '4xl': '48px',
+                        '5xl': '64px',
+                    },
+                    letterSpacing: {
+                        'widest': '0.1em',
+                    },
+                    boxShadow: {
+                        'hard': '4px 4px 0 0 #000000',
+                        'hard-accent': '4px 4px 0 0 #3BF07C',
+                        'hard-amber': '4px 4px 0 0 #F2C14E',
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #0A0A0C;
+            color: #EDEDED;
+            position: relative;
+        }
+        /* Scanline Overlay */
+        body::before {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 100;
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+            opacity: 0.03;
+        }
+        
+        .cursor-blink {
+            animation: blink 1s step-end infinite;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .focus-ring:focus-visible {
+            outline: 2px solid #3BF07C;
+            outline-offset: 2px;
+        }
+        
+        ::selection {
+            background-color: #3BF07C;
+            color: #0A0A0C;
+        }
+    </style>
+</head>
+<body class="font-body antialiased min-h-screen flex flex-col relative pt-[64px]">
+<!-- TopAppBar -->
+<nav class="fixed top-0 w-full z-50 flex justify-between items-center px-[32px] h-[64px] bg-[#0A0A0C] border-b-[2px] border-[#2A2A30]">
+<div class="font-headline font-black text-[#3BF07C] tracking-tighter text-[18px]">
+            F-STACK.EXE
+        </div>
+<div class="hidden md:flex gap-[24px]">
+<a class="text-[#3BF07C] border-b-[2px] border-[#3BF07C] pb-[4px] font-headline uppercase tracking-widest text-[14px] focus-ring" href="#boot">BOOT</a>
+<a class="text-[#9A9AA5] hover:text-[#EDEDED] transition-colors font-headline uppercase tracking-widest text-[14px] focus-ring" href="#experience">EXPERIENCE</a>
+<a class="text-[#9A9AA5] hover:text-[#EDEDED] transition-colors font-headline uppercase tracking-widest text-[14px] focus-ring" href="#projects">PROJECTS</a>
+<a class="text-[#9A9AA5] hover:text-[#EDEDED] transition-colors font-headline uppercase tracking-widest text-[14px] focus-ring" href="#stack">STACK</a>
+<a class="text-[#9A9AA5] hover:text-[#EDEDED] transition-colors font-headline uppercase tracking-widest text-[14px] focus-ring" href="#about">ABOUT</a>
+<a class="text-[#9A9AA5] hover:text-[#EDEDED] transition-colors font-headline uppercase tracking-widest text-[14px] focus-ring" href="#contact">CONTACT</a>
+</div>
+<button class="font-headline uppercase tracking-widest text-[14px] border-[2px] border-[#2A2A30] px-[16px] py-[8px] hover:bg-[#2A2A30] transition-all focus-ring text-[#EDEDED] flex items-center gap-[8px]">
+            DOWNLOAD_CV
+            <span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">download</span>
+</button>
+</nav>
+<!-- Main Canvas -->
+<main class="flex-grow w-full max-w-[1200px] mx-auto px-[24px] md:px-[64px] flex flex-col gap-[128px] pb-[128px]">
+<!-- HERO -->
+<section class="min-h-[calc(100vh-64px)] flex flex-col justify-center gap-[32px] pt-[64px]" id="boot">
+<div class="flex items-center gap-[24px]">
+<div class="w-[128px] h-[128px] border-[2px] border-[#2A2A30] bg-brand-surface flex items-center justify-center p-[8px] shadow-hard">
+<span class="font-headline text-[14px] text-brand-secondary text-center leading-tight">FOTO<br/>MENYUSUL</span>
+</div>
+<div class="flex flex-col gap-[8px]">
+<span class="font-label text-brand-accent text-[14px] tracking-widest uppercase">FULLSTACK DEVELOPER</span>
+<h1 class="font-headline text-[32px] md:text-[64px] font-bold text-brand-primary leading-none tracking-widest uppercase break-words">
+                        DAVID ADRIEL ALVYN<span class="text-brand-accent cursor-blink">▮</span>
+</h1>
+</div>
+</div>
+<p class="font-body text-brand-secondary text-[18px] max-w-[800px] leading-relaxed border-l-[2px] border-brand-border pl-[16px]">
+                Go, Rails, Laravel, React — dan kebiasaan mengukur sebelum mengklaim.
+            </p>
+<div class="mt-auto pb-[32px] flex items-center gap-[16px]">
+<span class="material-symbols-outlined text-brand-accent animate-bounce">arrow_downward</span>
+<span class="font-label text-brand-secondary text-[14px] tracking-widest uppercase">SCROLL</span>
+</div>
+</section>
+<!-- DIVIDER -->
+<div class="w-full h-[2px] bg-brand-border"></div>
+<!-- EXPERIENCE -->
+<section class="flex flex-col gap-[48px]" id="experience">
+<header>
+<span class="font-label text-brand-secondary text-[14px] tracking-widest">01 / PENGALAMAN PROFESIONAL</span>
+</header>
+<div class="border-[2px] border-brand-border bg-brand-surface shadow-hard p-[24px] md:p-[32px] flex flex-col gap-[24px]">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b-[2px] border-brand-border pb-[16px] gap-[16px]">
+<div class="flex flex-col gap-[8px]">
+<h2 class="font-headline text-[24px] font-bold text-brand-primary uppercase tracking-widest">Web Developer</h2>
+<div class="flex items-center gap-[8px] font-label text-[14px] text-brand-accent">
+<span>Massindo Group</span>
+<span class="text-brand-secondary">·</span>
+<span>2025 – SEKARANG</span>
+</div>
+</div>
+</div>
+<ul class="flex flex-col gap-[16px] font-body text-brand-primary text-[16px]">
+<li class="flex items-start gap-[16px]">
+<span class="text-brand-accent mt-[4px]">▹</span>
+<div class="border-[2px] border-brand-border bg-brand-bg p-[16px] w-full">Pengembangan dan pemeliharaan situs multi-brand</div>
+</li>
+<li class="flex items-start gap-[16px]">
+<span class="text-brand-accent mt-[4px]">▹</span>
+<div class="border-[2px] border-brand-border bg-brand-bg p-[16px] w-full">Pengerjaan fitur dan perbaikan pada sistem yang sudah berjalan</div>
+</li>
+<li class="flex items-start gap-[16px]">
+<span class="text-brand-accent mt-[4px]">▹</span>
+<div class="border-[2px] border-brand-border bg-brand-bg p-[16px] w-full">Deployment dan konfigurasi server</div>
+</li>
+</ul>
+<p class="font-body text-brand-secondary text-[14px] italic">* Kode bersifat privat sesuai kebijakan perusahaan.</p>
+</div>
+</section>
+<!-- DIVIDER -->
+<div class="w-full h-[2px] bg-brand-border"></div>
+<!-- PROJECTS -->
+<section class="flex flex-col gap-[48px]" id="projects">
+<header>
+<span class="font-label text-brand-secondary text-[14px] tracking-widest">02 / PROJECT</span>
+</header>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-[32px]">
+<!-- Project 1 -->
+<article class="border-[2px] border-brand-border bg-brand-surface shadow-hard flex flex-col h-full group hover:border-brand-accent transition-colors">
+<div class="p-[24px] border-b-[2px] border-brand-border flex justify-between items-center bg-brand-bg">
+<h3 class="font-headline text-[18px] font-bold text-brand-primary uppercase tracking-widest">IDXSCREENER</h3>
+<span class="material-symbols-outlined text-brand-accent text-[20px]">monitoring</span>
+</div>
+<div class="p-[24px] flex flex-col gap-[24px] flex-grow">
+<div class="font-label text-[14px] text-brand-secondary flex flex-wrap gap-[8px]">
+<span class="border-[2px] border-brand-border px-[8px] py-[4px]">Rails</span>
+<span class="border-[2px] border-brand-border px-[8px] py-[4px]">Postgre</span>
+<span class="border-[2px] border-brand-border px-[8px] py-[4px]">Solid Queue</span>
+</div>
+<div class="grid grid-cols-2 gap-[16px]">
+<div class="border-[2px] border-brand-border p-[8px] bg-brand-bg flex flex-col">
+<span class="font-label text-[14px] text-brand-secondary">ALPHA VS IHSG</span>
+<span class="font-headline text-[16px] text-brand-accent">+24,65%</span>
+</div>
+<div class="border-[2px] border-brand-border p-[8px] bg-brand-bg flex flex-col">
+<span class="font-label text-[14px] text-brand-secondary">PROFIT FACTOR</span>
+<span class="font-headline text-[16px] text-brand-amber">0,784</span>
+</div>
+<div class="border-[2px] border-brand-border p-[8px] bg-brand-bg flex flex-col col-span-2">
+<span class="font-label text-[14px] text-brand-secondary">TEST</span>
+<span class="font-headline text-[16px] text-brand-primary">170</span>
+</div>
+</div>
+<div class="mt-auto border-[2px] border-brand-amber bg-[#2a220d] p-[16px] text-brand-amber font-body text-[14px] flex gap-[8px] items-start">
+<span class="material-symbols-outlined text-[18px]">warning</span>
+<span>Profit factor di bawah 1...</span>
+</div>
+</div>
+</article>
+<!-- Project 2 -->
+<article class="border-[2px] border-brand-border bg-brand-surface shadow-hard flex flex-col h-full group hover:border-brand-accent transition-colors">
+<div class="p-[24px] border-b-[2px] border-brand-border flex justify-between items-center bg-brand-bg">
+<h3 class="font-headline text-[18px] font-bold text-brand-primary uppercase tracking-widest">NEWS UPDATE</h3>
+<span class="material-symbols-outlined text-brand-accent text-[20px]">newspaper</span>
+</div>
+<div class="p-[24px] flex flex-col gap-[24px] flex-grow">
+<div class="font-label text-[14px] text-brand-secondary flex flex-wrap gap-[8px]">
+<span class="border-[2px] border-brand-border px-[8px] py-[4px]">Cloudflare Workers</span>
+<span class="border-[2px] border-brand-border px-[8px] py-[4px]">AI</span>
+<span class="border-[2px] border-brand-border px-[8px] py-[4px]">Cron</span>
+</div>
+<div class="grid grid-cols-1 gap-[16px]">
+<div class="border-[2px] border-brand-border p-[8px] bg-brand-bg flex flex-col">
+<span class="font-label text-[14px] text-brand-secondary">JADWAL</span>
+<span class="font-headline text-[16px] text-brand-accent">3×/HARI</span>
+</div>
+<div class="border-[2px] border-brand-border p-[8px] bg-brand-bg flex flex-col">
+<span class="font-label text-[14px] text-brand-secondary">INFRASTRUKTUR</span>
+<span class="font-headline text-[16px] text-brand-primary">NOL SERVER</span>
+</div>
+</div>
+</div>
+</article>
+<!-- Project 3 -->
+<article class="border-[2px] border-brand-border bg-brand-surface shadow-hard flex flex-col h-full group hover:border-brand-accent transition-colors">
+<div class="p-[24px] border-b-[2px] border-brand-border flex justify-between items-center bg-brand-bg">
+<h3 class="font-headline text-[18px] font-bold text-brand-primary uppercase tracking-widest">GO-COURIER</h3>
+<span class="material-symbols-outlined text-brand-accent text-[20px]">local_shipping</span>
+</div>
+<div class="p-[24px] flex flex-col gap-[24px] flex-grow">
+<div class="font-label text-[14px] text-brand-secondary flex flex-wrap gap-[8px]">
+<span class="border-[2px] border-brand-border px-[8px] py-[4px]">Go</span>
+<span class="border-[2px] border-brand-border px-[8px] py-[4px]">gRPC</span>
+<span class="border-[2px] border-brand-border px-[8px] py-[4px]">Microservices</span>
+</div>
+<div class="grid grid-cols-2 gap-[16px]">
+<div class="border-[2px] border-brand-border p-[8px] bg-brand-bg flex flex-col">
+<span class="font-label text-[14px] text-brand-secondary">SERVICE GRPC</span>
+<span class="font-headline text-[16px] text-brand-primary">4</span>
+</div>
+<div class="border-[2px] border-brand-border p-[8px] bg-brand-bg flex flex-col">
+<span class="font-label text-[14px] text-brand-secondary">CI</span>
+<span class="font-headline text-[16px] text-brand-accent">HIJAU</span>
+</div>
+</div>
+<div class="mt-auto border-[2px] border-brand-danger bg-[#2a1111] p-[16px] text-brand-danger font-body text-[14px] flex gap-[8px] items-start">
+<span class="material-symbols-outlined text-[18px]">error</span>
+<span>Belum ada test.</span>
+</div>
+</div>
+</article>
+<!-- Project 4 -->
+<article class="border-[2px] border-brand-border bg-brand-surface shadow-hard flex flex-col h-full group hover:border-brand-accent transition-colors">
+<div class="p-[24px] border-b-[2px] border-brand-border flex justify-between items-center bg-brand-bg">
+<h3 class="font-headline text-[18px] font-bold text-brand-primary uppercase tracking-widest">GO-FOODSTORE</h3>
+<span class="material-symbols-outlined text-brand-accent text-[20px]">storefront</span>
+</div>
+<div class="p-[24px] flex flex-col gap-[24px] flex-grow">
+<div class="font-label text-[14px] text-brand-secondary flex flex-wrap gap-[8px]">
+<span class="border-[2px] border-brand-border px-[8px] py-[4px]">Go</span>
+<span class="border-[2px] border-brand-border px-[8px] py-[4px]">Clean Arch</span>
+<span class="border-[2px] border-brand-border px-[8px] py-[4px]">Testing</span>
+</div>
+<div class="grid grid-cols-1 gap-[16px]">
+<div class="border-[2px] border-brand-border p-[8px] bg-brand-bg flex flex-col">
+<span class="font-label text-[14px] text-brand-secondary">COVERAGE</span>
+<span class="font-headline text-[16px] text-brand-accent">100%</span>
+</div>
+<div class="border-[2px] border-brand-border p-[8px] bg-brand-bg flex flex-col">
+<span class="font-label text-[14px] text-brand-secondary">MUTASI TERTANGKAP</span>
+<span class="font-headline text-[16px] text-brand-primary">20/25</span>
+</div>
+</div>
+</div>
+</article>
+</div>
+</section>
+<!-- DIVIDER -->
+<div class="w-full h-[2px] bg-brand-border"></div>
+<!-- STACK -->
+<section class="flex flex-col gap-[48px]" id="stack">
+<header>
+<span class="font-label text-brand-secondary text-[14px] tracking-widest">03 / STACK</span>
+</header>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-[16px]">
+<div class="border-[2px] border-brand-border bg-brand-surface h-[128px] flex items-center justify-center p-[16px] hover:border-brand-accent transition-colors shadow-hard text-center">
+<span class="font-headline text-[16px] uppercase tracking-wider">Go</span>
+</div>
+<div class="border-[2px] border-brand-border bg-brand-surface h-[128px] flex items-center justify-center p-[16px] hover:border-brand-accent transition-colors shadow-hard text-center">
+<span class="font-headline text-[16px] uppercase tracking-wider">Ruby on Rails</span>
+</div>
+<div class="border-[2px] border-brand-border bg-brand-surface h-[128px] flex items-center justify-center p-[16px] hover:border-brand-accent transition-colors shadow-hard text-center">
+<span class="font-headline text-[16px] uppercase tracking-wider">PHP / Laravel</span>
+</div>
+<div class="border-[2px] border-brand-border bg-brand-surface h-[128px] flex items-center justify-center p-[16px] hover:border-brand-accent transition-colors shadow-hard text-center">
+<span class="font-headline text-[16px] uppercase tracking-wider">Python</span>
+</div>
+<div class="border-[2px] border-brand-border bg-brand-surface h-[128px] flex items-center justify-center p-[16px] hover:border-brand-accent transition-colors shadow-hard text-center">
+<span class="font-headline text-[16px] uppercase tracking-wider">JavaScript / React</span>
+</div>
+<div class="border-[2px] border-brand-border bg-brand-surface h-[128px] flex items-center justify-center p-[16px] hover:border-brand-accent transition-colors shadow-hard text-center">
+<span class="font-headline text-[16px] uppercase tracking-wider">gRPC</span>
+</div>
+<div class="border-[2px] border-brand-border bg-brand-surface h-[128px] flex items-center justify-center p-[16px] hover:border-brand-accent transition-colors shadow-hard text-center">
+<span class="font-headline text-[16px] uppercase tracking-wider">PostgreSQL</span>
+</div>
+<div class="border-[2px] border-brand-border bg-brand-surface h-[128px] flex items-center justify-center p-[16px] hover:border-brand-accent transition-colors shadow-hard text-center">
+<span class="font-headline text-[16px] uppercase tracking-wider">MySQL</span>
+</div>
+<div class="border-[2px] border-brand-border bg-brand-surface h-[128px] flex items-center justify-center p-[16px] hover:border-brand-accent transition-colors shadow-hard text-center">
+<span class="font-headline text-[16px] uppercase tracking-wider">Docker</span>
+</div>
+<div class="border-[2px] border-brand-border bg-brand-surface h-[128px] flex items-center justify-center p-[16px] hover:border-brand-accent transition-colors shadow-hard text-center">
+<span class="font-headline text-[16px] uppercase tracking-wider">Cloudflare Workers</span>
+</div>
+</div>
+</section>
+<!-- DIVIDER -->
+<div class="w-full h-[2px] bg-brand-border"></div>
+<!-- ABOUT -->
+<section class="flex flex-col gap-[48px]" id="about">
+<header>
+<span class="font-label text-brand-secondary text-[14px] tracking-widest">04 / TENTANG</span>
+</header>
+<div class="flex flex-col gap-[32px]">
+<p class="font-body text-[16px] md:text-[18px] text-brand-primary leading-relaxed border-l-[2px] border-brand-accent pl-[24px]">
+                    Saya seorang Fullstack Developer yang fokus pada fundamental rekayasa perangkat lunak. Saya lebih suka membangun solusi yang stabil, teruji, dan efisien daripada mengejar hype teknologi terbaru tanpa pemahaman mendalam.
+                </p>
+<div class="border-[2px] border-brand-border bg-brand-surface p-[24px] flex flex-col gap-[8px] shadow-hard w-fit">
+<div class="font-label text-brand-secondary text-[14px] tracking-widest mb-[8px]">PENDIDIKAN</div>
+<h3 class="font-headline text-[20px] font-bold text-brand-primary uppercase">Bina Nusantara University</h3>
+<div class="font-body text-brand-accent text-[14px]">
+                        Computer Science · 2021 – 2025
+                    </div>
+</div>
+</div>
+</section>
+<!-- DIVIDER -->
+<div class="w-full h-[2px] bg-brand-border"></div>
+<!-- CONTACT -->
+<section class="flex flex-col gap-[48px]" id="contact">
+<header>
+<span class="font-label text-brand-secondary text-[14px] tracking-widest">05 / KONTAK</span>
+</header>
+<div class="flex flex-col md:flex-row gap-[32px]">
+<a class="border-[2px] border-brand-border bg-brand-surface p-[24px] flex items-center gap-[16px] hover:border-brand-accent shadow-hard group focus-ring" href="mailto:dvdadrielwork@gmail.com">
+<span class="material-symbols-outlined text-brand-secondary group-hover:text-brand-accent transition-colors">mail</span>
+<span class="font-headline text-brand-accent text-[16px] md:text-[18px] tracking-wider">dvdadrielwork@gmail.com</span>
+</a>
+<a class="border-[2px] border-brand-border bg-brand-surface p-[24px] flex items-center gap-[16px] hover:border-brand-accent shadow-hard group focus-ring" href="https://github.com/dvdadriel" rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined text-brand-secondary group-hover:text-brand-accent transition-colors">code</span>
+<span class="font-headline text-brand-accent text-[16px] md:text-[18px] tracking-wider">github.com/dvdadriel</span>
+</a>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full py-[32px] px-[32px] flex flex-col md:flex-row justify-between items-center gap-[16px] mt-[64px] bg-[#0A0A0C] border-t-[2px] border-[#2A2A30]">
+<div class="font-body text-[14px] uppercase tracking-wider text-[#9A9AA5]">
+            © 2024 TERMINAL_PORTFOLIO. ALL RIGHTS RESERVED. [V1.0.4]
+        </div>
+<div class="flex gap-[24px]">
+<a class="font-body text-[14px] uppercase tracking-wider text-[#9A9AA5] hover:text-[#3BF07C] underline decoration-[2px] underline-offset-4 focus-ring" href="#">GITHUB</a>
+<a class="font-body text-[14px] uppercase tracking-wider text-[#9A9AA5] hover:text-[#3BF07C] underline decoration-[2px] underline-offset-4 focus-ring" href="#">LINKEDIN</a>
+<a class="font-body text-[14px] uppercase tracking-wider text-[#9A9AA5] hover:text-[#3BF07C] underline decoration-[2px] underline-offset-4 focus-ring" href="#">SOURCE</a>
+</div>
+</footer>
+</body></html>

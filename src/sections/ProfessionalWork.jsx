@@ -12,9 +12,9 @@ export default function ProfessionalWork() {
   return (
     <section
       id="work"
-      className="min-h-screen lg:h-screen snap-start snap-always flex flex-col justify-center px-4 sm:px-8 lg:px-16 max-w-6xl mx-auto pt-16 pb-8 relative overflow-hidden"
+      className="min-h-screen lg:h-screen snap-start snap-always flex flex-col justify-center px-4 sm:px-8 lg:px-16 max-w-6xl mx-auto pt-16 pb-12 relative overflow-hidden"
     >
-      <div className="flex items-center justify-between gap-4 mb-3 sm:mb-5">
+      <div className="flex items-center justify-between gap-4 mb-4 sm:mb-6">
         <div>
           <p className="font-pixel text-[12px] sm:text-[14px] text-sand tracking-widest">{t.work.sectionNum}</p>
           <h2 className="font-pixel text-[20px] sm:text-[30px] md:text-[36px] text-copper leading-[1.3] tracking-wide">
@@ -29,9 +29,7 @@ export default function ProfessionalWork() {
         </div>
       </div>
 
-      {/* Tanpa items-start: itulah yang membuat kedua kartu tingginya beda. Grid item
-          meregang penuh secara default, jadi keduanya ikut kartu tertinggi. */}
-      <div className="grid lg:grid-cols-[1fr_1.1fr] gap-6 lg:gap-8">
+      <div className="grid lg:grid-cols-[1fr_1.1fr] gap-6 lg:gap-8 items-start">
         {/* Kolom Kiri: Role & Summary */}
         <div
           className="border-2 border-copper bg-surface p-4 sm:p-6"
@@ -57,7 +55,7 @@ export default function ProfessionalWork() {
             <p className="font-pixel text-[10px] text-sand tracking-wider">
               {t.work.focusTitle}
             </p>
-            <ul className="space-y-1 text-xs sm:text-sm text-cream/80">
+            <ul className="space-y-1.5 text-xs sm:text-sm text-cream/80">
               {t.work.duties.map((d) => (
                 <li key={d} className="flex items-start gap-2">
                   <span className="text-copper">▪</span>
@@ -70,7 +68,7 @@ export default function ProfessionalWork() {
 
         {/* Kolom Kanan: 9 Multi-brand Sites */}
         <div
-          className="border-2 border-copper bg-surface/70 p-4 sm:p-6 flex flex-col"
+          className="border-2 border-copper bg-surface/70 p-4 sm:p-6"
           style={{ boxShadow: '4px 4px 0 var(--color-shadow)' }}
         >
           <div className="flex items-center justify-between mb-3 border-b border-copper/40 pb-2">
@@ -102,7 +100,7 @@ export default function ProfessionalWork() {
             ))}
           </div>
 
-          <p className="mt-auto pt-3 text-[11px] text-cream/60 leading-relaxed italic border-t border-copper/30">
+          <p className="mt-4 text-[11px] text-cream/60 leading-relaxed italic border-t border-copper/30 pt-3">
             * {t.work.note}
           </p>
         </div>

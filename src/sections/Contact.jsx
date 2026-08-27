@@ -29,7 +29,7 @@ export default function Contact() {
     },
     {
       label: t.contact.linkedinLabel,
-      value: 'linkedin.com/in/david-adriel-alvyn/',
+      value: 'linkedin.com/in/dvdadriel',
       href: profile.linkedin,
       icon: LinkedinIcon,
       action: t.contact.connectLinkedin,

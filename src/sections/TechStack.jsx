@@ -62,9 +62,14 @@ export default function TechStack() {
         ))}
       </div>
 
+      {/* Retro Skill Stat Footer */}
+      <div className="mt-4 border-2 border-copper/60 bg-ink/60 p-2.5 px-4 flex items-center justify-between text-[10px] sm:text-[11px] font-pixel text-sand">
+        <span>{t.stack.footerLeft}</span>
+        <span className="text-copper animate-pulse">{t.stack.footerRight}</span>
+      </div>
 
       {/* Down Arrow Indicator to About */}
-      <SectionDownArrow targetId="contact" label={t.nav.contact} />
+      <SectionDownArrow targetId="about" label="ABOUT" />
     </section>
   )
 }

@@ -15,16 +15,13 @@ export default function SectionDownArrow({ targetId, label = "NEXT" }) {
         href={`#${targetId}`}
         onClick={handleClick}
         title={`Lanjut ke section #${targetId}`}
-        className="group flex flex-col items-center gap-1.5 text-sand/80 hover:text-cream transition-all cursor-pointer select-none"
+        className="group flex flex-col items-center gap-1 font-pixel text-[9px] text-sand/75 hover:text-cream transition-all cursor-pointer select-none"
       >
-        {/* Label pakai font body, bukan font-pixel: Press Start 2P di bawah 16px
-            jatuh di antara piksel layar dan jadi buram (lihat index.css). Dan label
-            yang hanya muncul saat hover sama dengan label yang tak pernah dibaca. */}
-        <span className="hidden sm:inline-block text-[11px] tracking-widest">
+        <span className="hidden sm:inline-block opacity-0 group-hover:opacity-100 transition-opacity tracking-widest text-[8px] text-copper">
           {label}
         </span>
         <div
-          className="w-7 h-7 border-2 border-copper bg-surface/90 flex items-center justify-center nudge-down"
+          className="w-7 h-7 border-2 border-copper bg-surface/90 flex items-center justify-center transition-transform group-hover:translate-y-0.5 animate-bounce shadow-md"
           style={{ boxShadow: '2px 2px 0 var(--color-shadow)' }}
         >
           <svg viewBox="0 0 10 10" fill="currentColor" className="w-3.5 h-3.5 text-copper group-hover:text-cream pixelated" aria-hidden="true">

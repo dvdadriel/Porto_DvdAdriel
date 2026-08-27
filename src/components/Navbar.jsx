@@ -2,6 +2,32 @@ import React, { useState, useEffect } from 'react'
 import ShuffleText from './ShuffleText.jsx'
 import { useLanguage } from '../context/LanguageContext.jsx'
 
+function LupisDiamondIcon({ className = "w-3.5 h-3.5" }) {
+  return (
+    <svg viewBox="0 0 16 16" fill="currentColor" className={`pixelated shrink-0 ${className}`} aria-hidden="true">
+      <rect x="7" y="1" width="2" height="2" />
+      <rect x="5" y="3" width="6" height="2" />
+      <rect x="3" y="5" width="10" height="2" />
+      <rect x="1" y="7" width="14" height="2" />
+      <rect x="3" y="9" width="10" height="2" />
+      <rect x="5" y="11" width="6" height="2" />
+      <rect x="7" y="13" width="2" height="2" />
+      <rect x="7" y="5" width="2" height="6" fill="#2C3639" />
+      <rect x="5" y="7" width="6" height="2" fill="#2C3639" />
+    </svg>
+  )
+}
+
+function PixelChevronIcon({ className = "w-2.5 h-2.5" }) {
+  return (
+    <svg viewBox="0 0 8 8" fill="currentColor" className={`pixelated shrink-0 ${className}`} aria-hidden="true">
+      <rect x="1" y="1" width="2" height="6" />
+      <rect x="3" y="2" width="2" height="4" />
+      <rect x="5" y="3" width="2" height="2" />
+    </svg>
+  )
+}
+
 function getAgeLevel() {
   const birthDate = new Date(2003, 7, 1) // Agustus 2003
   const now = new Date()
@@ -47,24 +73,24 @@ export default function Navbar({ activeSection }) {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-ink/95 border-b-2 border-copper backdrop-blur-md transition-all">
       <div className="max-w-7xl mx-auto px-4 sm:px-8 h-14 sm:h-16 flex items-center justify-between">
-        {/* Brand Logo - Lupis diamond perfectly aligned */}
+        {/* Brand Logo - Lupis SVG icon vertically centered */}
         <a
           href="#hero"
           onClick={(e) => handleNavClick(e, 'hero')}
-          className="inline-flex items-center gap-2 group font-pixel text-sm sm:text-base text-cream hover:text-copper transition-colors"
+          className="flex items-center gap-2 group font-pixel text-xs sm:text-sm text-cream hover:text-copper transition-colors"
         >
-          <span className="inline-flex items-center justify-center text-copper text-sm sm:text-base leading-none">
-            ❖
+          <span className="flex items-center justify-center text-copper">
+            <LupisDiamondIcon className="w-3.5 h-3.5" />
           </span>
-          <span className="tracking-wider inline-flex items-center leading-none">
+          <span className="tracking-wider flex items-center">
             <ShuffleText text="DAVID.EXE" />
           </span>
-          <span className="hidden lg:inline-flex items-center text-[10px] text-sand/75 ml-1.5 font-mono leading-none bg-surface/80 border border-copper/50 px-1.5 py-0.5">
+          <span className="hidden lg:flex items-center text-[10px] text-sand/80 font-mono bg-surface/80 border border-copper/50 px-1.5 py-0.5 ml-1">
             LVL {userLevel}
           </span>
         </a>
 
-        {/* Desktop Navigation Links - Chevrons perfectly centered */}
+        {/* Desktop Navigation Links - Pixel Chevrons vertically centered */}
         <nav className="hidden md:flex items-center gap-1 sm:gap-2">
           {NAV_ITEMS.map((item) => {
             const isActive = active === item.id
@@ -73,7 +99,7 @@ export default function Navbar({ activeSection }) {
                 key={item.id}
                 href={`#${item.id}`}
                 onClick={(e) => handleNavClick(e, item.id)}
-                className={`font-pixel text-[11px] lg:text-[12px] px-3 py-1.5 transition-all tracking-wider inline-flex items-center justify-center ${
+                className={`font-pixel text-[11px] lg:text-[12px] px-3 py-1.5 transition-all tracking-wider flex items-center justify-center gap-1.5 ${
                   isActive
                     ? 'bg-surface text-cream border border-copper -translate-y-0.5'
                     : 'text-sand hover:text-cream hover:bg-surface/50 border border-transparent'
@@ -81,23 +107,22 @@ export default function Navbar({ activeSection }) {
                 style={isActive ? { boxShadow: '2px 2px 0 var(--color-shadow)' } : {}}
               >
                 {isActive && (
-                  <span className="inline-flex items-center text-copper mr-1.5 text-[9px] leading-none">
-                    ▶
+                  <span className="flex items-center justify-center text-copper">
+                    <PixelChevronIcon className="w-2.5 h-2.5" />
                   </span>
                 )}
-                <span className="inline-flex items-center leading-none">{item.label}</span>
+                <span>{item.label}</span>
               </a>
             )
           })}
         </nav>
 
-        {/* Right Side: Language Switcher & Mobile Toggle */}
+        {/* Right Side: Language Switcher */}
         <div className="flex items-center gap-3">
-          {/* Language Switcher Button */}
           <button
             onClick={toggleLang}
             title={lang === 'id' ? 'Switch to English' : 'Ubah ke Bahasa Indonesia'}
-            className="font-pixel text-[10px] sm:text-[11px] bg-surface hover:bg-copper hover:text-cream text-sand border-2 border-copper px-2.5 py-1 transition-all active:translate-y-0.5 cursor-pointer inline-flex items-center gap-1.5"
+            className="font-pixel text-[10px] sm:text-[11px] bg-surface hover:bg-copper hover:text-cream text-sand border-2 border-copper px-2.5 py-1 transition-all active:translate-y-0.5 cursor-pointer flex items-center gap-1.5"
             style={{ boxShadow: '2px 2px 0 var(--color-shadow)' }}
           >
             <span className="text-copper group-hover:text-cream">🌐</span>
@@ -130,9 +155,13 @@ export default function Navbar({ activeSection }) {
                   : 'text-sand hover:text-cream'
               }`}
             >
-              <span className="inline-flex items-center">
-                {active === item.id && <span className="text-copper mr-2 text-[10px]">▶</span>}
-                {item.label}
+              <span className="flex items-center gap-2">
+                {active === item.id && (
+                  <span className="flex items-center text-copper">
+                    <PixelChevronIcon className="w-2.5 h-2.5" />
+                  </span>
+                )}
+                <span>{item.label}</span>
               </span>
               <span className="text-[10px] text-sand/60">{item.num}</span>
             </a>

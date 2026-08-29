@@ -86,8 +86,9 @@ export const translations = {
           ],
           caveat: null,
           demoType: 'dashboard',
-          demoUrl: 'https://github.com/dvdadriel/News-Update',
-          demoLabel: 'DASHBOARD REPO ↗',
+          repoUrl: 'https://github.com/dvdadriel/News-Update',
+          demoUrl: 'https://news.dvdadriel.web.id',
+          demoLabel: 'HALAMAN DASHBOARD ↗',
         },
         {
           slug: 'go-courier',
@@ -277,8 +278,8 @@ export const translations = {
           ],
           caveat: null,
           demoType: 'dashboard',
-          demoUrl: 'https://github.com/dvdadriel/News-Update',
-          demoLabel: 'DASHBOARD REPO ↗',
+          demoUrl: 'https://news.dvdadriel.web.id',
+          demoLabel: 'DASHBOARD PAGE ↗',
         },
         {
           slug: 'go-courier',

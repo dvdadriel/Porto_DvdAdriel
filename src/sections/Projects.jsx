@@ -131,35 +131,8 @@ export default function Projects() {
           </div>
         </div>
 
-        {/* Right Column: Highlights & Screenshot / Caveat */}
+        {/* Right Column: Highlights / Caveat */}
         <div className="space-y-3">
-          {staticProjectData.shot && (
-            /* Gambar 1918x963 sebelumnya dipaksa ke h-32/h-40. Pada kotak sependek
-               itu object-cover hanya menyisakan sudut kiri-atas — header gelap yang
-               nyaris kosong — sehingga terbaca seperti tidak ada gambar. Pada 220px
-               potongannya masih memuat header, IDX Stocks, dan kartu Momentum.
-
-               `pixelated` dibuang: itu untuk sprite, dan pada tangkapan layar ia
-               membuat teksnya kotak-kotak dan makin tak terbaca. Dibungkus tautan
-               supaya versi penuhnya bisa dilihat — thumbnail sekecil ini tidak
-               akan pernah terbaca sendiri. */
-            <a
-              href={staticProjectData.shot}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block border-2 border-copper/70 hover:border-copper transition-colors"
-              style={{ boxShadow: '3px 3px 0 var(--color-shadow)' }}
-              title="Buka tangkapan layar ukuran penuh"
-            >
-              <img
-                src={staticProjectData.shot}
-                alt={`Tangkapan layar dasbor ${project.name}`}
-                className="w-full h-[220px] object-cover object-top block"
-                loading="lazy"
-              />
-            </a>
-          )}
-
           <div>
             <p className="font-pixel text-[9px] sm:text-[10px] text-sand mb-1.5 tracking-wider">
               {t.projects.highlightsTitle}

@@ -29,8 +29,7 @@ export const projects = [
       'Profit factor di bawah 1 — kerugian melebihi keuntungan. Sistemnya bekerja; strateginya belum terbukti. Hasil dan batasannya dipublikasikan apa adanya.',
     repo: 'https://github.com/dvdadriel/idx-screener',
     docs: 'https://github.com/dvdadriel/idx-screener/blob/main/docs/backtest-results.md',
-    live: null,
-    shot: '/shots/idx-screener.png',
+    live: 'https://idxscreener.dvdadriel.web.id',
   },
   {
     slug: 'news-update',
@@ -52,7 +51,6 @@ export const projects = [
     repo: 'https://github.com/dvdadriel/News-Update',
     docs: null,
     live: null,
-    shot: null,
   },
   {
     slug: 'go-courier',
@@ -75,7 +73,6 @@ export const projects = [
     repo: 'https://github.com/dvdadriel/Go-Courier',
     docs: 'https://github.com/dvdadriel/Go-Courier/blob/main/documentation.md',
     live: null,
-    shot: null,
   },
   {
     slug: 'go-foodstore',
@@ -98,6 +95,5 @@ export const projects = [
     repo: 'https://github.com/dvdadriel/Go-FoodStore',
     docs: 'https://github.com/dvdadriel/Go-FoodStore/blob/main/docs/Go-FoodStore.postman_collection.json',
     live: null,
-    shot: null,
   },
 ]

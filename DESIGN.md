@@ -111,8 +111,12 @@ Prosa tidak pernah lebih lebar dari 68ch (`.prose-measure`).
 - Kepala section: hairline penuh, nomor urut di kolom kiri, judul besar di
   sebelahnya (`SectionHeader`). Nomornya informasi, bukan eyebrow: halaman ini
   dibaca berurutan dan angka memberi tempat berpijak saat men-scroll jauh.
-- **Tentang** sengaja beda: satu poros tengah, bukan dua kolom. Isinya cuma foto
-  dan dua blok prosa; dibagi dua kolom, satu sisi pasti kosong.
+- **Tentang** sengaja beda: section gelap full-bleed, potret membelah ke tepi
+  kanan, teks di kolom kiri. Tepi kiri foto dilarutkan dengan mask gradien dan
+  seluruhnya dijadikan monokrom — potret berwarna di tengah palet hijau-tinta
+  akan membawa warnanya sendiri dan memecah section. Arah: [christoph-nagel.dev](https://christoph-nagel.dev/#webentwicklung).
+  Di bawah lg foto pindah ke atas teks dengan tinggi tetap; potret setinggi layar
+  di HP berarti orang men-scroll melewati wajah sebelum sampai ke satu kata pun.
 
 ## Komponen
 
@@ -124,6 +128,7 @@ Prosa tidak pernah lebih lebar dari 68ch (`.prose-measure`).
 | `Caveat` | Border penuh warna signal. Bukan garis tebal di satu sisi — aksen samping adalah dekorasi yang menyamar jadi struktur. |
 | `ShowcaseCarousel` | Crossfade + skala, bukan geser: semua slide seukuran dan mirip, gerakan menyamping hanya membuat mata mengejar sesuatu yang tidak berubah. Titiknya tombol sungguhan. |
 | `SectionHeader` | `align="center"` menumpuk nomor di atas judul, dipakai di section yang isinya juga berporos tengah. Varian, bukan pilihan gaya yang bisa dipakai bergantian. |
+| Monogram DAA | Outline diekstrak dari Anton (font display situs) jadi path SVG, 571 byte, di-inline ke `TopNav` dan `public/favicon.svg`. Dipakai `currentColor` supaya ikut berbalik di section gelap tanpa aset kedua. Referensi `<use href>` lintas-berkas sengaja dihindari — diblokir banyak browser. |
 | `TopNav` | Pill bergaris, **statis bukan fixed**. Halaman berganti terang/gelap; nav melayang akan jadi blok gelap di atas section gelap. |
 
 Tombol: `.btn` + `.btn-solid` / `.btn-outline`. Border 1,5px, sudut tidak

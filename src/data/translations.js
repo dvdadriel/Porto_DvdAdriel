@@ -165,6 +165,8 @@ export const translations = {
     about: {
       sectionNum: '01',
       title: 'Tentang',
+      headline: 'Belajar dengan membangun',
+      lead: 'Saya lebih cepat paham sesuatu kalau sudah mencoba membuatnya. Karena itu sebagian besar yang saya kuasai datang dari project kecil di luar jam kerja, bukan dari tutorial yang ditonton sampai habis.',
       philosophyTitle: 'Latar belakang',
       bioParagraph: [
         'Lulusan Computer Science Bina Nusantara University. Sekarang Web Developer di Massindo Group, menangani situs sembilan brand di bawah satu grup.',
@@ -354,6 +356,8 @@ export const translations = {
     about: {
       sectionNum: '01',
       title: 'About',
+      headline: 'Learning by building',
+      lead: 'I understand something faster once I have tried to build it. Most of what I know came from small projects outside working hours, not from tutorials watched to the end.',
       philosophyTitle: 'Background',
       bioParagraph: [
         'Computer Science graduate from Bina Nusantara University. Now a Web Developer at Massindo Group, looking after the websites of nine brands under one group.',

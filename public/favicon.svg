@@ -1,30 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" shape-rendering="crispEdges">
-  <!--
-    Diamond yang sama dengan logo DAVID.EXE di navbar — tab dan halaman memakai
-    tanda yang sama.
-
-    shape-rendering="crispEdges" menjaga tepinya tetap tajam saat favicon
-    diperkecil ke 16px; tanpa itu browser meng-antialias dan piksel-pikselnya
-    jadi kabur.
-
-    Latarnya diisi penuh, bukan transparan: favicon transparan hilang di tab
-    bar yang gelap, dan copper di atas ink adalah kontras yang sudah diukur.
-  -->
-  <rect width="16" height="16" fill="#2C3639" />
-
-  <g fill="#A27B5C">
-    <rect x="7" y="1" width="2" height="2" />
-    <rect x="5" y="3" width="6" height="2" />
-    <rect x="3" y="5" width="10" height="2" />
-    <rect x="1" y="7" width="14" height="2" />
-    <rect x="3" y="9" width="10" height="2" />
-    <rect x="5" y="11" width="6" height="2" />
-    <rect x="7" y="13" width="2" height="2" />
-  </g>
-
-  <!-- Rongga tengah, mengulang bentuk berlubang pada ikon navbar. -->
-  <g fill="#2C3639">
-    <rect x="7" y="5" width="2" height="6" />
-    <rect x="5" y="7" width="6" height="2" />
-  </g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-167 -2488 3217 3217">
+  <title>DAA</title>
+  <rect x="-167" y="-2488" width="3217" height="3217" fill="#0B1F18"/>
+  <path d="M78 0V-1760H562Q752 -1760 848.0 -1654.5Q944 -1549 944 -1346V-522Q944 -272 856.5 -136.0Q769 0 550 0ZM432 -311H493Q590 -311 590 -405V-1313Q590 -1401 566.5 -1426.5Q543 -1452 471 -1452H432Z M958.08 0 1128.08 -1760H1725.08L1892.08 0H1559.08L1534.08 -284H1322.08L1300.08 0ZM1347.08 -565H1507.08L1430.08 -1460H1414.08Z M1870.16 0 2040.16 -1760H2637.16L2804.16 0H2471.16L2446.16 -284H2234.16L2212.16 0ZM2259.16 -565H2419.16L2342.16 -1460H2326.16Z" fill="#EDF4F1"/>
 </svg>

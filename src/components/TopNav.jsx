@@ -35,12 +35,19 @@ export default function TopNav({ activeSection }) {
           gelap, dan tidak ada satu warna chrome pun yang benar di keduanya.
           Yang ikut menggulung tidak punya masalah itu. */}
       <header className="mx-auto hidden w-full max-w-[1600px] items-center justify-between px-6 py-5 sm:px-10 lg:flex lg:px-14">
+        {/* Monogram diambil dari outline Anton — font display yang sama dengan
+            seluruh judul di halaman ini, jadi ia tidak pernah terbaca sebagai
+            elemen pinjaman. currentColor membuatnya ikut berbalik di section
+            gelap tanpa aset kedua. */}
         <a
           href="#hero"
+          aria-label={t.hero.name}
           className="btn"
           style={{ backgroundColor: 'var(--color-surface)', color: 'var(--color-ink)' }}
         >
-          DA
+          <svg viewBox="78 -1760 2726 1760" className="h-4 w-auto" fill="currentColor" aria-hidden="true">
+            <path d="M78 0V-1760H562Q752 -1760 848.0 -1654.5Q944 -1549 944 -1346V-522Q944 -272 856.5 -136.0Q769 0 550 0ZM432 -311H493Q590 -311 590 -405V-1313Q590 -1401 566.5 -1426.5Q543 -1452 471 -1452H432Z M958.08 0 1128.08 -1760H1725.08L1892.08 0H1559.08L1534.08 -284H1322.08L1300.08 0ZM1347.08 -565H1507.08L1430.08 -1460H1414.08Z M1870.16 0 2040.16 -1760H2637.16L2804.16 0H2471.16L2446.16 -284H2234.16L2212.16 0ZM2259.16 -565H2419.16L2342.16 -1460H2326.16Z" />
+          </svg>
         </a>
 
         <nav

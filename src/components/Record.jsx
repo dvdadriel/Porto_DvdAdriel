@@ -77,7 +77,10 @@ export default function Record({
           <ul className="prose-measure mt-3 space-y-2">
             {highlights.map((h) => (
               <li key={h} className="flex text-[0.9375rem]">
-                <span aria-hidden="true" className="mr-3" style={{ color: 'var(--color-rule)' }}>
+                {/* Penanda daftar dipakai --color-ink-soft, bukan --color-rule:
+                    diukur, versi hairline-nya cuma 1,44:1 dan praktis hilang di
+                    layar terang. Hairline benar untuk garis, salah untuk tanda. */}
+                <span aria-hidden="true" className="mr-3" style={{ color: 'var(--color-ink-soft)' }}>
                   —
                 </span>
                 <span>{h}</span>

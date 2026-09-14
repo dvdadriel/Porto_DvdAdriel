@@ -327,7 +327,10 @@
    2. object-position. Di desktop kotaknya tinggi-sempit, jadi mengunci ke tepi
       bawah (100%) memotong ukiran dan atap, dan orangnya mengisi penuh. Di HP
       kotaknya lebar-pendek, dan angka yang sama justru memenggal kepala —
-      terlihat di 390px. Di sana bingkainya dinaikkan ke 34%. */
+      terlihat di 390px. Di sana bingkainya dinaikkan ke 34%.
+
+      Nilai desktop 92%, bukan 100%: menyisakan margin supaya kepala tetap aman
+      walau tinggi section berubah mengikuti panjang teks. */
 .portrait-bleed {
   filter: grayscale(1) contrast(1.06);
   object-position: 50% 34%;
@@ -337,7 +340,7 @@
 
 @media (min-width: 1024px) {
   .portrait-bleed {
-    object-position: 50% 100%;
+    object-position: 50% 92%;
     -webkit-mask-image:
       linear-gradient(to bottom, transparent, black 18%),
       linear-gradient(to right, transparent, black 42%);

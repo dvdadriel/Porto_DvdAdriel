@@ -1,4 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
+import { useGSAP } from '@gsap/react'
+import { gsap, onMotionOK } from '../lib/motion.js'
 import { useLanguage } from '../context/LanguageContext.jsx'
 import { profile } from '../data/profile.js'
 
@@ -13,6 +15,29 @@ export default function Contact() {
   const { t } = useLanguage()
   const [copied, setCopied] = useState(false)
   const timer = useRef(null)
+  const root = useRef(null)
+
+  // Kontak dianimasikan di sini, bukan lewat <SectionReveal>, karena elemennya
+  // <footer> dan komponen itu merender <section>. Ritmenya sengaja disamakan
+  // persis dengan section lain.
+  useGSAP(
+    () => {
+      return onMotionOK(() => {
+        gsap.from(root.current.querySelectorAll('[data-reveal]'), {
+          y: 18,
+          opacity: 0,
+          duration: 0.7,
+          ease: 'expo.out',
+          stagger: 0.08,
+          // Lihat catatan di SectionReveal: tanpa ini konten tersembunyi
+          // sebelum ScrollTrigger menyala.
+          immediateRender: false,
+          scrollTrigger: { trigger: root.current, start: 'top 88%', once: true },
+        })
+      })
+    },
+    { scope: root }
+  )
 
   // Timer dibersihkan saat unmount: setState pada komponen yang sudah hilang
   // adalah kebocoran yang baru terlihat saat orang berpindah bahasa cepat.
@@ -39,19 +64,24 @@ export default function Contact() {
 
   return (
     <footer
+      ref={root}
       id="contact"
       className="mx-auto w-full max-w-[1600px] px-6 py-20 sm:px-10 sm:py-28 lg:px-14"
     >
       <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-8">
         <div className="lg:col-span-5">
-          <h2>{t.contact.title}</h2>
-          <p className="prose-measure mt-4 text-[1.0625rem]" style={{ color: 'var(--color-ink-soft)' }}>
+          <h2 data-reveal>{t.contact.title}</h2>
+          <p
+            className="prose-measure mt-4 text-[1.0625rem]"
+            data-reveal
+            style={{ color: 'var(--color-ink-soft)' }}
+          >
             {t.contact.subtitle}
           </p>
         </div>
 
         <div className="lg:col-span-6 lg:col-start-7">
-          <ul>
+          <ul data-reveal>
             {rows.map((r) => (
               <li key={r.label} className="rule-t flex items-baseline gap-4 py-4">
                 <span

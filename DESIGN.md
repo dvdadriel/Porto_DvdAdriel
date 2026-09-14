@@ -149,8 +149,16 @@ kartu SaaS, dan ini bukan dashboard.
 ## Motion
 
 Satu momen orkestrasi saat load (hero: baris headline naik, lalu isi di
-bawahnya, lalu carousel). Selebihnya motion **menjawab aksi**: hover, buka
-accordion, buka sheet.
+bawahnya, lalu carousel), lalu satu efek masuk per section saat ia pertama
+terlihat — garis kepala section ditarik dari kiri, nomor dan judul menyusul.
+Selebihnya motion **menjawab aksi**: hover, buka accordion, buka sheet.
+
+Efek masuk hidup di satu komponen, `SectionReveal`, bukan ditulis ulang di tiap
+section: itu satu-satunya cara ritmenya tetap sama. Durasi yang berbeda-beda
+antar-section terbaca sebagai halaman yang dirakit dari potongan. Elemen yang
+ikut dianimasikan ditandai `data-reveal`; garis kepala `data-section-rule`.
+Kontak memakai salinan manual dengan angka identik karena elemennya `<footer>`,
+bukan `<section>`.
 
 Aturan yang tidak boleh dilanggar:
 
@@ -158,6 +166,18 @@ Aturan yang tidak boleh dilanggar:
   Transisi berhenti di tab background dan renderer headless; kalau visibilitas
   digantungkan padanya, section terkirim kosong ke orang yang tidak akan pernah
   tahu kenapa.
+- **`immediateRender: false` wajib pada setiap `from()` yang dipasangkan dengan
+  ScrollTrigger.** Tanpa itu GSAP menerapkan keadaan awal begitu tween dibuat,
+  jadi setiap section di bawah layar langsung ber-opacity 0 — dan aturan di atas
+  batal diam-diam. Ini terjadi sekali dan tertangkap lewat pengukuran: elemen di
+  `#stack` punya opacity 0 pada saat muat. Cek ulangnya sederhana — muat halaman,
+  lalu baca opacity elemen `[data-reveal]` di section terjauh; harus 1.
+- Garis kepala dianimasikan dengan `scaleX`, bukan `width`: `width` memicu layout
+  tiap frame, `scaleX` hanya compositing.
+- `once: true` di semua ScrollTrigger. Animasi yang mengulang tiap kali orang
+  menggulung naik-turun berhenti jadi sambutan dan mulai jadi gangguan. Efek
+  sampingnya: trigger yang sudah menyala hilang dari `ScrollTrigger.getAll()` —
+  itu normal, bukan tanda gagal.
 - Semua animasi lewat `onMotionOK()` di `src/lib/motion.js`.
 - Carousel berhenti berputar total pada `prefers-reduced-motion`, bukan
   melambat. Rotasi otomatis adalah gerak yang tidak diminta siapa pun.

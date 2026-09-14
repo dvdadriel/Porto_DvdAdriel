@@ -1,6 +1,7 @@
 import React from 'react'
 import { useLanguage } from '../context/LanguageContext.jsx'
 import SectionHeader from '../components/SectionHeader.jsx'
+import SectionReveal from '../components/SectionReveal.jsx'
 
 /**
  * Stack sebagai inventaris berbaris, bukan koleksi badge.
@@ -13,7 +14,7 @@ export default function TechStack() {
   const { t } = useLanguage()
 
   return (
-    <section id="stack" className="on-ink">
+    <SectionReveal id="stack" className="on-ink">
       <div className="mx-auto w-full max-w-[1600px] px-6 py-24 sm:px-10 sm:py-32 lg:px-14">
       <SectionHeader mark="04" title={t.stack.title}>
         <p>{t.stack.subtitle}</p>
@@ -24,6 +25,7 @@ export default function TechStack() {
           <div
             key={cat.category}
             className="rule-t grid grid-cols-1 gap-x-8 gap-y-3 py-6 sm:grid-cols-12"
+            data-reveal
           >
             <dt
               className="text-[0.875rem] font-medium sm:col-span-2"
@@ -54,6 +56,6 @@ export default function TechStack() {
       </dl>
         <div className="rule-t" />
       </div>
-    </section>
+    </SectionReveal>
   )
 }

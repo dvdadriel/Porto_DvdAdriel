@@ -3,6 +3,7 @@ import { useLanguage } from '../context/LanguageContext.jsx'
 import { work } from '../data/work.js'
 import SectionHeader from '../components/SectionHeader.jsx'
 import Accordion from '../components/Accordion.jsx'
+import SectionReveal from '../components/SectionReveal.jsx'
 
 /** Panah "keluar situs" sebagai ikon, bukan karakter ↗ di dalam teks. */
 function ExternalMark() {
@@ -36,7 +37,7 @@ export default function ProfessionalWork() {
   const clients = work[0].clients
 
   return (
-    <section id="work" className="on-ink">
+    <SectionReveal id="work" className="on-ink">
       <div className="mx-auto w-full max-w-[1600px] px-6 py-24 sm:px-10 sm:py-32 lg:px-14">
         <SectionHeader mark="02" title={t.work.title} />
 
@@ -44,17 +45,22 @@ export default function ProfessionalWork() {
           <div className="lg:col-span-5">
             {/* Peran dan periode satu baris: keduanya fakta yang sama
                 pentingnya, dan memisahnya jadi dua blok hanya menambah jarak. */}
-            <div className="prose-measure flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
+            <div
+              className="prose-measure flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1"
+              data-reveal
+            >
               <h3 style={{ fontSize: 'var(--text-h3)' }}>{t.work.role}</h3>
               <p className="numeric text-[0.9375rem]" style={{ color: 'var(--color-ink-soft)' }}>
                 {t.work.period}
               </p>
             </div>
-            <p className="mt-1 text-[1.0625rem]" style={{ color: 'var(--color-ink-soft)' }}>
+            <p className="mt-1 text-[1.0625rem]" data-reveal style={{ color: 'var(--color-ink-soft)' }}>
               {t.work.company}
             </p>
 
-            <p className="prose-measure mt-6">{t.work.summary}</p>
+            <p className="prose-measure mt-6" data-reveal>
+              {t.work.summary}
+            </p>
 
             <h4
               className="mt-9 text-[0.9375rem] font-medium"
@@ -62,7 +68,7 @@ export default function ProfessionalWork() {
             >
               {t.work.focusTitle}
             </h4>
-            <ul className="prose-measure mt-3 space-y-2">
+            <ul className="prose-measure mt-3 space-y-2" data-reveal>
               {t.work.duties.map((d) => (
                 <li key={d} className="flex text-[1rem]">
                   <span aria-hidden="true" className="mr-3" style={{ color: 'var(--color-ink-soft)' }}>
@@ -79,7 +85,7 @@ export default function ProfessionalWork() {
               {t.work.sitesTitle}
             </h4>
 
-            <div className="mt-4">
+            <div className="mt-4" data-reveal>
               {clients.map((c) => (
                 <Accordion
                   key={c.slug}
@@ -120,6 +126,6 @@ export default function ProfessionalWork() {
           </div>
         </div>
       </div>
-    </section>
+    </SectionReveal>
   )
 }

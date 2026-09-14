@@ -3,6 +3,7 @@ import Record from '../components/Record.jsx'
 import { useLanguage } from '../context/LanguageContext.jsx'
 import { projects } from '../data/projects.js'
 import SectionHeader from '../components/SectionHeader.jsx'
+import SectionReveal from '../components/SectionReveal.jsx'
 
 /**
  * Lima record nanti, empat sekarang.
@@ -39,12 +40,12 @@ export default function Projects() {
   const { t } = useLanguage()
 
   return (
-    <section id="projects" className="mx-auto w-full max-w-[1600px] px-6 py-20 sm:px-10 sm:py-28 lg:px-14">
+    <SectionReveal id="projects" className="mx-auto w-full max-w-[1600px] px-6 py-20 sm:px-10 sm:py-28 lg:px-14">
       <SectionHeader mark="03" title={t.projects.title}>
         <p>{t.projects.subtitle}</p>
       </SectionHeader>
 
-      <div className="mt-16">
+      <div className="mt-16" data-reveal>
         {t.projects.items.map((item, i) => {
           const urls = projects.find((p) => p.slug === item.slug) || {}
 
@@ -76,6 +77,6 @@ export default function Projects() {
         })}
         <div className="rule-t" />
       </div>
-    </section>
+    </SectionReveal>
   )
 }

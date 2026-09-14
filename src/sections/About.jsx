@@ -1,6 +1,7 @@
 import React from 'react'
 import { useLanguage } from '../context/LanguageContext.jsx'
 import SectionHeader from '../components/SectionHeader.jsx'
+import SectionReveal from '../components/SectionReveal.jsx'
 import Accordion from '../components/Accordion.jsx'
 
 /**
@@ -23,13 +24,19 @@ export default function About() {
   const { t } = useLanguage()
 
   return (
-    <section id="about" className="relative overflow-hidden">
+    <SectionReveal id="about" className="relative overflow-hidden">
       <div className="mx-auto w-full max-w-[1600px] px-6 pt-20 sm:px-10 sm:pt-28 lg:px-14">
         <SectionHeader mark="01" title={t.about.title} />
       </div>
 
-      {/* Potret: menempel ke tepi kanan dan bawah section di desktop. */}
-      <div className="relative mt-10 h-[42vh] w-full lg:absolute lg:bottom-0 lg:right-0 lg:top-[13rem] lg:mt-0 lg:h-auto lg:w-[50%]">
+      {/* Potret: menempel ke tepi kanan dan bawah section di desktop.
+
+          max-w-40rem bukan hiasan. Tanpa itu lebarnya ikut lebar layar, dan
+          karena object-cover menskalakan gambar mengikuti sisi terlebar,
+          layar yang makin lebar memotong makin banyak dari atas: diukur, 22%
+          di 1512px tapi 43% di 1920px — di angka kedua kepalanya hilang.
+          Dengan lebar dibatasi, pemotongannya berhenti tumbuh. */}
+      <div className="relative mt-10 h-[42vh] w-full lg:absolute lg:bottom-0 lg:right-0 lg:top-[13rem] lg:mt-0 lg:h-auto lg:w-[50%] lg:max-w-[40rem]">
         <img
           src="/portrait-david.jpg"
           width="533"
@@ -46,11 +53,13 @@ export default function About() {
 
       <div className="relative mx-auto w-full max-w-[1600px] px-6 pb-20 pt-12 sm:px-10 sm:pb-28 lg:px-14 lg:pb-36">
         <div className="lg:max-w-[46%]">
-          <h3>{t.about.headline}</h3>
+          <h3 data-reveal>{t.about.headline}</h3>
 
-          <p className="prose-measure mt-6 text-[1.125rem]">{t.about.lead}</p>
+          <p className="prose-measure mt-6 text-[1.125rem]" data-reveal>
+            {t.about.lead}
+          </p>
 
-          <dl className="mt-8 flex flex-wrap gap-x-10 gap-y-2 text-[0.9375rem]">
+          <dl className="mt-8 flex flex-wrap gap-x-10 gap-y-2 text-[0.9375rem]" data-reveal>
             <div className="flex gap-2">
               <dt style={{ color: 'var(--color-ink-soft)' }}>{t.about.educationTitle}</dt>
               <dd>
@@ -64,7 +73,7 @@ export default function About() {
             </div>
           </dl>
 
-          <div className="mt-12">
+          <div className="mt-12" data-reveal>
             <Accordion name="about" summary={t.about.philosophyTitle} defaultOpen>
               <div className="prose-measure space-y-4">
                 {t.about.bioParagraph.map((para) => (
@@ -83,6 +92,6 @@ export default function About() {
           </div>
         </div>
       </div>
-    </section>
+    </SectionReveal>
   )
 }

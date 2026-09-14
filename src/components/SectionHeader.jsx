@@ -33,15 +33,15 @@ export default function SectionHeader({ mark, title, align = 'left', children })
   }
 
   return (
-    <header className="rule-t pt-6">
+    <header className="rule-t pt-6" data-section-rule>
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-12 sm:gap-8">
-        <p className="section-mark sm:col-span-2" aria-hidden="true">
+        <p className="section-mark sm:col-span-2" data-reveal aria-hidden="true">
           {mark}
         </p>
         <div className="sm:col-span-10">
-          <h2>{title}</h2>
+          <h2 data-reveal>{title}</h2>
           {children && (
-            <div className="prose-measure mt-6" style={{ color: 'var(--color-ink-soft)' }}>
+            <div className="prose-measure mt-6" data-reveal style={{ color: 'var(--color-ink-soft)' }}>
               {children}
             </div>
           )}

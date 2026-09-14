@@ -111,12 +111,17 @@ Prosa tidak pernah lebih lebar dari 68ch (`.prose-measure`).
 - Kepala section: hairline penuh, nomor urut di kolom kiri, judul besar di
   sebelahnya (`SectionHeader`). Nomornya informasi, bukan eyebrow: halaman ini
   dibaca berurutan dan angka memberi tempat berpijak saat men-scroll jauh.
-- **Tentang** sengaja beda: section gelap full-bleed, potret membelah ke tepi
-  kanan, teks di kolom kiri. Tepi kiri foto dilarutkan dengan mask gradien dan
-  seluruhnya dijadikan monokrom — potret berwarna di tengah palet hijau-tinta
-  akan membawa warnanya sendiri dan memecah section. Arah: [christoph-nagel.dev](https://christoph-nagel.dev/#webentwicklung).
-  Di bawah lg foto pindah ke atas teks dengan tinggi tetap; potret setinggi layar
-  di HP berarti orang men-scroll melewati wajah sebelum sampai ke satu kata pun.
+- **Tentang** memakai `SectionHeader` yang sama persis dengan section lain —
+  kepala section tidak boleh berubah ukuran antar-section, itu yang membuat
+  halaman terbaca sebagai satu dokumen. Yang beda cuma isinya: potret membelah
+  ke tepi kanan di atas latar terang. Arah: [christoph-nagel.dev](https://christoph-nagel.dev/#webentwicklung).
+- Potret dikelas `.portrait-bleed`: hitam putih, tepi dilarutkan mask gradien.
+  Foto berwarna (kayu cokelat, dedaunan hijau) di tengah palet hijau-tinta akan
+  membawa warnanya sendiri dan memecah halaman. **Pelarutan ke arah kiri hanya
+  di lg ke atas** — diukur di 390px, foto selebar layar dengan gradien
+  kiri-ke-kanan membuat separuh kirinya jadi kabut. Fotonya juga mulai di bawah
+  garis kepala section: hairline yang memotong wajah terbaca sebagai kesalahan
+  cetak.
 
 ## Komponen
 

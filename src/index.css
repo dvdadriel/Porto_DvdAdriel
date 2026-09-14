@@ -314,3 +314,29 @@
   color: var(--color-ink);
 }
 .on-ink .section-mark { color: var(--color-on-ink); }
+
+/* ── Potret Tentang ───────────────────────────────────────────────────────
+   Hitam putih, tepinya dilarutkan supaya menyatu dengan bidang halaman.
+
+   Pelarutan ke arah kiri HANYA di layar lebar. Di HP fotonya selebar layar,
+   jadi gradien kiri-ke-kanan membuat separuh kiri gambar nyaris hilang —
+   diukur di 390px, wajahnya masih utuh tapi bidang kirinya jadi kabut. Di sana
+   cukup pelarutan atas dan bawah. */
+.portrait-bleed {
+  filter: grayscale(1) contrast(1.06);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, black 14%, black 88%, transparent);
+  mask-image: linear-gradient(to bottom, transparent, black 14%, black 88%, transparent);
+}
+
+@media (min-width: 1024px) {
+  .portrait-bleed {
+    -webkit-mask-image:
+      linear-gradient(to bottom, transparent, black 18%),
+      linear-gradient(to right, transparent, black 42%);
+    -webkit-mask-composite: source-in;
+    mask-image:
+      linear-gradient(to bottom, transparent, black 18%),
+      linear-gradient(to right, transparent, black 42%);
+    mask-composite: intersect;
+  }
+}

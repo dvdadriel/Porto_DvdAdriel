@@ -1,26 +1,35 @@
 import React from 'react'
 import { useLanguage } from '../context/LanguageContext.jsx'
+import SectionHeader from '../components/SectionHeader.jsx'
 import Accordion from '../components/Accordion.jsx'
 
 /**
- * Tentang — section gelap full-bleed, potret membelah ke tepi kanan.
+ * Tentang — latar terang seperti section lain, potret membelah ke tepi kanan.
  *
  * Fotonya bukan ilustrasi di samping teks; ia bagian dari bidangnya. Tepi
  * kirinya dilarutkan dengan mask gradien supaya tidak ada garis potong yang
- * terlihat, dan seluruhnya dijadikan monokrom: potret berwarna di tengah palet
- * hijau-tinta akan membawa warnanya sendiri dan memecah section.
+ * terlihat, dan seluruhnya dijadikan hitam putih: potret berwarna (kayu cokelat,
+ * dedaunan hijau) di tengah palet hijau-tinta akan membawa warnanya sendiri dan
+ * memecah halaman.
+ *
+ * Foto mulai di bawah garis kepala section, bukan dari tepi atas: hairline yang
+ * memotong wajah terbaca sebagai kesalahan cetak.
  *
  * Di bawah lg, foto pindah ke atas teks dengan tinggi tetap. Potret setinggi
- * layar di HP berarti orang harus men-scroll melewati wajah sebelum sampai ke
- * satu kata pun.
+ * layar di HP berarti orang men-scroll melewati wajah sebelum sampai ke satu
+ * kata pun.
  */
 export default function About() {
   const { t } = useLanguage()
 
   return (
-    <section id="about" className="on-ink relative overflow-hidden">
-      {/* Potret: menempel ke tepi kanan dan atas-bawah section di desktop. */}
-      <div className="relative h-[42vh] w-full lg:absolute lg:inset-y-0 lg:right-0 lg:h-auto lg:w-[52%]">
+    <section id="about" className="relative overflow-hidden">
+      <div className="mx-auto w-full max-w-[1600px] px-6 pt-20 sm:px-10 sm:pt-28 lg:px-14">
+        <SectionHeader mark="01" title={t.about.title} />
+      </div>
+
+      {/* Potret: menempel ke tepi kanan dan bawah section di desktop. */}
+      <div className="relative mt-10 h-[42vh] w-full lg:absolute lg:bottom-0 lg:right-0 lg:top-[13rem] lg:mt-0 lg:h-auto lg:w-[50%]">
         <img
           src="/portrait-david.jpg"
           width="533"
@@ -28,38 +37,15 @@ export default function About() {
           alt={`${t.hero.name}, ${t.hero.role}`}
           loading="lazy"
           decoding="async"
-          className="h-full w-full object-cover object-top"
-          style={{
-            filter: 'grayscale(1) contrast(1.12) brightness(0.52)',
-            WebkitMaskImage:
-              'linear-gradient(to bottom, transparent, black 22%), linear-gradient(to right, transparent, black 46%)',
-            WebkitMaskComposite: 'source-in',
-            maskImage:
-              'linear-gradient(to bottom, transparent, black 22%), linear-gradient(to right, transparent, black 46%)',
-            maskComposite: 'intersect',
-          }}
+          className="portrait-bleed h-full w-full object-cover object-top"
         />
       </div>
 
-      {/* Garis tipis pemisah kolom teks dari foto. Bukan hiasan: ia yang
-          memberi tahu mata di mana bidang teks berhenti, karena tepi fotonya
-          sengaja dilarutkan dan tidak punya batas sendiri. */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-y-24 hidden w-px lg:block"
-        style={{ left: '52%', backgroundColor: 'var(--color-rule)' }}
-      />
-
-      <div className="relative mx-auto w-full max-w-[1600px] px-6 py-20 sm:px-10 sm:py-28 lg:px-14 lg:py-36">
+      <div className="relative mx-auto w-full max-w-[1600px] px-6 pb-20 pt-12 sm:px-10 sm:pb-28 lg:px-14 lg:pb-36">
         <div className="lg:max-w-[46%]">
-          <p className="flex items-baseline gap-4 text-[0.9375rem]" style={{ color: 'var(--color-ink-soft)' }}>
-            <span className="numeric">01</span>
-            <span>{t.about.title}</span>
-          </p>
+          <h3>{t.about.headline}</h3>
 
-          <h2 className="mt-5">{t.about.headline}</h2>
-
-          <p className="prose-measure mt-8 text-[1.125rem]">{t.about.lead}</p>
+          <p className="prose-measure mt-6 text-[1.125rem]">{t.about.lead}</p>
 
           <dl className="mt-8 flex flex-wrap gap-x-10 gap-y-2 text-[0.9375rem]">
             <div className="flex gap-2">

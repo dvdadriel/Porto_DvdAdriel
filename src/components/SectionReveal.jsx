@@ -40,9 +40,10 @@ export default function SectionReveal({
   useGSAP(
     () => {
       return onMotionOK(() => {
+        const masks = gsap.utils.toArray(root.current.querySelectorAll('[data-reveal-mask]'))
         const targets = gsap.utils.toArray(root.current.querySelectorAll('[data-reveal]'))
         const rule = root.current.querySelector('[data-section-rule]')
-        if (!targets.length) return
+        if (!masks.length && !targets.length) return
 
         // immediateRender: false WAJIB di sini. Tanpa itu gsap.from() menerapkan
         // keadaan awalnya begitu tween dibuat, jadi setiap section di bawah
@@ -65,7 +66,23 @@ export default function SectionReveal({
           })
         }
 
-        tl.from(targets, { y: 18, opacity: 0, duration: 0.7, stagger }, rule ? '-=0.55' : 0)
+        // Judul section naik dari balik garis — efek yang sama dengan headline
+        // hero, jadi keduanya terbaca sebagai satu bahasa. yPercent, bukan y:
+        // persentase mengikuti tinggi barisnya sendiri, jadi nomor "01" yang
+        // kecil dan judul yang besar tetap tersembunyi penuh di titik mulai.
+        if (masks.length) {
+          tl.from(
+            masks,
+            { yPercent: 110, duration: 0.9, stagger: 0.07 },
+            rule ? '-=0.6' : 0
+          )
+        }
+
+        // Deskripsi dan isi section: fade-up. Sengaja beda dari judul — kalau
+        // semuanya naik dari balik garis, tidak ada lagi yang menonjol.
+        if (targets.length) {
+          tl.from(targets, { y: 18, opacity: 0, duration: 0.7, stagger }, '-=0.62')
+        }
       })
     },
     { scope: root, dependencies: [start, stagger] }

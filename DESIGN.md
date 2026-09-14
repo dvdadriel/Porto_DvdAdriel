@@ -155,10 +155,28 @@ Selebihnya motion **menjawab aksi**: hover, buka accordion, buka sheet.
 
 Efek masuk hidup di satu komponen, `SectionReveal`, bukan ditulis ulang di tiap
 section: itu satu-satunya cara ritmenya tetap sama. Durasi yang berbeda-beda
-antar-section terbaca sebagai halaman yang dirakit dari potongan. Elemen yang
-ikut dianimasikan ditandai `data-reveal`; garis kepala `data-section-rule`.
-Kontak memakai salinan manual dengan angka identik karena elemennya `<footer>`,
-bukan `<section>`.
+antar-section terbaca sebagai halaman yang dirakit dari potongan. Kontak memakai
+salinan manual dengan angka identik karena elemennya `<footer>`, bukan
+`<section>`.
+
+Dua efek, dan bedanya menandai hierarki:
+
+| Tanda | Efek | Dipakai untuk |
+|---|---|---|
+| `data-section-rule` | `scaleX` 0→1 dari kiri | garis kepala section |
+| `data-reveal-mask` | naik dari balik garis (`yPercent` 110→0) | nomor dan judul section |
+| `data-reveal` | fade-up (`y` 18→0 + opacity) | deskripsi dan isi section |
+
+Judul memakai efek yang sama persis dengan headline hero, jadi keduanya terbaca
+sebagai satu bahasa. Kalau semua ikut naik dari balik garis, tidak ada lagi yang
+menonjol — itu sebabnya deskripsi sengaja dibedakan.
+
+Pembungkus mask butuh **dua** span: yang luar memotong (`overflow-hidden`), yang
+dalam yang digeser. Satu elemen untuk keduanya akan memotong dirinya sendiri.
+`pb-[0.12em]` di pembungkus mencegah bawah huruf ikut terpotong — Anton
+ber-`line-height` 0.88, jadi kotak barisnya lebih pendek daripada glyph-nya.
+`yPercent`, bukan `y`: persentase mengikuti tinggi barisnya sendiri, jadi nomor
+"01" yang kecil dan judul yang besar sama-sama tersembunyi penuh di titik mulai.
 
 Aturan yang tidak boleh dilanggar:
 

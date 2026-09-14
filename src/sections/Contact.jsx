@@ -23,17 +23,21 @@ export default function Contact() {
   useGSAP(
     () => {
       return onMotionOK(() => {
-        gsap.from(root.current.querySelectorAll('[data-reveal]'), {
-          y: 18,
-          opacity: 0,
-          duration: 0.7,
-          ease: 'expo.out',
-          stagger: 0.08,
-          // Lihat catatan di SectionReveal: tanpa ini konten tersembunyi
-          // sebelum ScrollTrigger menyala.
-          immediateRender: false,
+        const tl = gsap.timeline({
+          // Lihat catatan di SectionReveal: tanpa immediateRender konten
+          // tersembunyi sebelum ScrollTrigger menyala.
+          defaults: { ease: 'expo.out', immediateRender: false },
           scrollTrigger: { trigger: root.current, start: 'top 68%', once: true },
         })
+
+        tl.from(root.current.querySelectorAll('[data-reveal-mask]'), {
+          yPercent: 110,
+          duration: 0.9,
+        }).from(
+          root.current.querySelectorAll('[data-reveal]'),
+          { y: 18, opacity: 0, duration: 0.7, stagger: 0.08 },
+          '-=0.62'
+        )
       })
     },
     { scope: root }
@@ -70,7 +74,13 @@ export default function Contact() {
     >
       <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-8">
         <div className="lg:col-span-5">
-          <h2 data-reveal>{t.contact.title}</h2>
+          <h2>
+            <span className="block overflow-hidden pb-[0.12em]">
+              <span className="block" data-reveal-mask>
+                {t.contact.title}
+              </span>
+            </span>
+          </h2>
           <p
             className="prose-measure mt-4 text-[1.0625rem]"
             data-reveal

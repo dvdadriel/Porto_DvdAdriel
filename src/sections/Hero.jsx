@@ -38,22 +38,28 @@ export default function Hero() {
   const { t } = useLanguage()
   const root = useRef(null)
 
-  // Satu momen orkestrasi saat load. gsap.from(), bukan .to() dari keadaan
-  // tersembunyi: transisi berhenti di tab background dan renderer headless,
-  // jadi visibilitas konten tidak boleh bergantung padanya.
+  // Satu momen orkestrasi saat load. Polanya sama dengan SectionReveal:
+  // fromTo(), jadi keadaan tersembunyinya milik tween dan ikut hilang kalau
+  // tween-nya hilang. Tidak ada ScrollTrigger di sini — timeline langsung
+  // jalan, jadi jeda antara "tersembunyi" dan "bergerak" cuma satu frame.
   useGSAP(
     () => {
       return onMotionOK(() => {
         const q = gsap.utils.selector(root)
+        const lines = q('[data-anim="line"]')
+        const below = q('[data-anim="below"] > *')
+        const shots = q('[data-anim="shots"]')
+
         gsap
           .timeline({ defaults: { ease: 'expo.out' } })
-          .from(q('[data-anim="line"]'), { yPercent: 105, duration: 1, stagger: 0.08 })
-          .from(
-            q('[data-anim="below"] > *'),
-            { y: 16, opacity: 0, duration: 0.6, stagger: 0.07 },
+          .fromTo(lines, { yPercent: 105 }, { yPercent: 0, duration: 1, stagger: 0.08 })
+          .fromTo(
+            below,
+            { y: 16, autoAlpha: 0 },
+            { y: 0, autoAlpha: 1, duration: 0.6, stagger: 0.07 },
             '-=0.5'
           )
-          .from(q('[data-anim="shots"]'), { opacity: 0, y: 24, duration: 0.9 }, '-=0.6')
+          .fromTo(shots, { y: 24, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.9 }, '-=0.6')
       })
     },
     { scope: root }

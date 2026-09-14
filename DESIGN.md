@@ -180,16 +180,24 @@ ber-`line-height` 0.88, jadi kotak barisnya lebih pendek daripada glyph-nya.
 
 Aturan yang tidak boleh dilanggar:
 
-- **Selalu `gsap.from()`, tidak pernah `.to()` dari keadaan tersembunyi.**
-  Transisi berhenti di tab background dan renderer headless; kalau visibilitas
-  digantungkan padanya, section terkirim kosong ke orang yang tidak akan pernah
-  tahu kenapa.
-- **`immediateRender: false` wajib pada setiap `from()` yang dipasangkan dengan
-  ScrollTrigger.** Tanpa itu GSAP menerapkan keadaan awal begitu tween dibuat,
-  jadi setiap section di bawah layar langsung ber-opacity 0 — dan aturan di atas
-  batal diam-diam. Ini terjadi sekali dan tertangkap lewat pengukuran: elemen di
-  `#stack` punya opacity 0 pada saat muat. Cek ulangnya sederhana — muat halaman,
-  lalu baca opacity elemen `[data-reveal]` di section terjauh; harus 1.
+- **Selalu `fromTo()`, tidak pernah `gsap.set()` diikuti `.to()`.** `set()`
+  memisahkan keadaan tersembunyi dari tween yang membukanya: kalau tween-nya
+  mati — di-revert, di-kill, atau komponennya dipasang ulang — `set()` tertinggal
+  dan elemennya macet tersembunyi selamanya. Terukur: versi `set()` + `to()`
+  membuat hero membeku permanen di keadaan tersembunyi saat React StrictMode
+  memasang komponen dua kali di mode dev, sementara di build produksi ia jalan
+  normal — jenis bug yang paling mudah lolos. Dengan `fromTo()` keadaan
+  tersembunyi itu milik tween; kalau tween-nya hilang, yang tersisa adalah
+  konten yang terlihat.
+- **Konten tersembunyi sampai JS berjalan, dan itu keputusan sadar.** Efeknya
+  hanya terlihat kalau elemen memang mulai dari tersembunyi. Yang menjaganya
+  tetap aman: `onMotionOK` tidak menjalankan apa pun untuk pengguna reduced
+  motion, dan tanpa JavaScript tidak ada satu pun gaya yang dipasang. Sisa
+  risikonya satu — GSAP hidup tapi ScrollTrigger gagal menyala.
+- **`autoAlpha`, bukan `opacity`.** Pada nilai 0 GSAP ikut memasang
+  `visibility: hidden`, jadi elemen yang belum muncul tidak menangkap klik dan
+  tidak dibacakan screen reader. Cek: setelah semua section dikunjungi, tidak
+  boleh ada elemen `[data-reveal]` yang masih `visibility: hidden`.
 - Garis kepala dianimasikan dengan `scaleX`, bukan `width`: `width` memicu layout
   tiap frame, `scaleX` hanya compositing.
 - **Ambang `start: 'top 68%'`, bukan 88%.** Di 88% section baru mengintip 12%

@@ -23,19 +23,20 @@ export default function Contact() {
   useGSAP(
     () => {
       return onMotionOK(() => {
+        const masks = root.current.querySelectorAll('[data-reveal-mask]')
+        const targets = root.current.querySelectorAll('[data-reveal]')
+
+        // fromTo(), bukan set() lalu to() — alasannya ada di komentar
+        // SectionReveal: keadaan tersembunyi harus menjadi milik tween.
         const tl = gsap.timeline({
-          // Lihat catatan di SectionReveal: tanpa immediateRender konten
-          // tersembunyi sebelum ScrollTrigger menyala.
-          defaults: { ease: 'expo.out', immediateRender: false },
+          defaults: { ease: 'expo.out' },
           scrollTrigger: { trigger: root.current, start: 'top 68%', once: true },
         })
 
-        tl.from(root.current.querySelectorAll('[data-reveal-mask]'), {
-          yPercent: 110,
-          duration: 0.9,
-        }).from(
-          root.current.querySelectorAll('[data-reveal]'),
-          { y: 18, opacity: 0, duration: 0.7, stagger: 0.08 },
+        tl.fromTo(masks, { yPercent: 110 }, { yPercent: 0, duration: 0.9 }).fromTo(
+          targets,
+          { y: 18, autoAlpha: 0 },
+          { y: 0, autoAlpha: 1, duration: 0.7, stagger: 0.08 },
           '-=0.62'
         )
       })

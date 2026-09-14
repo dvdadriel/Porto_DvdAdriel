@@ -1,0 +1,183 @@
+# DESIGN.md
+
+Sistem visual portofolio ini. Sumber kebenarannya `src/index.css`; dokumen ini
+menjelaskan *kenapa*, bukan menggantikan nilainya.
+
+## Arah
+
+Tipografi kondensasi berukuran besar di atas bidang kertas greige, dengan dua
+section gelap sebagai jeda. Referensi arah: [grigoletti.ch](https://grigoletti.ch/en/)
+— tegas, padat, huruf besar, tanpa ornamen.
+
+Versi sebelumnya memakai serif berkontras tinggi dengan skala kecil dan banyak
+ruang kosong. Hasilnya bukan tenang, tapi kosong: di kanvas 1440px, headline
+84px bukan peristiwa, dan konten cuma mengisi sekitar 55% lebar. Itu kesalahan
+yang tidak boleh diulang — kalau sebuah usulan membuat halaman lebih lirih,
+periksa dulu apakah ia juga membuatnya lebih kosong.
+
+## Warna
+
+OKLCH, anchor hue 168 untuk tinta. **Semua rasio di bawah diukur, bukan
+diperkirakan.** Kalau Anda mengubah satu nilai, ukur ulang.
+
+| Token | Nilai | Peran | Kontras |
+|---|---|---|---|
+| `--color-ink` | `oklch(0.22 0.03 168)` | teks utama | 13,99:1 di surface |
+| `--color-night` | `oklch(0.22 0.03 168)` | latar section gelap | — |
+| `--color-ink-soft` | `oklch(0.45 0.02 168)` | teks sekunder | 6,00:1 |
+| `--color-surface` | `oklch(0.93 0.006 150)` | latar halaman | — |
+| `--color-surface-raised` | `oklch(0.97 0.004 150)` | bidang terangkat | — |
+| `--color-rule` | `oklch(0.78 0.01 150)` | hairline | 1,63:1 — sengaja lirih |
+| `--color-signal` | `oklch(0.44 0.12 150)` | caveat di terang | 5,99:1 |
+| `--color-signal-on-ink` | `oklch(0.76 0.13 150)` | caveat di gelap | 8,41:1 |
+| `--color-verified` | `oklch(0.48 0.09 168)` | penanda terverifikasi | 5,01:1 |
+| `--color-on-ink` | `oklch(0.96 0.008 168)` | teks di gelap | 15,32:1 |
+| `--color-on-ink-soft` | `oklch(0.74 0.015 168)` | sekunder di gelap | 7,49:1 |
+
+Tiga hal yang gampang salah kalau tidak tahu alasannya:
+
+1. **`--color-night` nilainya sama dengan `--color-ink` tapi bukan duplikat.**
+   Di dalam `.on-ink`, `--color-ink` **ditukar** jadi warna terang. Latar yang
+   membaca `--color-ink` akan ikut jadi terang dan seluruh section memudar. Itu
+   pernah terjadi. Latar gelap selalu pakai `--color-night`.
+
+2. **`--color-signal` punya dua varian** karena satu nilai tidak pernah lolos
+   4,5:1 di latar terang *dan* gelap sekaligus. Hue 150 memisahkannya dari
+   `--color-verified` di 168, jadi "terukur" dan "belum terbukti" tidak jadi
+   warna yang sama.
+
+3. **Caveat hijau, bukan amber.** Amber membaca sebagai error sistem; batasan di
+   sini bukan error, melainkan bagian dari catatan.
+
+### Section gelap
+
+`.on-ink` menukar palet lewat custom property, bukan daftar override per elemen:
+
+```css
+.on-ink {
+  background-color: var(--color-night);
+  --color-ink:      var(--color-on-ink);
+  --color-ink-soft: var(--color-on-ink-soft);
+  --color-rule:     var(--color-rule-on-ink);
+  --color-signal:   var(--color-signal-on-ink);
+  --color-surface:  var(--color-night);
+}
+```
+
+Komponen menulis warnanya sebagai `var(--color-ink-soft)` di mana pun ia dipakai,
+dan ikut benar di kedua konteks tanpa tahu ia sedang di mana.
+
+Dipakai di: **Pengalaman** (dengan video ambient) dan **Stack** (warna saja).
+
+## Tipografi
+
+| Peran | Typeface | Catatan |
+|---|---|---|
+| Display, judul, tombol, angka | **Anton** (Google, OFL, self-host, subset latin, 12 KB) | satu weight, huruf besar, digambar untuk dipakai besar dan rapat |
+| Teks, label | **Switzer** (Fontshare, 400/500/700) | grotesk netral |
+
+Tidak ada monospace. Label kecil ber-monospace adalah tell, dan masalah yang
+biasanya dipakai untuk menyelesaikannya — perataan angka — sudah diselesaikan
+`font-variant-numeric: tabular-nums lining-nums` di kelas `.numeric`.
+
+`text-transform: uppercase` dipasang di aturan `h1,h2,h3`, bukan per komponen:
+huruf besar adalah bagian dari bentuk Anton, bukan keputusan per-tempat.
+
+Skala:
+
+```
+display  clamp(3rem, 9.5vw, 8.5rem)     line-height 0.88
+h2       clamp(2.25rem, 5.5vw, 4.5rem)
+h3       clamp(1.5rem, 2.4vw, 2rem)
+body     1.125rem                        line-height 1.65
+metric   clamp(2.25rem, 4vw, 3.25rem)
+caption  0.9375rem
+```
+
+Prosa tidak pernah lebih lebar dari 68ch (`.prose-measure`).
+
+## Layout
+
+- Container `max-w-[1600px]`, padding `px-6 / sm:px-10 / lg:px-14`.
+- Grid 12 kolom. Pola tetap: **klaim di kolom 1–7, bukti di kolom 9–12**, tidak
+  pernah bercampur. Pemisahan itu sendiri yang mengatakan "yang ini pendapat
+  saya, yang itu angkanya".
+- Section dipisah hairline, bukan dikemas jadi kartu. Alasan praktis di luar
+  estetika: daftar berhairline tidak peduli isinya empat atau tujuh, sementara
+  grid 2×2 pecah begitu jumlahnya ganjil — project kelima sudah di jalan.
+- Kepala section: hairline penuh, nomor urut di kolom kiri, judul besar di
+  sebelahnya (`SectionHeader`). Nomornya informasi, bukan eyebrow: halaman ini
+  dibaca berurutan dan angka memberi tempat berpijak saat men-scroll jauh.
+- **Tentang** sengaja beda: satu poros tengah, bukan dua kolom. Isinya cuma foto
+  dan dua blok prosa; dibagi dua kolom, satu sisi pasti kosong.
+
+## Komponen
+
+| Komponen | Catatan |
+|---|---|
+| `Accordion` | Di atas `<details>`/`<summary>` native — keyboard, ARIA, Ctrl+F yang membuka panel tertutup, dan isinya tetap ada tanpa JS. Atribut `name` membuat satu grup saling menutup. |
+| `Record` | Satu project, terlipat. Terbuka semua berarti empat dinding teks sebelum sampai ke yang dicari. |
+| `Metric` | `<dt>`/`<dd>` di dalam `<dl>` pemanggil. `note` bukan hiasan: itu yang membedakan angka yang bisa diperiksa dari angka yang cuma diklaim. |
+| `Caveat` | Border penuh warna signal. Bukan garis tebal di satu sisi — aksen samping adalah dekorasi yang menyamar jadi struktur. |
+| `ShowcaseCarousel` | Crossfade + skala, bukan geser: semua slide seukuran dan mirip, gerakan menyamping hanya membuat mata mengejar sesuatu yang tidak berubah. Titiknya tombol sungguhan. |
+| `AmbientBackdrop` | Poster **selalu** jadi background CSS, video menumpuk di atasnya. Section tidak pernah kosong kalau video gagal. |
+| `TopNav` | Pill bergaris, **statis bukan fixed**. Halaman berganti terang/gelap; nav melayang akan jadi blok gelap di atas section gelap. |
+
+Tombol: `.btn` + `.btn-solid` / `.btn-outline`. Border 1,5px, sudut tidak
+membulat, tanpa shadow. Bayangan lembut di bawah setiap elemen adalah kosakata
+kartu SaaS, dan ini bukan dashboard.
+
+## Motion
+
+Satu momen orkestrasi saat load (hero: baris headline naik, lalu isi di
+bawahnya, lalu carousel). Selebihnya motion **menjawab aksi**: hover, buka
+accordion, buka sheet.
+
+Aturan yang tidak boleh dilanggar:
+
+- **Selalu `gsap.from()`, tidak pernah `.to()` dari keadaan tersembunyi.**
+  Transisi berhenti di tab background dan renderer headless; kalau visibilitas
+  digantungkan padanya, section terkirim kosong ke orang yang tidak akan pernah
+  tahu kenapa.
+- Semua animasi lewat `onMotionOK()` di `src/lib/motion.js`.
+- Carousel berhenti berputar total pada `prefers-reduced-motion`, bukan
+  melambat. Rotasi otomatis adalah gerak yang tidak diminta siapa pun.
+- Tidak ada: reveal fade-up per section, parallax, scroll-jacking, kursor
+  kustom, counter angka naik dari nol.
+
+## Aturan mobile
+
+Diuji di 320px dan 390px setiap kali ada perubahan layout.
+
+- Nol overflow horizontal. `documentElement.scrollWidth === window.innerWidth`.
+- Target sentuh ≥ 44px (dipasang lewat `@media (pointer: coarse)`).
+- `100dvh`, bukan `100vh`. `env(safe-area-inset-bottom)` pada bar bawah.
+- Nav jadi bar bawah di zona ibu jari; index pakai `<dialog>` native — punya
+  `::backdrop`, tutup dengan Escape, kunci fokus, dan hidup di top layer, jadi
+  tidak bisa terpotong `overflow:hidden` container mana pun (cara paling umum
+  menu mobile rusak tanpa ketahuan).
+- **Aset berat tidak dirender, bukan disembunyikan.** `<video autoplay>` dan
+  `<img>` tetap diunduh walau `display:none` — diukur, sembilan pratinjau brand
+  (216 KB) terunduh di HP untuk hover yang tidak mungkin terjadi. Keduanya kini
+  dipagari `matchMedia` di JS, bukan CSS.
+
+## Sebelum merge
+
+1. Ukur ulang kontras kalau ada warna yang berubah. **`getComputedStyle`
+   mengembalikan `oklch()` mentah di Chrome modern**; perhitungan naif di atasnya
+   menghasilkan angka palsu (pernah melaporkan 205 kegagalan yang tidak ada).
+   Konversi warnanya lewat canvas dulu.
+2. Uji 320px dan 390px: overflow, target sentuh, kata terpanjang di headline.
+3. Cek halaman dengan JavaScript mati — `<noscript>` harus tetap memuat siapa,
+   apa, dan cara menghubungi.
+4. Focus ring terlihat di setiap elemen interaktif, di latar terang dan gelap.
+
+## Yang ditolak dengan sadar
+
+Krem/sand sebagai latar; aksen terracotta; eyebrow all-caps di atas setiap
+heading; grid kartu identik dengan radius dan shadow seragam; gradient text;
+glassmorphism; WebGL/Three.js (kepribadian pinjaman untuk portofolio backend,
+dan ~150 KB JS di situs yang klaimnya justru performa); monospace untuk label
+kecil; panah `↗` sebagai karakter di dalam teks tombol (dirender SVG terpisah
+ber-`aria-hidden`, supaya tidak ikut terbaca screen reader dan tidak ikut
+ter-copy).

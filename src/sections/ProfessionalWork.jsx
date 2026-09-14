@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useLanguage } from '../context/LanguageContext.jsx'
 import { work } from '../data/work.js'
 import SectionHeader from '../components/SectionHeader.jsx'
@@ -18,10 +18,29 @@ import AmbientBackdrop from '../components/AmbientBackdrop.jsx'
 export default function ProfessionalWork() {
   const { t } = useLanguage()
   const clients = work[0].clients
+  const [hovered, setHovered] = useState(null)
+
+  // Pratinjau hanya dirender di layar lebar, dan ini bukan sekadar
+  // menyembunyikan lewat CSS: diukur, sembilan gambar (216 KB) tetap terunduh di
+  // HP walau kotaknya display:none. Perangkat sentuh tidak punya hover, jadi
+  // itu 216 KB untuk sesuatu yang tidak mungkin dipicu.
+  const [showPreview, setShowPreview] = useState(false)
+  useEffect(() => {
+    const wide = window.matchMedia('(min-width: 1024px)')
+    const hover = window.matchMedia('(hover: hover)')
+    const decide = () => setShowPreview(wide.matches && hover.matches)
+    decide()
+    wide.addEventListener('change', decide)
+    hover.addEventListener('change', decide)
+    return () => {
+      wide.removeEventListener('change', decide)
+      hover.removeEventListener('change', decide)
+    }
+  }, [])
 
   return (
     <section id="work" className="on-ink relative overflow-hidden">
-      <AmbientBackdrop />
+      <AmbientBackdrop video="/media/bg-fibers.webm" poster="/media/bg-fibers-poster.webp" />
       <div className="relative mx-auto w-full max-w-[1600px] px-6 py-24 sm:px-10 sm:py-32 lg:px-14">
       <SectionHeader mark="02" title={t.work.title} />
 
@@ -64,18 +83,60 @@ export default function ProfessionalWork() {
             {t.work.sitesTitle}
           </h4>
 
-          <ul className="mt-4">
+          {/* Pratinjau muncul di satu slot tetap di atas daftar, bukan melayang
+              mengikuti kursor: posisi tetap bisa dibaca mata tanpa mengejar, dan
+              tidak pernah keluar layar. */}
+          {showPreview && (
+          <div
+            className="relative mt-4 w-full"
+            style={{ aspectRatio: '16 / 10', border: '1.5px solid var(--color-rule)' }}
+            aria-hidden="true"
+          >
+            {clients.map((c) => (
+              <img
+                key={c.slug}
+                src={`/brands/${c.slug}.webp`}
+                width="640"
+                height="400"
+                alt=""
+                loading="lazy"
+                decoding="async"
+                className="absolute inset-0 h-full w-full object-cover object-top"
+                style={{
+                  opacity: hovered === c.slug ? 1 : 0,
+                  transform: hovered === c.slug ? 'scale(1)' : 'scale(1.04)',
+                  transition:
+                    'opacity 420ms var(--ease-out-quart), transform 700ms var(--ease-out-expo)',
+                }}
+              />
+            ))}
+            {!hovered && (
+              <p
+                className="absolute inset-0 flex items-center justify-center text-[0.9375rem]"
+                style={{ color: 'var(--color-ink-soft)' }}
+              >
+                {t.work.previewHint}
+              </p>
+            )}
+          </div>
+          )}
+
+          <ul className="mt-6">
             {clients.map((c) => (
               <li key={c.brand}>
                 <a
                   href={c.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group rule-t flex items-baseline justify-between gap-4 py-3 transition-colors duration-200"
+                  onMouseEnter={() => setHovered(c.slug)}
+                  onFocus={() => setHovered(c.slug)}
+                  onMouseLeave={() => setHovered(null)}
+                  onBlur={() => setHovered(null)}
+                  className="group rule-t flex items-baseline justify-between gap-4 py-3"
                 >
                   <span className="text-[1rem]">{c.brand}</span>
-                  {/* Domain bergeser saat hover — satu-satunya gerak di daftar
-                      ini, dan dia menjawab aksi, bukan menyambut scroll. */}
+                  {/* Domain bergeser saat hover — gerak yang menjawab aksi,
+                      bukan menyambut scroll. */}
                   <span
                     className="text-[0.875rem] transition-transform duration-200 ease-out group-hover:translate-x-1"
                     style={{ color: 'var(--color-ink-soft)' }}

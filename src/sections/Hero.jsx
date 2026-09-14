@@ -2,15 +2,38 @@ import React, { useRef } from 'react'
 import { useGSAP } from '@gsap/react'
 import { useLanguage } from '../context/LanguageContext.jsx'
 import { gsap, onMotionOK } from '../lib/motion.js'
+import ShowcaseCarousel from '../components/ShowcaseCarousel.jsx'
 
 /**
- * Hero: satu pernyataan sebesar mungkin, lalu buktinya.
+ * Hero: satu pernyataan sebesar mungkin, dan aplikasi yang sedang berjalan.
  *
- * Versi sebelumnya membuka dengan angka berukuran sedang di tengah bidang
- * gelap dan hasilnya kosong, bukan tenang. Yang diperbaiki di sini bukan
- * konsepnya — klaim tetap harus dibayar bukti — tapi skalanya: headline
- * mengisi lebar penuh, dan angka turun jadi catatan kaki yang mendukungnya.
+ * Tangkapan layarnya diambil dari domain yang hidup, bukan dari arsip lama —
+ * itu sebabnya isinya bisa berubah dari waktu ke waktu, dan memang harus.
  */
+
+const SHOTS = [
+  {
+    src: '/shots/live-idx.webp',
+    srcSet: '/shots/live-idx-720.webp 720w, /shots/live-idx.webp 1440w',
+    alt: 'Dashboard IdxScreener menampilkan status regime, ringkasan momentum, dan paper trading.',
+  },
+  {
+    src: '/shots/live-news.webp',
+    srcSet: '/shots/live-news-720.webp 720w, /shots/live-news.webp 1440w',
+    alt: 'Dashboard News Update menampilkan jadwal transmisi Telegram dan digest terakhir.',
+  },
+  {
+    src: '/shots/live-idx2.webp',
+    srcSet: '/shots/live-idx2-720.webp 720w, /shots/live-idx2.webp 1440w',
+    alt: 'IdxScreener: panel paper trading dengan win rate, profit factor, dan max drawdown.',
+  },
+  {
+    src: '/shots/live-news2.webp',
+    srcSet: '/shots/live-news2-720.webp 720w, /shots/live-news2.webp 1440w',
+    alt: 'News Update: daftar berita per kategori hasil ringkasan model AI.',
+  },
+]
+
 export default function Hero() {
   const { t } = useLanguage()
   const root = useRef(null)
@@ -25,7 +48,12 @@ export default function Hero() {
         gsap
           .timeline({ defaults: { ease: 'expo.out' } })
           .from(q('[data-anim="line"]'), { yPercent: 105, duration: 1, stagger: 0.08 })
-          .from(q('[data-anim="below"] > *'), { y: 16, opacity: 0, duration: 0.6, stagger: 0.07 }, '-=0.5')
+          .from(
+            q('[data-anim="below"] > *'),
+            { y: 16, opacity: 0, duration: 0.6, stagger: 0.07 },
+            '-=0.5'
+          )
+          .from(q('[data-anim="shots"]'), { opacity: 0, y: 24, duration: 0.9 }, '-=0.6')
       })
     },
     { scope: root }
@@ -35,7 +63,7 @@ export default function Hero() {
     <section
       id="hero"
       ref={root}
-      className="mx-auto w-full max-w-[1600px] px-6 pb-16 pt-16 sm:px-10 sm:pb-20 sm:pt-20 lg:px-14 lg:pt-10"
+      className="mx-auto w-full max-w-[1600px] px-6 pb-24 pt-16 sm:px-10 sm:pb-28 sm:pt-20 lg:px-14 lg:pt-10"
     >
       {/* overflow-hidden per baris supaya animasi masuknya terpotong rapi di
           batas baris, bukan melayang dari luar layar. */}
@@ -49,7 +77,7 @@ export default function Hero() {
         ))}
       </h1>
 
-      <div className="mt-12 grid grid-cols-1 gap-12 lg:mt-16 lg:grid-cols-12 lg:gap-10">
+      <div className="mt-12 grid grid-cols-1 gap-14 lg:mt-16 lg:grid-cols-12 lg:gap-10">
         <div data-anim="below" className="lg:col-span-5">
           <p className="prose-measure">{t.hero.thesis}</p>
 
@@ -61,55 +89,12 @@ export default function Hero() {
               {t.hero.contactBtn}
             </a>
           </div>
-
-          {/* Angka turun ke sini: ia sekarang bukti yang mendukung klaim di
-              atas, bukan pembuka yang harus ditebak maksudnya. */}
-          <dl className="rule-t mt-12 pt-5">
-            <dt className="text-[0.9375rem]" style={{ color: 'var(--color-ink-soft)' }}>
-              {t.hero.source}
-            </dt>
-            <dd
-              className="numeric mt-2 leading-none"
-              style={{ fontSize: 'var(--text-metric)', fontFamily: 'var(--font-display)' }}
-            >
-              {t.hero.metric}
-            </dd>
-            <dd className="mt-1 text-[0.9375rem]" style={{ color: 'var(--color-ink-soft)' }}>
-              {t.hero.metricLabel}
-            </dd>
-            <dd className="mt-4 text-[0.9375rem] leading-relaxed" style={{ color: 'var(--color-signal)' }}>
-              {t.hero.caveat}
-            </dd>
-          </dl>
         </div>
 
-        {/* Bukti visual: dua aplikasi yang benar-benar jalan, ditumpuk
-            bertingkat. Bukan mockup laptop — hanya layarnya. */}
-        <div className="lg:col-span-6 lg:col-start-7">
-          <div className="flex flex-col gap-5 sm:flex-row sm:items-start">
-            <img
-              src="/shots/idx-screener.png"
-              width="1918"
-              height="963"
-              alt="Dashboard IdxScreener: hasil backtest 730 hari, alpha +24,65% terhadap IHSG, profit factor 0,784."
-              loading="eager"
-              decoding="async"
-              className="w-full sm:w-[62%]"
-              style={{ border: '1.5px solid var(--color-ink)' }}
-            />
-            <img
-              src="/shots/news-update-1472.webp"
-              srcSet="/shots/news-update-736.webp 736w, /shots/news-update-1472.webp 1472w"
-              sizes="(max-width: 640px) 100vw, 38vw"
-              width="1472"
-              height="920"
-              alt="Dashboard News Update: jadwal transmisi 06.00, 12.00, dan 18.00 WIB dengan riwayat tujuh hari."
-              loading="lazy"
-              decoding="async"
-              className="w-full sm:mt-16 sm:w-[38%]"
-              style={{ border: '1.5px solid var(--color-ink)' }}
-            />
-          </div>
+        {/* Kolom kanan sengaja lebih rendah dari kolom kiri di desktop:
+            carousel duduk di kanan bawah, bukan sejajar teks. */}
+        <div data-anim="shots" className="lg:col-span-6 lg:col-start-7 lg:mt-10">
+          <ShowcaseCarousel items={SHOTS} />
         </div>
       </div>
     </section>

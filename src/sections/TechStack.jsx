@@ -13,10 +13,8 @@ export default function TechStack() {
   const { t } = useLanguage()
 
   return (
-    <section
-      id="stack"
-      className="mx-auto w-full max-w-[1600px] px-6 py-20 sm:px-10 sm:py-28 lg:px-14"
-    >
+    <section id="stack" className="on-ink">
+      <div className="mx-auto w-full max-w-[1600px] px-6 py-24 sm:px-10 sm:py-32 lg:px-14">
       <SectionHeader mark="04" title={t.stack.title}>
         <p>{t.stack.subtitle}</p>
       </SectionHeader>
@@ -54,7 +52,8 @@ export default function TechStack() {
           </div>
         ))}
       </dl>
-      <div className="rule-t" />
+        <div className="rule-t" />
+      </div>
     </section>
   )
 }

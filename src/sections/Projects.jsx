@@ -20,19 +20,18 @@ import SectionHeader from '../components/SectionHeader.jsx'
  */
 const shots = {
   'idx-screener': {
-    src: '/shots/idx-screener.png',
-    width: 1918,
-    height: 963,
-    alt:
-      'Dashboard IdxScreener menampilkan hasil backtest dengan alpha +24,65% terhadap IHSG dan profit factor 0,784.',
+    src: '/shots/live-idx.webp',
+    srcSet: '/shots/live-idx-720.webp 720w, /shots/live-idx.webp 1440w',
+    width: 1440,
+    height: 900,
+    alt: 'Dashboard IdxScreener: status regime, ringkasan momentum, dan panel paper trading.',
   },
   'news-update': {
-    src: '/shots/news-update-1472.webp',
-    srcSet: '/shots/news-update-736.webp 736w, /shots/news-update-1472.webp 1472w',
-    width: 1472,
-    height: 920,
-    alt:
-      'Dashboard News Update menampilkan jadwal transmisi 06.00, 12.00, dan 18.00 WIB, riwayat tujuh hari, dan 21 berita pada digest terakhir.',
+    src: '/shots/live-news.webp',
+    srcSet: '/shots/live-news-720.webp 720w, /shots/live-news.webp 1440w',
+    width: 1440,
+    height: 900,
+    alt: 'Dashboard News Update: jadwal transmisi Telegram dan digest berita terakhir.',
   },
 }
 
@@ -71,10 +70,11 @@ export default function Projects() {
               caveatTitle={t.projects.caveatTitle}
               links={links}
               shot={shots[item.slug]}
-              priority={i === 0}
+              defaultOpen={i === 0}
             />
           )
         })}
+        <div className="rule-t" />
       </div>
     </section>
   )

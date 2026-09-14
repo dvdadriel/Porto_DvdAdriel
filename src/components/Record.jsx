@@ -1,6 +1,7 @@
 import React from 'react'
 import Metric from './Metric.jsx'
 import Caveat from './Caveat.jsx'
+import Accordion from './Accordion.jsx'
 
 /** Panah "keluar situs" sebagai ikon, bukan karakter ↗ yang ditempel di teks.
     Ditempel di teks, ia ikut terbaca screen reader dan ikut ter-copy. */
@@ -20,14 +21,15 @@ function ExternalMark() {
 }
 
 /**
- * Satu entri buku besar.
+ * Satu entri buku besar, terlipat.
  *
- * Klaim di kiri, bukti di kanan, dan kolomnya tidak pernah bercampur — pemisahan
- * itu sendiri yang mengatakan "yang ini pendapat saya, yang itu angkanya".
+ * Empat project terbuka sekaligus berarti empat dinding teks yang harus
+ * di-scroll sebelum sampai ke yang dicari. Terlipat, judul dan stack-nya cukup
+ * untuk memilih, lalu isinya dibuka kalau memang mau dibaca.
  *
- * Dipisah hairline, bukan dikemas jadi kartu. Ada alasan praktis di luar
- * estetika: daftar berhairline tidak peduli isinya empat atau tujuh, sementara
- * grid 2x2 pecah begitu jumlahnya ganjil — dan project kelima sudah di jalan.
+ * Di dalam panel: klaim di kiri, bukti di kanan, dan kolomnya tidak pernah
+ * bercampur — pemisahan itu sendiri yang mengatakan "yang ini pendapat saya,
+ * yang itu angkanya".
  */
 export default function Record({
   name,
@@ -40,43 +42,23 @@ export default function Record({
   caveatTitle,
   links,
   shot,
-  priority = false,
+  defaultOpen = false,
 }) {
   const stack = kicker.split('·').map((s) => s.trim())
 
   return (
-    <article className="rule-t py-14 sm:py-20">
+    <Accordion name="project" summary={name} meta={stack.join('  ·  ')} defaultOpen={defaultOpen}>
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-8">
         {/* Klaim */}
         <div className="lg:col-span-7">
-          <h3 style={{ fontSize: 'var(--text-h2)' }}>{name}</h3>
+          <p className="prose-measure">{summary}</p>
 
-          {/* Stack dirender sebagai item terpisah, bukan satu string yang
-              disambung titik tengah: yang ini bisa dibaca sebagai daftar. */}
-          <ul className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1">
-            {stack.map((item, i) => (
-              <li
-                key={item}
-                className="text-[0.875rem]"
-                style={{
-                  color: 'var(--color-ink-soft)',
-                  paddingLeft: i === 0 ? 0 : '0.75rem',
-                  borderLeft: i === 0 ? 'none' : '1px solid var(--color-rule)',
-                }}
-              >
-                {item}
-              </li>
-            ))}
-          </ul>
-
-          <p className="prose-measure mt-6">{summary}</p>
-
-          <h4 className="mt-9 text-[0.875rem] font-medium" style={{ color: 'var(--color-ink-soft)' }}>
+          <h4 className="mt-8 text-[0.9375rem] font-medium" style={{ color: 'var(--color-ink-soft)' }}>
             {highlightsTitle}
           </h4>
           <ul className="prose-measure mt-3 space-y-2">
             {highlights.map((h) => (
-              <li key={h} className="flex text-[0.9375rem]">
+              <li key={h} className="flex text-[1rem]">
                 {/* Penanda daftar dipakai --color-ink-soft, bukan --color-rule:
                     diukur, versi hairline-nya cuma 1,44:1 dan praktis hilang di
                     layar terang. Hairline benar untuk garis, salah untuk tanda. */}
@@ -88,15 +70,14 @@ export default function Record({
             ))}
           </ul>
 
-          <div className="mt-8 flex flex-wrap gap-x-6 gap-y-3">
-            {links.map((l) => (
+          <div className="mt-8 flex flex-wrap gap-3">
+            {links.map((l, i) => (
               <a
                 key={l.href}
                 href={l.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center text-[0.9375rem] font-medium underline decoration-1 underline-offset-4 transition-colors duration-200"
-                style={{ textDecorationColor: 'var(--color-rule)' }}
+                className={i === 0 ? 'btn btn-solid' : 'btn btn-outline'}
               >
                 {l.label}
                 <ExternalMark />
@@ -127,12 +108,12 @@ export default function Record({
           width={shot.width}
           height={shot.height}
           alt={shot.alt}
-          loading={priority ? 'eager' : 'lazy'}
+          loading="lazy"
           decoding="async"
-          className="mt-12 w-full"
-          style={{ border: '1px solid var(--color-rule)' }}
+          className="mt-10 w-full"
+          style={{ border: '1.5px solid var(--color-ink)' }}
         />
       )}
-    </article>
+    </Accordion>
   )
 }

@@ -12,16 +12,21 @@ export const work = [
     ],
     // Tautan ke situs publik. Kode-nya milik perusahaan dan TIDAK dipublikasikan
     // — itu batas yang membedakan "menampilkan pekerjaan" dari "membocorkan aset".
+    //
+    // `slug` menunjuk tangkapan layar di /brands, dipakai sebagai pratinjau saat
+    // hover. Diambil sendiri, bukan dari og:image: dua dari sembilan situs tidak
+    // punya tag itu dan satu menunjuk domain staging, jadi og:image menghasilkan
+    // sembilan gambar yang ukurannya tidak seragam.
     clients: [
-      { brand: 'Massindo',     url: 'https://massindo.com' },
-      { brand: 'Sleep Center', url: 'https://sleepcenter.co.id' },
-      { brand: 'Sleep Spa',    url: 'https://sleepspatech.com' },
-      { brand: 'Spring Air',   url: 'https://springair.co.id' },
-      { brand: 'Therapedic',   url: 'https://therapedic.co.id' },
-      { brand: 'Comforta',     url: 'https://comforta.co.id' },
-      { brand: 'iSleep',       url: 'https://isleep.co.id' },
-      { brand: 'Purefoam',     url: 'https://purefoam.co.id' },
-      { brand: 'Dr. Rest',     url: 'https://drrest.co.id' },
+      { slug: 'massindo', brand: 'Massindo',     url: 'https://massindo.com' },
+      { slug: 'sleepcenter', brand: 'Sleep Center', url: 'https://sleepcenter.co.id' },
+      { slug: 'sleepspa', brand: 'Sleep Spa',    url: 'https://sleepspatech.com' },
+      { slug: 'springair', brand: 'Spring Air',   url: 'https://springair.co.id' },
+      { slug: 'therapedic', brand: 'Therapedic',   url: 'https://therapedic.co.id' },
+      { slug: 'comforta', brand: 'Comforta',     url: 'https://comforta.co.id' },
+      { slug: 'isleep', brand: 'iSleep',       url: 'https://isleep.co.id' },
+      { slug: 'purefoam', brand: 'Purefoam',     url: 'https://purefoam.co.id' },
+      { slug: 'drrest', brand: 'Dr. Rest',     url: 'https://drrest.co.id' },
     ],
     note:
       'Kode milik perusahaan, jadi tidak dipublikasikan. Tautan menuju situs publiknya.',

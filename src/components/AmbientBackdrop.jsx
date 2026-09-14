@@ -13,7 +13,7 @@ import React, { useEffect, useState } from 'react'
  * autoplay tetap mengunduh isinya walau tidak terlihat — jadi menyembunyikannya
  * lewat CSS akan tetap menagih 79 KB ke orang yang justru sedang menghemat.
  */
-export default function AmbientBackdrop() {
+export default function AmbientBackdrop({ video, poster }) {
   const [playVideo, setPlayVideo] = useState(false)
 
   useEffect(() => {
@@ -36,7 +36,7 @@ export default function AmbientBackdrop() {
     <div
       aria-hidden="true"
       className="pointer-events-none absolute inset-0 overflow-hidden bg-cover bg-center"
-      style={{ backgroundImage: 'url(/media/bg-ledger-poster.webp)' }}
+      style={{ backgroundImage: `url(${poster})` }}
     >
       {playVideo && (
         <video
@@ -45,9 +45,9 @@ export default function AmbientBackdrop() {
           muted
           loop
           playsInline
-          poster="/media/bg-ledger-poster.webp"
+          poster={poster}
         >
-          <source src="/media/bg-ledger.webm" type="video/webm" />
+          <source src={video} type="video/webm" />
         </video>
       )}
 

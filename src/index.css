@@ -54,15 +54,17 @@
   --color-rule:           oklch(0.78 0.01  150);  /* hairline. 1.45:1 — sengaja
                              lirih, dan memang bukan teks. Kalau sebuah pemisah
                              perlu TERBACA, ia bukan hairline; pakai label. */
-  --color-verified:       oklch(0.52 0.09  168);  /* penanda metrik — 4.83:1 */
+  --color-verified:       oklch(0.48 0.09  168);  /* penanda metrik — 5.01:1 */
 
-  /* --color-signal: HANYA untuk caveat/batasan. Dua varian, dan ini bukan
-     token berlebih: amber tidak punya satu nilai pun yang lolos 4.5:1 di latar
-     terang DAN gelap sekaligus (puncaknya 4.09/3.87 — keduanya gagal). Dipaksa
-     satu token, teks caveat jadi tidak terbaca di salah satu section. Diukur,
-     bukan dikira. */
-  --color-signal:         oklch(0.52 0.12  62);   /* di surface — 5.24:1 */
-  --color-signal-on-ink:  oklch(0.74 0.12  62);   /* di ink     — 7.24:1 */
+  /* --color-signal: HANYA untuk caveat/batasan. Hijau, bukan amber — amber
+     membaca sebagai peringatan sistem, dan batasan di sini bukan error: itu
+     bagian dari catatan.
+
+     Dua varian karena satu nilai tidak pernah lolos 4.5:1 di latar terang DAN
+     gelap sekaligus. Hue 150 memisahkannya dari --color-verified di 168, jadi
+     "terukur" dan "belum terbukti" tidak jadi warna yang sama. */
+  --color-signal:         oklch(0.44 0.12 150);   /* di surface — 5.99:1 */
+  --color-signal-on-ink:  oklch(0.76 0.13 150);   /* di night   — 8.41:1 */
 
   /* Di atas --color-ink (section gelap) */
   --color-on-ink:         oklch(0.96 0.008 168);  /* 15.32:1 */

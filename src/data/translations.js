@@ -17,14 +17,10 @@ export const translations = {
     // 0.784 adalah angka yang sama yang dibaca salah oleh separuh pembaca
     // kalau dipaksa satu bentuk.
     hero: {
-      headline: ['Saya bangun sistem yang', 'angkanya bisa diperiksa'],
-      source: 'Dari IdxScreener, backtest 730 hari',
-      metric: '+24,65%',
-      metricLabel: 'alpha terhadap IHSG',
-      caveat: 'Profit factor 0,784. Kerugiannya melebihi keuntungan: sistemnya jalan, strateginya belum terbukti.',
+      headline: ['Suka bikin aplikasi,', 'bahkan di waktu luang'],
       name: 'David Adriel Alvyn',
       role: 'Fullstack Developer, Jakarta',
-      thesis: 'Fullstack developer di Jakarta. Go, Rails, Laravel, React. Setiap project di sini datang lengkap dengan metriknya, dan dengan batasannya.',
+      thesis: 'Web dan mobile — Rails, Laravel, Go, React. Semua dipelajari dan dicoba, banyak eksperimen, biar keren.',
       projectsBtn: 'Lihat project',
       contactBtn: 'Hubungi saya',
     },
@@ -44,6 +40,7 @@ export const translations = {
         'Deployment, pemeliharaan database & konfigurasi server',
       ],
       sitesTitle: 'Sembilan situs yang sedang berjalan',
+      previewHint: 'Arahkan kursor untuk melihat situsnya',
       note: 'Kode sumber milik perusahaan (work-for-hire). Tautan di atas mengarah langsung ke domain publik yang sedang aktif.',
     },
     projects: {
@@ -211,14 +208,10 @@ export const translations = {
       contact: 'Contact',
     },
     hero: {
-      headline: ['I build systems whose', 'numbers you can check'],
-      source: 'From IdxScreener, a 730-day backtest',
-      metric: '+24.65%',
-      metricLabel: 'alpha against the IHSG index',
-      caveat: 'Profit factor 0.784. Losses outweigh gains: the system runs, the strategy has not proven itself.',
+      headline: ['I like building apps,', 'even on days off'],
       name: 'David Adriel Alvyn',
       role: 'Fullstack Developer, Jakarta',
-      thesis: 'Fullstack developer in Jakarta. Go, Rails, Laravel, React. Every project here ships with its metrics, and with its limits.',
+      thesis: 'Web and mobile — Rails, Laravel, Go, React. All of it learned by building, plenty of experiments, mostly because it looks cool.',
       projectsBtn: 'See projects',
       contactBtn: 'Get in touch',
     },
@@ -238,6 +231,7 @@ export const translations = {
         'Deployment, database maintenance & server configuration',
       ],
       sitesTitle: 'Nine sites currently running',
+      previewHint: 'Hover a name to see the site',
       note: 'Proprietary company code (work-for-hire). Links above point directly to live public websites.',
     },
     projects: {

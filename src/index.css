@@ -318,18 +318,26 @@
 /* ── Potret Tentang ───────────────────────────────────────────────────────
    Hitam putih, tepinya dilarutkan supaya menyatu dengan bidang halaman.
 
-   Pelarutan ke arah kiri HANYA di layar lebar. Di HP fotonya selebar layar,
-   jadi gradien kiri-ke-kanan membuat separuh kiri gambar nyaris hilang —
-   diukur di 390px, wajahnya masih utuh tapi bidang kirinya jadi kabut. Di sana
-   cukup pelarutan atas dan bawah. */
+   DUA hal di sini berbeda antara HP dan desktop, dan keduanya karena bentuk
+   kotaknya berbeda — bukan karena selera:
+
+   1. Pelarutan ke arah kiri hanya di layar lebar. Di HP fotonya selebar layar,
+      jadi gradien kiri-ke-kanan membuat separuh kirinya jadi kabut.
+
+   2. object-position. Di desktop kotaknya tinggi-sempit, jadi mengunci ke tepi
+      bawah (100%) memotong ukiran dan atap, dan orangnya mengisi penuh. Di HP
+      kotaknya lebar-pendek, dan angka yang sama justru memenggal kepala —
+      terlihat di 390px. Di sana bingkainya dinaikkan ke 34%. */
 .portrait-bleed {
   filter: grayscale(1) contrast(1.06);
+  object-position: 50% 34%;
   -webkit-mask-image: linear-gradient(to bottom, transparent, black 14%, black 88%, transparent);
   mask-image: linear-gradient(to bottom, transparent, black 14%, black 88%, transparent);
 }
 
 @media (min-width: 1024px) {
   .portrait-bleed {
+    object-position: 50% 100%;
     -webkit-mask-image:
       linear-gradient(to bottom, transparent, black 18%),
       linear-gradient(to right, transparent, black 42%);

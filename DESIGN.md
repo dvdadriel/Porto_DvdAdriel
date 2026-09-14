@@ -117,11 +117,17 @@ Prosa tidak pernah lebih lebar dari 68ch (`.prose-measure`).
   ke tepi kanan di atas latar terang. Arah: [christoph-nagel.dev](https://christoph-nagel.dev/#webentwicklung).
 - Potret dikelas `.portrait-bleed`: hitam putih, tepi dilarutkan mask gradien.
   Foto berwarna (kayu cokelat, dedaunan hijau) di tengah palet hijau-tinta akan
-  membawa warnanya sendiri dan memecah halaman. **Pelarutan ke arah kiri hanya
-  di lg ke atas** — diukur di 390px, foto selebar layar dengan gradien
-  kiri-ke-kanan membuat separuh kirinya jadi kabut. Fotonya juga mulai di bawah
-  garis kepala section: hairline yang memotong wajah terbaca sebagai kesalahan
-  cetak.
+  membawa warnanya sendiri dan memecah halaman. Fotonya mulai di bawah garis
+  kepala section: hairline yang memotong wajah terbaca sebagai kesalahan cetak.
+
+  **Dua nilai berbeda antara HP dan desktop, keduanya karena bentuk kotaknya
+  berbeda — bukan karena selera.** (1) Pelarutan ke arah kiri hanya di ≥1024px;
+  di 390px foto selebar layar dengan gradien kiri-ke-kanan membuat separuh
+  kirinya jadi kabut. (2) `object-position`: desktop `50% 100%` (kotak
+  tinggi-sempit, bingkai dikunci ke tepi bawah sehingga ukiran dan atap terpotong
+  dan orangnya mengisi penuh), HP `50% 34%` (kotak lebar-pendek, nilai 100% di
+  sana memenggal kepala — terlihat di 390px). Karena itu keduanya hidup di CSS,
+  bukan inline style: inline style tidak bisa punya media query.
 
 ## Komponen
 

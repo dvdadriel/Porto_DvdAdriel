@@ -37,7 +37,10 @@ export default function About() {
           alt={`${t.hero.name}, ${t.hero.role}`}
           loading="lazy"
           decoding="async"
-          className="portrait-bleed h-full w-full object-cover object-top"
+          /* Pemotongan diatur di .portrait-bleed, bukan di sini: nilainya
+             berbeda antara HP dan desktop, dan inline style tidak bisa punya
+             media query. */
+          className="portrait-bleed h-full w-full object-cover"
         />
       </div>
 

@@ -8,15 +8,24 @@ export const translations = {
       about: 'TENTANG',
       contact: 'KONTAK',
     },
+    // Hero sebagai satu baris buku besar: angka dulu, catatan kakinya menyusul.
+    // Nama sengaja datang SETELAH angka. Nama raksasa di tengah layar adalah
+    // pembuka default portofolio; kontennya sendiri punya sesuatu yang lebih
+    // menarik untuk dikatakan.
+    //
+    // Angka ditulis lengkap dengan pemisah desimal per bahasa — 0,784 dan
+    // 0.784 adalah angka yang sama yang dibaca salah oleh separuh pembaca
+    // kalau dipaksa satu bentuk.
     hero: {
-      role: 'FULLSTACK DEVELOPER',
-      location: 'JAKARTA',
-      name: 'DAVID ADRIEL ALVYN',
-      thesis: 'Suka bikin aplikasi, bahkan di waktu luang.',
-      sub: 'Web dan mobile — Rails, Laravel, Go, React. Semua dipelajari dan dicoba, banyak eksperimen, biar keren.',
-      stack: ['GO', 'RAILS', 'LARAVEL', 'REACT', 'C', 'OUTSYSTEMS'],
-      startBtn: 'JELAJAHI KARYA',
-      contactBtn: 'HUBUNGI SAYA ↗',
+      source: 'Dari IdxScreener, backtest 730 hari',
+      metric: '+24,65%',
+      metricLabel: 'alpha terhadap IHSG',
+      caveat: 'Profit factor 0,784. Kerugiannya melebihi keuntungan: sistemnya jalan, strateginya belum terbukti.',
+      name: 'David Adriel Alvyn',
+      role: 'Fullstack Developer, Jakarta',
+      thesis: 'Angka bagusnya ada di atas. Angka buruknya juga. Setiap project di sini datang lengkap dengan batasannya.',
+      projectsBtn: 'Lihat project',
+      contactBtn: 'Hubungi saya',
     },
     work: {
       sectionNum: '02',
@@ -201,14 +210,15 @@ export const translations = {
       contact: 'CONTACT',
     },
     hero: {
-      role: 'FULLSTACK DEVELOPER',
-      location: 'JAKARTA',
-      name: 'DAVID ADRIEL ALVYN',
-      thesis: 'I build apps for fun — even on days off.',
-      sub: 'Web and mobile — Rails, Laravel, Go, React. All of it self-taught by building, plenty of experiments, mostly because it looks cool.',
-      stack: ['GO', 'RAILS', 'LARAVEL', 'REACT', 'C', 'OUTSYSTEMS'],
-      startBtn: 'EXPLORE WORK',
-      contactBtn: 'GET IN TOUCH ↗',
+      source: 'From IdxScreener, a 730-day backtest',
+      metric: '+24.65%',
+      metricLabel: 'alpha against the IHSG index',
+      caveat: 'Profit factor 0.784. Losses outweigh gains: the system runs, the strategy has not proven itself.',
+      name: 'David Adriel Alvyn',
+      role: 'Fullstack Developer, Jakarta',
+      thesis: 'The good number is above. So is the bad one. Every project here ships with its limits attached.',
+      projectsBtn: 'See projects',
+      contactBtn: 'Get in touch',
     },
     work: {
       sectionNum: '02',

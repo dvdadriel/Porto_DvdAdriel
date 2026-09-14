@@ -67,7 +67,10 @@ Tiga hal yang gampang salah kalau tidak tahu alasannya:
 Komponen menulis warnanya sebagai `var(--color-ink-soft)` di mana pun ia dipakai,
 dan ikut benar di kedua konteks tanpa tahu ia sedang di mana.
 
-Dipakai di: **Pengalaman** (dengan video ambient) dan **Stack** (warna saja).
+Dipakai di **Pengalaman** dan **Stack**, keduanya warna polos. Video ambient
+sempat dipakai lalu dicabut: dua section gelap dengan video berarti dua kali
+biaya untuk efek yang sama, dan warna polos justru membuat tipografinya lebih
+tegas.
 
 ## Tipografi
 
@@ -115,12 +118,12 @@ Prosa tidak pernah lebih lebar dari 68ch (`.prose-measure`).
 
 | Komponen | Catatan |
 |---|---|
-| `Accordion` | Di atas `<details>`/`<summary>` native — keyboard, ARIA, Ctrl+F yang membuka panel tertutup, dan isinya tetap ada tanpa JS. Atribut `name` membuat satu grup saling menutup. |
+| `Accordion` | Di atas `<details>`/`<summary>` native — keyboard, ARIA, Ctrl+F yang membuka panel tertutup, dan isinya tetap ada tanpa JS. Atribut `name` membuat satu grup saling menutup. **Membuka** dibiarkan native lalu dianimasikan GSAP; **menutup** harus dicegat, karena tanpa itu browser langsung menghapus isinya dan tidak ada yang tersisa untuk dianimasikan. `height:auto` tidak bisa di-tween, jadi tingginya diukur dulu lalu dilepas kembali ke auto. |
 | `Record` | Satu project, terlipat. Terbuka semua berarti empat dinding teks sebelum sampai ke yang dicari. |
 | `Metric` | `<dt>`/`<dd>` di dalam `<dl>` pemanggil. `note` bukan hiasan: itu yang membedakan angka yang bisa diperiksa dari angka yang cuma diklaim. |
 | `Caveat` | Border penuh warna signal. Bukan garis tebal di satu sisi — aksen samping adalah dekorasi yang menyamar jadi struktur. |
 | `ShowcaseCarousel` | Crossfade + skala, bukan geser: semua slide seukuran dan mirip, gerakan menyamping hanya membuat mata mengejar sesuatu yang tidak berubah. Titiknya tombol sungguhan. |
-| `AmbientBackdrop` | Poster **selalu** jadi background CSS, video menumpuk di atasnya. Section tidak pernah kosong kalau video gagal. |
+| `SectionHeader` | `align="center"` menumpuk nomor di atas judul, dipakai di section yang isinya juga berporos tengah. Varian, bukan pilihan gaya yang bisa dipakai bergantian. |
 | `TopNav` | Pill bergaris, **statis bukan fixed**. Halaman berganti terang/gelap; nav melayang akan jadi blok gelap di atas section gelap. |
 
 Tombol: `.btn` + `.btn-solid` / `.btn-outline`. Border 1,5px, sudut tidak

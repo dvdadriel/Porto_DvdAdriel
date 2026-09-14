@@ -19,7 +19,7 @@ export default function About() {
       id="about"
       className="mx-auto w-full max-w-[1600px] px-6 py-20 sm:px-10 sm:py-28 lg:px-14"
     >
-      <SectionHeader mark="01" title={t.about.title} />
+      <SectionHeader mark="01" title={t.about.title} align="center" />
 
       <div className="mx-auto mt-16 max-w-[52rem] text-center">
         {/* Rasio mengikuti ukuran asli file (533x800): memaksa rasio lain

@@ -85,7 +85,8 @@ disentuh. Rencana dan catatan riset ada di `docs/porto-redesign-plan.md` dan
 **Belum selesai:** record Weblyzer (project ke-5), output teks Go-Courier dan
 Go-FoodStore, OG image baru.
 
-**Perlu diperiksa:** metrik IdxScreener di `translations.js` (+24,65% / profit
-factor 0,784) tidak lagi cocok dengan yang tampil di dashboard live (alpha
-−5,97% / profit factor 0,61 saat terakhir dicek, 14 Sep 2026). Di situs yang
-premisnya angka bisa diperiksa, selisih itu adalah masalah.
+**Angka IdxScreener adalah snapshot.** Terakhir disinkronkan 14 Sep 2026 dari
+dashboard live: alpha −5,97% terhadap IHSG (jendela 16 Jul – 11 Sep 2026),
+profit factor 0,61 dari 13.041 trade paper, win rate 5,4%. Angka ini bergerak.
+Kalau seseorang membuka tautan "Live" dan melihat angka lain, situs ini kalah
+premisnya sendiri — jadi sinkronkan ulang setiap kali halaman disentuh.

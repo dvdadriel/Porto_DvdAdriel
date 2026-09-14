@@ -40,7 +40,7 @@ export default function Contact() {
   return (
     <footer
       id="contact"
-      className="mx-auto w-full max-w-[1360px] px-6 py-24 sm:px-10 sm:py-32 lg:px-16"
+      className="mx-auto w-full max-w-[1600px] px-6 py-20 sm:px-10 sm:py-28 lg:px-14"
     >
       <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-8">
         <div className="lg:col-span-5">

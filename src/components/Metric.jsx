@@ -18,7 +18,12 @@ export default function Metric({ label, value, note }) {
       <dt className="text-[0.8125rem]" style={{ color: 'var(--color-ink-soft)' }}>
         {label}
       </dt>
-      <dd className="numeric mt-1 text-[1.5rem] leading-tight">{value}</dd>
+      <dd
+        className="numeric mt-1 leading-none"
+        style={{ fontFamily: 'var(--font-display)', fontSize: '1.875rem' }}
+      >
+        {value}
+      </dd>
       {note && (
         <dd className="mt-0.5 text-[0.8125rem]" style={{ color: 'var(--color-ink-soft)' }}>
           {note}

@@ -1,5 +1,6 @@
 import React from 'react'
 import { useLanguage } from '../context/LanguageContext.jsx'
+import SectionHeader from '../components/SectionHeader.jsx'
 
 /**
  * Stack sebagai inventaris berbaris, bukan koleksi badge.
@@ -14,14 +15,11 @@ export default function TechStack() {
   return (
     <section
       id="stack"
-      className="mx-auto w-full max-w-[1360px] px-6 py-24 sm:px-10 sm:py-32 lg:px-16"
+      className="mx-auto w-full max-w-[1600px] px-6 py-20 sm:px-10 sm:py-28 lg:px-14"
     >
-      <header className="max-w-[46rem]">
-        <h2>{t.stack.title}</h2>
-        <p className="prose-measure mt-4 text-[1.0625rem]" style={{ color: 'var(--color-ink-soft)' }}>
-          {t.stack.subtitle}
-        </p>
-      </header>
+      <SectionHeader mark="04" title={t.stack.title}>
+        <p>{t.stack.subtitle}</p>
+      </SectionHeader>
 
       <dl className="mt-14">
         {t.stack.categories.map((cat) => (

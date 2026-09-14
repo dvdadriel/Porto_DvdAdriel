@@ -1,6 +1,8 @@
 import React from 'react'
 import { useLanguage } from '../context/LanguageContext.jsx'
 import { work } from '../data/work.js'
+import SectionHeader from '../components/SectionHeader.jsx'
+import AmbientBackdrop from '../components/AmbientBackdrop.jsx'
 
 /**
  * Pengalaman kerja, dan sembilan situs sebagai satu dinding.
@@ -18,11 +20,10 @@ export default function ProfessionalWork() {
   const clients = work[0].clients
 
   return (
-    <section
-      id="work"
-      className="mx-auto w-full max-w-[1360px] px-6 py-24 sm:px-10 sm:py-32 lg:px-16"
-    >
-      <h2>{t.work.title}</h2>
+    <section id="work" className="on-ink relative overflow-hidden">
+      <AmbientBackdrop />
+      <div className="relative mx-auto w-full max-w-[1600px] px-6 py-24 sm:px-10 sm:py-32 lg:px-14">
+      <SectionHeader mark="02" title={t.work.title} />
 
       <div className="mt-14 grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-8">
         <div className="lg:col-span-7">
@@ -92,6 +93,7 @@ export default function ProfessionalWork() {
           >
             {t.work.note}
           </p>
+        </div>
         </div>
       </div>
     </section>

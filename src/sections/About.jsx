@@ -1,5 +1,6 @@
 import React from 'react'
 import { useLanguage } from '../context/LanguageContext.jsx'
+import SectionHeader from '../components/SectionHeader.jsx'
 
 /**
  * Tentang — prosa di kiri, fakta yang bisa diperiksa di kanan.
@@ -17,9 +18,9 @@ export default function About() {
   return (
     <section
       id="about"
-      className="mx-auto w-full max-w-[1360px] px-6 py-24 sm:px-10 sm:py-32 lg:px-16"
+      className="mx-auto w-full max-w-[1600px] px-6 py-20 sm:px-10 sm:py-28 lg:px-14"
     >
-      <h2>{t.about.title}</h2>
+      <SectionHeader mark="01" title={t.about.title} />
 
       <div className="mt-14 grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-8">
         <div className="lg:col-span-7">

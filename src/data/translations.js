@@ -17,13 +17,14 @@ export const translations = {
     // 0.784 adalah angka yang sama yang dibaca salah oleh separuh pembaca
     // kalau dipaksa satu bentuk.
     hero: {
+      headline: ['Saya bangun sistem yang', 'angkanya bisa diperiksa'],
       source: 'Dari IdxScreener, backtest 730 hari',
       metric: '+24,65%',
       metricLabel: 'alpha terhadap IHSG',
       caveat: 'Profit factor 0,784. Kerugiannya melebihi keuntungan: sistemnya jalan, strateginya belum terbukti.',
       name: 'David Adriel Alvyn',
       role: 'Fullstack Developer, Jakarta',
-      thesis: 'Angka bagusnya ada di atas. Angka buruknya juga. Setiap project di sini datang lengkap dengan batasannya.',
+      thesis: 'Fullstack developer di Jakarta. Go, Rails, Laravel, React. Setiap project di sini datang lengkap dengan metriknya, dan dengan batasannya.',
       projectsBtn: 'Lihat project',
       contactBtn: 'Hubungi saya',
     },
@@ -210,13 +211,14 @@ export const translations = {
       contact: 'Contact',
     },
     hero: {
+      headline: ['I build systems whose', 'numbers you can check'],
       source: 'From IdxScreener, a 730-day backtest',
       metric: '+24.65%',
       metricLabel: 'alpha against the IHSG index',
       caveat: 'Profit factor 0.784. Losses outweigh gains: the system runs, the strategy has not proven itself.',
       name: 'David Adriel Alvyn',
       role: 'Fullstack Developer, Jakarta',
-      thesis: 'The good number is above. So is the bad one. Every project here ships with its limits attached.',
+      thesis: 'Fullstack developer in Jakarta. Go, Rails, Laravel, React. Every project here ships with its metrics, and with its limits.',
       projectsBtn: 'See projects',
       contactBtn: 'Get in touch',
     },

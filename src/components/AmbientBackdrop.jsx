@@ -52,13 +52,17 @@ export default function AmbientBackdrop() {
       )}
 
       {/* Lapisan tinta di atas video. Dua tugas sekaligus, dan keduanya nyata:
-          videonya lebih terang dan lebih olive daripada --color-ink, jadi tanpa
-          ini section-nya keluar dari palet DAN kontras teks ikut turun mengikuti
-          frame paling terang. Opacity 0.62 dipilih setelah mengukur teks yang
-          benar-benar ter-render, bukan dikira-kira dari nilai token. */}
+          videonya lebih terang dan lebih olive daripada latar section, jadi
+          tanpa ini section keluar dari palet DAN kontras teks ikut turun
+          mengikuti frame paling terang. Opacity 0.62 dipilih setelah mengukur
+          teks yang benar-benar ter-render, bukan dikira dari nilai token.
+
+          Memakai --color-night, BUKAN --color-ink: di dalam .on-ink token itu
+          sudah ditukar jadi warna terang, jadi overlay-nya justru akan mengecat
+          video dengan warna terang dan seluruh section memudar. */}
       <div
         className="absolute inset-0"
-        style={{ backgroundColor: 'var(--color-ink)', opacity: 0.62 }}
+        style={{ backgroundColor: 'var(--color-night)', opacity: 0.62 }}
       />
     </div>
   )

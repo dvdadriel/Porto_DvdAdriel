@@ -1,18 +1,20 @@
 @import "tailwindcss";
 
-/* Font di-host sendiri dari Fontshare (Indian Type Foundry) — gratis untuk
-   pemakaian personal & komersial, https://www.fontshare.com
+/* Dua keluarga, dipasangkan pada sumbu kontras lebar: kondensasi ultrabold
+   lawan grotesk netral.
 
-   Lima face saja. Setiap weight tambahan adalah satu request lagi untuk sesuatu
-   yang belum tentu dipakai; tambah kalau nanti memang dibutuhkan.
-   font-synthesis-weight: none di body memastikan weight yang tidak ada
-   dipalsukan browser — lebih baik salah weight daripada huruf yang dipertebal
-   secara sintetis dan terlihat kotor. */
-@font-face { font-family: 'Gambetta'; src: url('/fonts/gambetta-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
-@font-face { font-family: 'Gambetta'; src: url('/fonts/gambetta-600.woff2') format('woff2'); font-weight: 600; font-style: normal; font-display: swap; }
-@font-face { font-family: 'Switzer';  src: url('/fonts/switzer-400.woff2')  format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
-@font-face { font-family: 'Switzer';  src: url('/fonts/switzer-500.woff2')  format('woff2'); font-weight: 500; font-style: normal; font-display: swap; }
-@font-face { font-family: 'Switzer';  src: url('/fonts/switzer-700.woff2')  format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+   Anton (Google, OFL) untuk display — hanya subset latin diunduh, 12 KB.
+   Switzer (Fontshare) untuk teks dan angka.
+
+   Gambetta dihapus. Serif berkontras tinggi menghasilkan halaman yang tenang
+   dan terbaca sebagai dokumen; yang diminta adalah halaman yang menghentak.
+
+   font-synthesis-weight: none di body: weight yang tidak ada lebih baik salah
+   daripada dipertebal sintetis oleh browser, yang selalu terlihat kotor. */
+@font-face { font-family: 'Anton';   src: url('/fonts/anton-400.woff2')   format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Switzer'; src: url('/fonts/switzer-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Switzer'; src: url('/fonts/switzer-500.woff2') format('woff2'); font-weight: 500; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Switzer'; src: url('/fonts/switzer-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 
 /* ─────────────────────────────────────────────────────────────────────────
    THE LEDGER — fondasi desain
@@ -32,18 +34,24 @@
      sering di luar ruangan. Dark mode elegan di studio dan kalah di layar
      500 nit kena matahari.
 
-     Anchor hue 168 (hijau-tinta teroksidasi). Neutral-nya ditarik ke hue itu
-     dengan chroma 0.004–0.01, bukan ke arah hangat — krem/sand adalah default
-     yang muncul di mana-mana, dan chroma hangat adalah pintu masuknya.
+     Anchor hue 168 (hijau-tinta teroksidasi) untuk tinta; permukaannya di 150
+     dengan chroma 0.006 — kertas greige, bukan putih. Putih-nyaris-putih
+     membuat halaman terbaca sebagai dokumen kosong; bidang yang punya berat
+     memberi tempat bagi tipografi besar untuk berdiri.
 
      Angka kontras di bawah DIUKUR, bukan diperkirakan. Kalau Anda mengganti
      satu nilai, ukur ulang; jangan percaya bahwa "kelihatannya masih cukup". */
 
   --color-ink:            oklch(0.22 0.03  168);  /* teks utama — 15.76:1 di surface */
+  --color-night:          oklch(0.22 0.03  168);  /* latar section gelap. Nilainya
+                             sama dengan --color-ink, tapi perannya berbeda dan
+                             itu bukan kemewahan: di dalam .on-ink, --color-ink
+                             ditukar jadi warna terang, jadi latar tidak boleh
+                             ikut membacanya. */
   --color-ink-soft:       oklch(0.45 0.02  168);  /* teks sekunder — 6.76:1 */
-  --color-surface:        oklch(0.97 0.006 168);  /* latar halaman */
-  --color-surface-raised: oklch(0.99 0.004 168);  /* bidang terangkat — 16.70:1 */
-  --color-rule:           oklch(0.85 0.01  168);  /* hairline. 1.45:1 — sengaja
+  --color-surface:        oklch(0.93 0.006 150);  /* latar halaman: kertas, bukan putih */
+  --color-surface-raised: oklch(0.97 0.004 150);  /* bidang terangkat */
+  --color-rule:           oklch(0.78 0.01  150);  /* hairline. 1.45:1 — sengaja
                              lirih, dan memang bukan teks. Kalau sebuah pemisah
                              perlu TERBACA, ia bukan hairline; pakai label. */
   --color-verified:       oklch(0.52 0.09  168);  /* penanda metrik — 4.83:1 */
@@ -62,15 +70,16 @@
   --color-rule-on-ink:    oklch(0.35 0.02  168);
 
   /* ── Tipografi ──────────────────────────────────────────────────────────
-     Dipasangkan pada sumbu kontras: serif old-style berkontras tinggi lawan
-     grotesk netral. Dua sans yang mirip-tapi-tidak-sama adalah kesalahan yang
-     lebih buruk daripada satu keluarga saja.
+     Dipasangkan pada sumbu kontras lebar: kondensasi ultrabold lawan grotesk
+     netral. Dua sans yang mirip-tapi-tidak-sama adalah kesalahan yang lebih
+     buruk daripada satu keluarga saja — Anton dan Switzer tidak akan pernah
+     tertukar.
 
      Tidak ada monospace. Label kecil ber-monospace adalah tell, dan masalah
      yang biasanya dipakai untuk menyelesaikannya — perataan angka — sudah
      diselesaikan tabular-nums di bawah. */
 
-  --font-display: 'Gambetta', ui-serif, Georgia, serif;
+  --font-display: 'Anton', 'Arial Narrow', ui-sans-serif, sans-serif;
   --font-sans:    'Switzer', ui-sans-serif, system-ui, -apple-system, sans-serif;
 
   /* ── Spasi ──────────────────────────────────────────────────────────────
@@ -106,20 +115,21 @@
 }
 
 /* ── Skala tipografi ──────────────────────────────────────────────────────
-   Rasio ~1.333, dipangkas di ujung atas.
+   Display naik ke 8.5rem (136px) di layar lebar. Versi sebelumnya berhenti di
+   84px dan itu kesalahannya: di kanvas selebar 1440px, 84px bukan peristiwa,
+   cuma teks yang agak besar. Anton kondensasi, jadi pada ukuran itu ia masih
+   muat tiga kata per baris tanpa keluar container.
 
-   Ceiling display 5.25rem (84px), bukan 6rem+. Sudah diuji terhadap string
-   terpanjang di konten — "DAVID ADRIEL ALVYN" — pada 320px. Di atas itu
-   halamannya berteriak, dan kata terpanjangnya keluar container. */
+   Batas bawah 3rem diuji terhadap kata terpanjang di konten pada 320px. */
 
 @layer base {
   :root {
-    --text-display: clamp(2.75rem, 7vw, 5.25rem);
-    --text-h2:      clamp(1.75rem, 4vw, 2.75rem);
-    --text-h3:      1.5rem;
-    --text-body:    1.0625rem;
-    --text-metric:  clamp(2rem, 5vw, 3.5rem);
-    --text-caption: 0.875rem;
+    --text-display: clamp(3rem, 9.5vw, 8.5rem);
+    --text-h2:      clamp(2.25rem, 5.5vw, 4.5rem);
+    --text-h3:      clamp(1.5rem, 2.4vw, 2rem);
+    --text-body:    1.125rem;
+    --text-metric:  clamp(2.25rem, 4vw, 3.25rem);
+    --text-caption: 0.9375rem;
   }
 
   html {
@@ -146,16 +156,21 @@
     text-rendering: optimizeLegibility;
   }
 
+  /* Anton hanya punya satu weight dan digambar untuk dipakai besar dan rapat.
+     text-transform: uppercase disetel di sini, bukan di tiap komponen: huruf
+     besar adalah bagian dari bentuk typeface-nya, bukan keputusan per-tempat. */
   h1, h2, h3 {
     font-family: var(--font-display);
     font-weight: 400;
+    text-transform: uppercase;
     text-wrap: balance;
-    line-height: 1.05;
+    line-height: 0.88;
+    letter-spacing: -0.015em;
   }
 
-  h1 { font-size: var(--text-display); letter-spacing: -0.03em; line-height: 0.95; }
-  h2 { font-size: var(--text-h2);      letter-spacing: -0.02em; }
-  h3 { font-size: var(--text-h3);      letter-spacing: -0.01em; }
+  h1 { font-size: var(--text-display); }
+  h2 { font-size: var(--text-h2); }
+  h3 { font-size: var(--text-h3); }
 
   p { text-wrap: pretty; }
 
@@ -193,15 +208,25 @@
 }
 
 /* ── Section gelap (drenched) ─────────────────────────────────────────────
-   Satu-satunya tempat palet dibalik. Latar videonya diatur per-komponen;
-   di sini hanya warna teks, supaya section tetap benar kalau videonya gagal
-   dimuat atau dimatikan reduced-motion. */
+   Palet ditukar lewat custom property, bukan lewat daftar override per
+   elemen. Alasannya praktis: komponen di dalam sini menulis warnanya sebagai
+   var(--color-ink-soft), dan kalau token itu tidak ikut berubah, teks sekunder
+   jadi hijau gelap di atas hijau gelap — persis bug yang terjadi saat section
+   ini pertama dibuat gelap.
+
+   Latar memakai --color-night, bukan --color-ink: --color-ink sudah ditukar di
+   blok yang sama, jadi latarnya akan ikut jadi terang kalau membacanya. */
 .on-ink {
-  background-color: var(--color-ink);
+  background-color: var(--color-night);
   color: var(--color-on-ink);
+
+  --color-ink:      var(--color-on-ink);
+  --color-ink-soft: var(--color-on-ink-soft);
+  --color-rule:     var(--color-rule-on-ink);
+  --color-signal:   var(--color-signal-on-ink);
+  --color-surface:  var(--color-night);
 }
 .on-ink h1, .on-ink h2, .on-ink h3 { color: var(--color-on-ink); }
-.on-ink .text-signal { color: var(--color-signal-on-ink); }
 
 /* ── Grain ────────────────────────────────────────────────────────────────
    SVG feTurbulence inline lewat data URI: ~400 byte, nol request, tidak ada
@@ -222,8 +247,6 @@
    tebal berwarna sebagai aksen tidak pernah merupakan keputusan. */
 .rule-t { border-top: 1px solid var(--color-rule); }
 .rule-b { border-bottom: 1px solid var(--color-rule); }
-.on-ink .rule-t { border-color: var(--color-rule-on-ink); }
-.on-ink .rule-b { border-color: var(--color-rule-on-ink); }
 
 /* ── Reduced motion ───────────────────────────────────────────────────────
    Bukan opsional. Catatan penting untuk yang menambah animasi nanti: jangan
@@ -238,3 +261,54 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* ── Tombol ───────────────────────────────────────────────────────────────
+   Border 1,5px tegas, sudut tidak membulat. Satu bentuk, dua varian: terisi
+   untuk aksi utama, bergaris untuk sekunder. Tidak ada shadow — bayangan
+   lembut di bawah setiap elemen adalah kosakata kartu SaaS, dan halaman ini
+   bukan dashboard. */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.5rem;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  border: 1.5px solid currentColor;
+  transition: background-color 180ms var(--ease-out-quart),
+              color 180ms var(--ease-out-quart);
+}
+
+.btn-solid {
+  background-color: var(--color-ink);
+  color: var(--color-surface);
+  border-color: var(--color-ink);
+}
+.btn-solid:hover { background-color: transparent; color: var(--color-ink); }
+
+.btn-outline { color: var(--color-ink); }
+.btn-outline:hover { background-color: var(--color-ink); color: var(--color-surface); }
+
+.on-ink .btn-solid {
+  background-color: var(--color-on-ink);
+  color: var(--color-ink);
+  border-color: var(--color-on-ink);
+}
+.on-ink .btn-solid:hover { background-color: transparent; color: var(--color-on-ink); }
+
+.on-ink .btn-outline { color: var(--color-on-ink); }
+.on-ink .btn-outline:hover { background-color: var(--color-on-ink); color: var(--color-ink); }
+
+/* ── Penanda urutan section ───────────────────────────────────────────────
+   Angka besar di kolom kiri. Ini BUKAN eyebrow dekoratif: halaman ini memang
+   dibaca berurutan dari atas ke bawah, dan angkanya memberi orang tempat
+   berpijak saat men-scroll panjang. */
+.section-mark {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  line-height: 0.85;
+  color: var(--color-ink);
+}
+.on-ink .section-mark { color: var(--color-on-ink); }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { LanguageProvider } from './context/LanguageContext.jsx'
-import Rail from './components/Rail.jsx'
+import TopNav from './components/TopNav.jsx'
 import Hero from './sections/Hero.jsx'
 import About from './sections/About.jsx'
 import ProfessionalWork from './sections/ProfessionalWork.jsx'
@@ -32,7 +32,7 @@ function MainContent() {
 
   return (
     <div className="grain min-h-screen">
-      <Rail activeSection={activeSection} />
+      <TopNav activeSection={activeSection} />
 
       <a
         href="#about"
@@ -42,9 +42,7 @@ function MainContent() {
         Lewati ke konten
       </a>
 
-      {/* Ruang untuk rail hanya di lg ke atas; di bawah itu rail berubah jadi
-          bar bawah dan tidak mengambil lebar apa pun. */}
-      <main className="lg:pl-[200px]">
+      <main>
         <Hero />
         <About />
         <ProfessionalWork />

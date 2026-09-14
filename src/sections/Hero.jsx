@@ -2,49 +2,30 @@ import React, { useRef } from 'react'
 import { useGSAP } from '@gsap/react'
 import { useLanguage } from '../context/LanguageContext.jsx'
 import { gsap, onMotionOK } from '../lib/motion.js'
-import AmbientBackdrop from '../components/AmbientBackdrop.jsx'
 
 /**
- * Hero sebagai satu entri buku besar.
+ * Hero: satu pernyataan sebesar mungkin, lalu buktinya.
  *
- * Urutannya adalah argumennya: angka, lalu garis, lalu apa yang salah dengan
- * angka itu, baru siapa yang menulisnya. Nama raksasa di tengah layar adalah
- * pembuka default portofolio — dan di situs yang seluruh premisnya adalah
- * bukti, bukti yang harus bicara duluan.
- *
- * Metrik lebih besar dari <h1>. Itu disengaja dan bukan kesalahan hierarki:
- * h1 tetap nama (itu yang dicari mesin dan screen reader), sementara ukuran
- * visual mengikuti apa yang paling ingin dibaca manusia lebih dulu.
+ * Versi sebelumnya membuka dengan angka berukuran sedang di tengah bidang
+ * gelap dan hasilnya kosong, bukan tenang. Yang diperbaiki di sini bukan
+ * konsepnya — klaim tetap harus dibayar bukti — tapi skalanya: headline
+ * mengisi lebar penuh, dan angka turun jadi catatan kaki yang mendukungnya.
  */
 export default function Hero() {
   const { t } = useLanguage()
   const root = useRef(null)
 
-  // Satu momen orkestrasi, sekali saat halaman dibuka. Selebihnya di situs ini
-  // motion hanya menjawab aksi.
-  //
-  // Semua memakai gsap.from(), BUKAN .to() dari keadaan tersembunyi: kontennya
-  // harus sudah terlihat di HTML. Transisi berhenti di tab background dan di
-  // renderer headless — kalau visibilitas digantungkan padanya, hero terkirim
-  // kosong ke orang yang tidak akan pernah tahu kenapa.
+  // Satu momen orkestrasi saat load. gsap.from(), bukan .to() dari keadaan
+  // tersembunyi: transisi berhenti di tab background dan renderer headless,
+  // jadi visibilitas konten tidak boleh bergantung padanya.
   useGSAP(
     () => {
       return onMotionOK(() => {
         const q = gsap.utils.selector(root)
-        const tl = gsap.timeline({ defaults: { ease: 'expo.out' } })
-
-        tl.from(q('[data-anim="metric"]'), { yPercent: 12, opacity: 0, duration: 0.9 })
-          .from(
-            q('[data-anim="rule"]'),
-            { scaleX: 0, transformOrigin: 'left center', duration: 0.7 },
-            '-=0.45'
-          )
-          .from(q('[data-anim="caveat"]'), { y: 10, opacity: 0, duration: 0.6 }, '-=0.35')
-          .from(
-            q('[data-anim="identity"] > *'),
-            { y: 12, opacity: 0, duration: 0.55, stagger: 0.07 },
-            '-=0.3'
-          )
+        gsap
+          .timeline({ defaults: { ease: 'expo.out' } })
+          .from(q('[data-anim="line"]'), { yPercent: 105, duration: 1, stagger: 0.08 })
+          .from(q('[data-anim="below"] > *'), { y: 16, opacity: 0, duration: 0.6, stagger: 0.07 }, '-=0.5')
       })
     },
     { scope: root }
@@ -54,74 +35,80 @@ export default function Hero() {
     <section
       id="hero"
       ref={root}
-      className="on-ink relative flex min-h-[100dvh] items-center overflow-hidden"
+      className="mx-auto w-full max-w-[1600px] px-6 pb-16 pt-16 sm:px-10 sm:pb-20 sm:pt-20 lg:px-14 lg:pt-10"
     >
-      <AmbientBackdrop />
+      {/* overflow-hidden per baris supaya animasi masuknya terpotong rapi di
+          batas baris, bukan melayang dari luar layar. */}
+      <h1>
+        {t.hero.headline.map((line) => (
+          <span key={line} className="block overflow-hidden">
+            <span data-anim="line" className="block">
+              {line}
+            </span>
+          </span>
+        ))}
+      </h1>
 
-      <div className="relative mx-auto w-full max-w-[1360px] px-6 py-24 sm:px-10 lg:px-16">
-        <div className="max-w-[46rem]">
-          <p className="text-[0.875rem]" style={{ color: 'var(--color-on-ink-soft)' }}>
-            {t.hero.source}
-          </p>
+      <div className="mt-12 grid grid-cols-1 gap-12 lg:mt-16 lg:grid-cols-12 lg:gap-10">
+        <div data-anim="below" className="lg:col-span-5">
+          <p className="prose-measure">{t.hero.thesis}</p>
 
-          <p
-            data-anim="metric"
-            className="numeric mt-3 leading-[0.95]"
-            style={{ fontSize: 'var(--text-display)', letterSpacing: '-0.03em' }}
-          >
-            {t.hero.metric}
-          </p>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <a href="#projects" className="btn btn-solid">
+              {t.hero.projectsBtn}
+            </a>
+            <a href="#contact" className="btn btn-outline">
+              {t.hero.contactBtn}
+            </a>
+          </div>
 
-          <p className="mt-1 text-[1.0625rem]" style={{ color: 'var(--color-on-ink-soft)' }}>
-            {t.hero.metricLabel}
-          </p>
+          {/* Angka turun ke sini: ia sekarang bukti yang mendukung klaim di
+              atas, bukan pembuka yang harus ditebak maksudnya. */}
+          <dl className="rule-t mt-12 pt-5">
+            <dt className="text-[0.9375rem]" style={{ color: 'var(--color-ink-soft)' }}>
+              {t.hero.source}
+            </dt>
+            <dd
+              className="numeric mt-2 leading-none"
+              style={{ fontSize: 'var(--text-metric)', fontFamily: 'var(--font-display)' }}
+            >
+              {t.hero.metric}
+            </dd>
+            <dd className="mt-1 text-[0.9375rem]" style={{ color: 'var(--color-ink-soft)' }}>
+              {t.hero.metricLabel}
+            </dd>
+            <dd className="mt-4 text-[0.9375rem] leading-relaxed" style={{ color: 'var(--color-signal)' }}>
+              {t.hero.caveat}
+            </dd>
+          </dl>
+        </div>
 
-          <div
-            data-anim="rule"
-            className="my-7 h-px w-full"
-            style={{ backgroundColor: 'var(--color-rule-on-ink)' }}
-          />
-
-          <p data-anim="caveat" className="text-signal max-w-[52ch] text-[1.0625rem]">
-            {t.hero.caveat}
-          </p>
-
-          <div data-anim="identity" className="mt-14">
-            <h1 style={{ fontSize: 'var(--text-h2)' }}>{t.hero.name}</h1>
-
-            <p className="mt-2 text-[1.0625rem]" style={{ color: 'var(--color-on-ink-soft)' }}>
-              {t.hero.role}
-            </p>
-
-            <p className="prose-measure mt-5 text-[1.0625rem]">{t.hero.thesis}</p>
-
-            {/* Tombol dibungkus flex-wrap, bukan grid: di 320px keduanya turun
-                jadi dua baris penuh tanpa satu pun aturan breakpoint. */}
-            <div className="mt-9 flex flex-wrap gap-3">
-              <a
-                href="#projects"
-                className="inline-flex items-center px-6 py-3 text-[0.9375rem] font-medium transition-colors duration-200"
-                style={{
-                  backgroundColor: 'var(--color-on-ink)',
-                  color: 'var(--color-ink)',
-                }}
-              >
-                {t.hero.projectsBtn}
-              </a>
-              <a
-                href="#contact"
-                className="inline-flex items-center px-6 py-3 text-[0.9375rem] font-medium transition-colors duration-200 hover:bg-white/10"
-                /* Border-nya pakai on-ink-soft, bukan rule-on-ink: hairline yang
-                   pas sebagai pemisah antar-baris terlalu lirih untuk menandai
-                   sesuatu yang bisa diklik, apalagi di atas latar bergambar. */
-                style={{
-                  border: '1px solid var(--color-on-ink-soft)',
-                  color: 'var(--color-on-ink)',
-                }}
-              >
-                {t.hero.contactBtn}
-              </a>
-            </div>
+        {/* Bukti visual: dua aplikasi yang benar-benar jalan, ditumpuk
+            bertingkat. Bukan mockup laptop — hanya layarnya. */}
+        <div className="lg:col-span-6 lg:col-start-7">
+          <div className="flex flex-col gap-5 sm:flex-row sm:items-start">
+            <img
+              src="/shots/idx-screener.png"
+              width="1918"
+              height="963"
+              alt="Dashboard IdxScreener: hasil backtest 730 hari, alpha +24,65% terhadap IHSG, profit factor 0,784."
+              loading="eager"
+              decoding="async"
+              className="w-full sm:w-[62%]"
+              style={{ border: '1.5px solid var(--color-ink)' }}
+            />
+            <img
+              src="/shots/news-update-1472.webp"
+              srcSet="/shots/news-update-736.webp 736w, /shots/news-update-1472.webp 1472w"
+              sizes="(max-width: 640px) 100vw, 38vw"
+              width="1472"
+              height="920"
+              alt="Dashboard News Update: jadwal transmisi 06.00, 12.00, dan 18.00 WIB dengan riwayat tujuh hari."
+              loading="lazy"
+              decoding="async"
+              className="w-full sm:mt-16 sm:w-[38%]"
+              style={{ border: '1.5px solid var(--color-ink)' }}
+            />
           </div>
         </div>
       </div>

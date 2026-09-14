@@ -2,7 +2,6 @@ export const profile = {
   name: 'David Adriel Alvyn',
   headline: 'Fullstack Developer',
   tagline: 'Go, Rails, Laravel, React — dan kebiasaan mengukur sebelum mengklaim.',
-  avatar: '/avatar.svg',   // placeholder; ganti ke '/avatar.jpg' saat foto asli ada
   email: 'dvdadrielwork@gmail.com',
   linkedin: 'https://www.linkedin.com/in/david-adriel-alvyn/',
   phone: '+62 851-2130-6206', // Sesuaikan dengan nomor aktif Anda

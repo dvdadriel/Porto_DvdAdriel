@@ -240,6 +240,32 @@ Diuji di 320px dan 390px setiap kali ada perubahan layout.
   (216 KB) terunduh di HP untuk hover yang tidak mungkin terjadi. Keduanya kini
   dipagari `matchMedia` di JS, bukan CSS.
 
+## OG image
+
+`public/og-image.jpg`, 1200×630. Dibuat dari desain situs sendiri, bukan digambar
+terpisah: kalimatnya sama dengan hero, fontnya Anton + Switzer yang sama, warnanya
+token yang sama. Kartu preview yang kalimatnya beda dari halamannya membuat orang
+merasa salah klik.
+
+Cara membuat ulang:
+
+1. Buat `public/_og.html` berisi kartu 1200×630 (tidak perlu responsif — berkas
+   ini dirender sekali jadi gambar, tidak pernah dikunjungi orang).
+2. Screenshot pada viewport 1200×630 **DPR 2**, lalu turunkan ke 1200×630 dengan
+   Lanczos. Menangkap langsung di DPR 1 menghasilkan tepi huruf yang kasar.
+3. Hapus `_og.html` — kalau ikut ter-deploy, ia jadi halaman publik yang bisa
+   diindeks.
+
+Dua hal yang mudah salah:
+
+- **Pemenggalan baris headline ditulis manual**, tidak dibiarkan membungkus
+  sendiri. Anton pada `line-height` di bawah 1 punya glyph yang lebih tinggi
+  daripada kotak barisnya, jadi baris hasil pembungkusan otomatis saling
+  bertumpuk — dan `margin-top` negatif antar baris memperparahnya.
+- **URL-nya diberi `?v=N`.** WhatsApp, X, dan LinkedIn men-cache kartu preview
+  dengan agresif; tanpa URL yang berubah mereka menampilkan gambar lama
+  berbulan-bulan. Naikkan angkanya setiap kali gambarnya diganti.
+
 ## Sebelum merge
 
 1. Ukur ulang kontras kalau ada warna yang berubah. **`getComputedStyle`

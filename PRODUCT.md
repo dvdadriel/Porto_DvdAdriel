@@ -83,7 +83,11 @@ disentuh. Rencana dan catatan riset ada di `docs/porto-redesign-plan.md` dan
 `.gitignore`).
 
 **Belum selesai:** record Weblyzer (project ke-5), output teks Go-Courier dan
-Go-FoodStore, OG image baru.
+Go-FoodStore.
+
+**OG image dibuat ulang dari desain situs sendiri**, bukan digambar terpisah —
+kalimat, font, dan warnanya sama dengan hero, jadi kartu preview dan halamannya
+tidak pernah saling bertentangan. Cara membuat ulangnya ada di DESIGN.md.
 
 **Angka IdxScreener adalah snapshot.** Terakhir disinkronkan 14 Sep 2026 dari
 dashboard live: alpha −5,97% terhadap IHSG (jendela 16 Jul – 11 Sep 2026),

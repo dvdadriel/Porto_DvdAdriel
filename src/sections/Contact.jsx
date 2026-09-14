@@ -1,146 +1,100 @@
-import React, { useState } from 'react'
-import PixelCharacter from '../components/PixelCharacter.jsx'
-import ShuffleText from '../components/ShuffleText.jsx'
-import { MailIcon, LinkedinIcon, PhoneIcon, GithubIcon } from '../components/PixelIcons.jsx'
+import React, { useState, useRef, useEffect } from 'react'
 import { useLanguage } from '../context/LanguageContext.jsx'
 import { profile } from '../data/profile.js'
 
+/**
+ * Penutup: empat baris kontak, disusun sama seperti dinding sembilan brand.
+ *
+ * Nilainya ditulis lengkap dan bisa diseleksi — email dan nomor yang terlihat
+ * bisa disalin manual oleh orang yang clipboard API-nya diblokir, dan itu
+ * terjadi lebih sering daripada yang biasanya diperhitungkan.
+ */
 export default function Contact() {
   const { t } = useLanguage()
   const [copied, setCopied] = useState(false)
+  const timer = useRef(null)
 
-  const handleCopyEmail = () => {
-    navigator.clipboard.writeText(profile.email)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
+  // Timer dibersihkan saat unmount: setState pada komponen yang sudah hilang
+  // adalah kebocoran yang baru terlihat saat orang berpindah bahasa cepat.
+  useEffect(() => () => clearTimeout(timer.current), [])
+
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(profile.email)
+      setCopied(true)
+      clearTimeout(timer.current)
+      timer.current = setTimeout(() => setCopied(false), 2000)
+    } catch {
+      // Clipboard ditolak (izin, konteks non-HTTPS, browser lawas). Emailnya
+      // sudah tertulis di layar, jadi tidak ada yang perlu diberitahukan.
+    }
   }
 
-  const contacts = [
-    {
-      label: t.contact.emailLabel,
-      value: profile.email,
-      href: `mailto:${profile.email}`,
-      icon: MailIcon,
-      action: t.contact.sendEmail,
-      extraBtn: {
-        text: copied ? t.contact.copiedBtn : t.contact.copyBtn,
-        onClick: handleCopyEmail,
-      },
-    },
-    {
-      label: t.contact.linkedinLabel,
-      value: 'linkedin.com/in/david-adriel-alvyn/',
-      href: profile.linkedin,
-      icon: LinkedinIcon,
-      action: t.contact.connectLinkedin,
-    },
-    {
-      label: t.contact.phoneLabel,
-      value: profile.phone,
-      href: profile.whatsapp,
-      icon: PhoneIcon,
-      action: t.contact.chatWa,
-    },
-    {
-      label: t.contact.githubLabel,
-      value: 'github.com/dvdadriel',
-      href: profile.github,
-      icon: GithubIcon,
-      action: t.contact.viewRepo,
-    },
+  const rows = [
+    { label: t.contact.emailLabel, value: profile.email, href: `mailto:${profile.email}` },
+    { label: t.contact.linkedinLabel, value: 'david-adriel-alvyn', href: profile.linkedin },
+    { label: t.contact.phoneLabel, value: profile.phone, href: profile.whatsapp },
+    { label: t.contact.githubLabel, value: 'dvdadriel', href: profile.github },
   ]
 
   return (
     <footer
       id="contact"
-      className="min-h-screen lg:h-screen snap-start snap-always flex flex-col justify-between px-4 sm:px-8 lg:px-16 max-w-6xl mx-auto pt-20 pb-8 relative overflow-hidden"
+      className="mx-auto w-full max-w-[1360px] px-6 py-24 sm:px-10 sm:py-32 lg:px-16"
     >
-      <div>
-        <div className="flex items-center justify-between gap-4 mb-4 sm:mb-6">
-          <div>
-            <p className="font-pixel text-[12px] sm:text-[14px] text-sand tracking-widest">{t.contact.sectionNum}</p>
-            <h2 className="font-pixel text-[20px] sm:text-[30px] md:text-[36px] text-copper leading-[1.3] tracking-wide">
-              <ShuffleText text={t.contact.title} key={t.contact.title} />
-            </h2>
-            <p className="mt-2 text-xs sm:text-sm text-cream/75 font-normal">
-              {t.contact.subtitle}
-            </p>
-          </div>
-
-          {/* Dancing Pixel Character */}
-          <div
-            className="border-2 border-copper bg-surface p-2 sm:p-3 flex items-center justify-center shrink-0"
-            style={{ boxShadow: '4px 4px 0 var(--color-shadow)' }}
-            title="Pixel character dancing"
-          >
-            <PixelCharacter action="dancing" size={72} />
-          </div>
+      <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-8">
+        <div className="lg:col-span-5">
+          <h2>{t.contact.title}</h2>
+          <p className="prose-measure mt-4 text-[1.0625rem]" style={{ color: 'var(--color-ink-soft)' }}>
+            {t.contact.subtitle}
+          </p>
         </div>
 
-        {/* Contact Grid with 8-bit Icons */}
-        <div className="grid sm:grid-cols-2 gap-3 sm:gap-4 mt-4">
-          {contacts.map((c) => {
-            const Icon = c.icon
-            return (
-              /* min-w-0 di kartu DAN di span nilainya, keduanya wajib.
-
-                 Grid item default punya min-width:auto, jadi ia tidak boleh
-                 menyusut di bawah lebar min-content-nya. Dan `truncate` memakai
-                 white-space:nowrap, yang membuat min-content span tetap selebar
-                 teks PENUH — jadi teksnya tidak pernah benar-benar terpotong, ia
-                 justru mendorong kartunya melebihi sel grid dan keluar layar.
-                 Di 375px kartunya jadi 379px sementara selnya 343px, dan tombol
-                 aksinya terpotong di tepi kanan.
-
-                 min-w-0 mengizinkan penyusutan, sehingga truncate baru bekerja
-                 sebagaimana namanya. shrink-0 pada tombol menjaga aksinya utuh —
-                 yang boleh menyusut adalah nilainya, bukan tombolnya. */
-              <div
-                key={c.label}
-                className="min-w-0 border-2 border-copper bg-surface p-3.5 sm:p-4 flex flex-col justify-between transition-all hover:border-copper"
-                style={{ boxShadow: '3px 3px 0 var(--color-shadow)' }}
-              >
-                <div className="flex items-center justify-between gap-2 border-b border-copper/40 pb-2 mb-2">
-                  <div className="flex items-center gap-2 min-w-0">
-                    <Icon className="w-4 h-4 text-copper shrink-0" />
-                    <span className="font-pixel text-[10px] sm:text-[11px] text-sand tracking-wider truncate">
-                      {c.label}
-                    </span>
-                  </div>
-                  {c.extraBtn && (
-                    <button
-                      onClick={c.extraBtn.onClick}
-                      className="shrink-0 font-pixel text-[9px] px-2 py-0.5 border border-copper bg-ink text-cream hover:bg-copper transition-colors cursor-pointer"
-                    >
-                      {c.extraBtn.text}
-                    </button>
-                  )}
-                </div>
-
-                <div className="flex items-center justify-between gap-2 mt-1">
-                  <span className="min-w-0 truncate text-xs sm:text-sm text-cream font-mono">
-                    {c.value}
-                  </span>
-                  <a
-                    href={c.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="shrink-0 font-pixel text-[10px] text-copper hover:text-cream transition-colors whitespace-nowrap"
+        <div className="lg:col-span-6 lg:col-start-7">
+          <ul>
+            {rows.map((r) => (
+              <li key={r.label} className="rule-t flex items-baseline gap-4 py-4">
+                <span
+                  className="w-24 shrink-0 text-[0.875rem]"
+                  style={{ color: 'var(--color-ink-soft)' }}
+                >
+                  {r.label}
+                </span>
+                <a
+                  href={r.href}
+                  target={r.href.startsWith('mailto:') ? undefined : '_blank'}
+                  rel="noopener noreferrer"
+                  className="min-w-0 flex-1 break-words underline decoration-1 underline-offset-4"
+                  style={{ textDecorationColor: 'var(--color-rule)' }}
+                >
+                  {r.value}
+                </a>
+                {r.label === t.contact.emailLabel && (
+                  <button
+                    type="button"
+                    onClick={copyEmail}
+                    className="shrink-0 px-3 py-1.5 text-[0.8125rem] transition-colors duration-200"
+                    style={{ border: '1px solid var(--color-rule)' }}
                   >
-                    {c.action}
-                  </a>
-                </div>
-              </div>
-            )
-          })}
-        </div>
-      </div>
+                    {copied ? t.contact.copiedBtn : t.contact.copyBtn}
+                  </button>
+                )}
+              </li>
+            ))}
+          </ul>
 
-      {/* Footer Bottom Bar (Only Name and Year 2026 as requested in #11) */}
-      <div className="border-t-2 border-copper/50 pt-4 mt-6 flex items-center justify-center font-pixel text-[11px] text-sand/80">
-        <div className="flex items-center gap-2">
-          <span className="text-copper">▮</span>
-          <span>{profile.name.toUpperCase()} · 2026</span>
+          {/* aria-live di luar tombol supaya pengumumannya tidak menimpa nama
+              tombol saat sedang difokuskan. */}
+          <p aria-live="polite" className="sr-only">
+            {copied ? t.contact.copiedBtn : ''}
+          </p>
+
+          <p
+            className="rule-t mt-8 pt-4 text-[0.875rem]"
+            style={{ color: 'var(--color-ink-soft)' }}
+          >
+            {profile.location}
+          </p>
         </div>
       </div>
     </footer>

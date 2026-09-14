@@ -7,5 +7,6 @@ dist/
 .env.*
 !.env.example
 .claude
+.claude-flow
 .impeccable
 docs/

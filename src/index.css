@@ -1,105 +1,240 @@
 @import "tailwindcss";
 
-/* Font piksel. Press Start 2P adalah font 8-bit kanonik, tapi sangat lebar dan
-   melelahkan untuk paragraf — jadi dipakai HANYA untuk heading dan label
-   pendek. Body memakai Pixelify Sans yang tetap terasa piksel tapi masih
-   nyaman dibaca panjang.
+/* Font di-host sendiri dari Fontshare (Indian Type Foundry) — gratis untuk
+   pemakaian personal & komersial, https://www.fontshare.com
 
-   ATURAN UKURAN — jangan dilanggar:
-   Press Start 2P digambar pada grid 8x8 piksel. Ia hanya render TAJAM pada
-   ukuran KELIPATAN 8 (16, 24, 32, 40, 56). Pada 9px/10px/11px pikselnya jatuh
-   di antara piksel layar sehingga tebalnya tidak rata dan hasilnya buram —
-   merusak justru hal yang ingin dicapai. Versi pertama file ini memakai
-   9-11px dan salah dua kali: tidak tajam, dan di bawah ambang terbaca.
+   Lima face saja. Setiap weight tambahan adalah satu request lagi untuk sesuatu
+   yang belum tentu dipakai; tambah kalau nanti memang dibutuhkan.
+   font-synthesis-weight: none di body memastikan weight yang tidak ada
+   dipalsukan browser — lebih baik salah weight daripada huruf yang dipertebal
+   secara sintetis dan terlihat kotor. */
+@font-face { font-family: 'Gambetta'; src: url('/fonts/gambetta-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Gambetta'; src: url('/fonts/gambetta-600.woff2') format('woff2'); font-weight: 600; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Switzer';  src: url('/fonts/switzer-400.woff2')  format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Switzer';  src: url('/fonts/switzer-500.woff2')  format('woff2'); font-weight: 500; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Switzer';  src: url('/fonts/switzer-700.woff2')  format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 
-   Batas bawah 16px, bukan 14px. Press Start 2P tidak punya descender pendek
-   dan seluruh glyph mengisi kotak em, jadi 8px terlalu kecil untuk dibaca
-   meski ia kelipatan 8. */
+/* ─────────────────────────────────────────────────────────────────────────
+   THE LEDGER — fondasi desain
+   Rencana: docs/porto-redesign-plan.md
+
+   Premis situs ini adalah bukti: setiap klaim punya angka, setiap angka punya
+   catatan kaki, dan catatan kakinya tidak disembunyikan. Token di bawah ini
+   melayani premis itu — bukan sebaliknya.
+   ───────────────────────────────────────────────────────────────────────── */
 
 @theme {
-  /* Palet terkunci — rasio kontras sudah DIUKUR, bukan diperkirakan.
-     Memakai warna di luar perannya akan merusak keterbacaan. */
-  --color-ink: #2C3639;      /* latar */
-  --color-surface: #3F4E4F;  /* permukaan/kartu. JANGAN jadi border: 1,43:1 */
-  --color-copper: #A27B5C;   /* border 2px, heading besar, blok isian. 3,26:1 */
-  --color-sand: #B89B83;     /* label kecil, angka, tautan. 4,76:1 */
-  --color-cream: #DCD7C9;    /* teks utama. 8,62:1 di latar, 6,05:1 di surface */
-  --color-shadow: #1A2123;   /* hard offset shadow */
+  /* ── Warna ──────────────────────────────────────────────────────────────
+     Strategi: restrained. Satu momen drenched di section gelap.
 
-  --font-pixel: 'Press Start 2P', ui-monospace, monospace;
-  --font-body: 'IBM Plex Mono', 'Space Mono', ui-monospace, monospace;
+     Terang sebagai default, dan alasannya konkret: pembacanya adalah recruiter
+     dan engineering lead di Jakarta, membuka link LinkedIn dari HP, siang hari,
+     sering di luar ruangan. Dark mode elegan di studio dan kalah di layar
+     500 nit kena matahari.
+
+     Anchor hue 168 (hijau-tinta teroksidasi). Neutral-nya ditarik ke hue itu
+     dengan chroma 0.004–0.01, bukan ke arah hangat — krem/sand adalah default
+     yang muncul di mana-mana, dan chroma hangat adalah pintu masuknya.
+
+     Angka kontras di bawah DIUKUR, bukan diperkirakan. Kalau Anda mengganti
+     satu nilai, ukur ulang; jangan percaya bahwa "kelihatannya masih cukup". */
+
+  --color-ink:            oklch(0.22 0.03  168);  /* teks utama — 15.76:1 di surface */
+  --color-ink-soft:       oklch(0.45 0.02  168);  /* teks sekunder — 6.76:1 */
+  --color-surface:        oklch(0.97 0.006 168);  /* latar halaman */
+  --color-surface-raised: oklch(0.99 0.004 168);  /* bidang terangkat — 16.70:1 */
+  --color-rule:           oklch(0.85 0.01  168);  /* hairline. 1.45:1 — sengaja
+                             lirih, dan memang bukan teks. Kalau sebuah pemisah
+                             perlu TERBACA, ia bukan hairline; pakai label. */
+  --color-verified:       oklch(0.52 0.09  168);  /* penanda metrik — 4.83:1 */
+
+  /* --color-signal: HANYA untuk caveat/batasan. Dua varian, dan ini bukan
+     token berlebih: amber tidak punya satu nilai pun yang lolos 4.5:1 di latar
+     terang DAN gelap sekaligus (puncaknya 4.09/3.87 — keduanya gagal). Dipaksa
+     satu token, teks caveat jadi tidak terbaca di salah satu section. Diukur,
+     bukan dikira. */
+  --color-signal:         oklch(0.52 0.12  62);   /* di surface — 5.24:1 */
+  --color-signal-on-ink:  oklch(0.74 0.12  62);   /* di ink     — 7.24:1 */
+
+  /* Di atas --color-ink (section gelap) */
+  --color-on-ink:         oklch(0.96 0.008 168);  /* 15.32:1 */
+  --color-on-ink-soft:    oklch(0.74 0.015 168);  /*  7.49:1 */
+  --color-rule-on-ink:    oklch(0.35 0.02  168);
+
+  /* ── Tipografi ──────────────────────────────────────────────────────────
+     Dipasangkan pada sumbu kontras: serif old-style berkontras tinggi lawan
+     grotesk netral. Dua sans yang mirip-tapi-tidak-sama adalah kesalahan yang
+     lebih buruk daripada satu keluarga saja.
+
+     Tidak ada monospace. Label kecil ber-monospace adalah tell, dan masalah
+     yang biasanya dipakai untuk menyelesaikannya — perataan angka — sudah
+     diselesaikan tabular-nums di bawah. */
+
+  --font-display: 'Gambetta', ui-serif, Georgia, serif;
+  --font-sans:    'Switzer', ui-sans-serif, system-ui, -apple-system, sans-serif;
+
+  /* ── Spasi ──────────────────────────────────────────────────────────────
+     Non-linear dengan sengaja. Skala linier (8/16/24/32) menghasilkan halaman
+     yang rata temponya; ritme datang dari jarak yang tidak seragam. */
+
+  --spacing-2xs: 0.25rem;   /*  4px */
+  --spacing-xs:  0.5rem;    /*  8px */
+  --spacing-sm:  0.75rem;   /* 12px */
+  --spacing-md:  1.25rem;   /* 20px */
+  --spacing-lg:  2rem;      /* 32px */
+  --spacing-xl:  3.25rem;   /* 52px */
+  --spacing-2xl: 5.25rem;   /* 84px */
+  --spacing-3xl: 8.5rem;    /* 136px */
+
+  /* ── Easing ─────────────────────────────────────────────────────────────
+     Eksponensial keluar. Tanpa bounce, tanpa elastic — keduanya menambahkan
+     kepribadian yang tidak diminta konten ini. */
+
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-out-expo:  cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-html {
-  scroll-behavior: smooth;
-  scroll-snap-type: y mandatory;
-  background-color: var(--color-ink);
-  background-image: 
-    radial-gradient(rgba(162, 123, 92, 0.18) 1px, transparent 1px),
-    radial-gradient(rgba(63, 78, 79, 0.35) 1px, transparent 1px);
-  background-size: 32px 32px, 16px 16px;
-  background-position: 0 0, 16px 16px;
+/* ── Z-index semantik ─────────────────────────────────────────────────────
+   Dinamai, berjarak 10. Tidak pernah 999 atau 9999: angka sembarangan adalah
+   cara sebuah stacking context berhenti bisa dipikirkan. */
+:root {
+  --z-rail: 10;
+  --z-sticky: 20;
+  --z-sheet-backdrop: 30;
+  --z-sheet: 40;
+  --z-toast: 50;
 }
 
-@media (prefers-reduced-motion: reduce) {
+/* ── Skala tipografi ──────────────────────────────────────────────────────
+   Rasio ~1.333, dipangkas di ujung atas.
+
+   Ceiling display 5.25rem (84px), bukan 6rem+. Sudah diuji terhadap string
+   terpanjang di konten — "DAVID ADRIEL ALVYN" — pada 320px. Di atas itu
+   halamannya berteriak, dan kata terpanjangnya keluar container. */
+
+@layer base {
+  :root {
+    --text-display: clamp(2.75rem, 7vw, 5.25rem);
+    --text-h2:      clamp(1.75rem, 4vw, 2.75rem);
+    --text-h3:      1.5rem;
+    --text-body:    1.0625rem;
+    --text-metric:  clamp(2rem, 5vw, 3.5rem);
+    --text-caption: 0.875rem;
+  }
+
   html {
-    scroll-behavior: auto;
-    scroll-snap-type: none;
+    background-color: var(--color-surface);
+    -webkit-text-size-adjust: 100%;
+  }
+
+  /* scroll-behavior dipasang di sini, BUKAN scroll-snap. Snap mandatory
+     membajak scroll dan membuat halaman panjang terasa melawan jari —
+     persis keluhan yang paling sering muncul di situs portofolio. */
+  @media (prefers-reduced-motion: no-preference) {
+    html { scroll-behavior: smooth; }
+  }
+
+  body {
+    background-color: var(--color-surface);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: 1.65;
+    font-synthesis-weight: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1, h2, h3 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    text-wrap: balance;
+    line-height: 1.05;
+  }
+
+  h1 { font-size: var(--text-display); letter-spacing: -0.03em; line-height: 0.95; }
+  h2 { font-size: var(--text-h2);      letter-spacing: -0.02em; }
+  h3 { font-size: var(--text-h3);      letter-spacing: -0.01em; }
+
+  p { text-wrap: pretty; }
+
+  /* Prosa tidak pernah lebih lebar dari 68ch. Baris panjang bukan masalah
+     estetika — mata kehilangan awal baris berikutnya. */
+  .prose-measure { max-width: 68ch; }
+
+  /* Angka adalah materi utama situs ini, jadi perataannya bukan detail.
+     tabular-nums membuat kolom angka sejajar; lining-nums menjaga tingginya
+     seragam. Koma desimal Indonesia ditulis di data, bukan diformat di sini. */
+  .numeric {
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+
+  /* Fokus keyboard harus terlihat di kedua latar. currentColor mengikuti
+     warna teks section, jadi satu aturan cukup untuk terang dan gelap. */
+  :focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+    border-radius: 1px;
+  }
+
+  /* Target sentuh minimum. Bukan saran — di bawah 44px, jari orang dewasa
+     meleset cukup sering untuk terasa rusak. */
+  @media (pointer: coarse) {
+    a, button, [role="button"], summary {
+      min-height: 44px;
+    }
+  }
+
+  ::selection {
+    background: var(--color-ink);
+    color: var(--color-surface);
   }
 }
 
-body {
-  color: var(--color-cream);
-  font-family: var(--font-body);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* ── Section gelap (drenched) ─────────────────────────────────────────────
+   Satu-satunya tempat palet dibalik. Latar videonya diatur per-komponen;
+   di sini hanya warna teks, supaya section tetap benar kalau videonya gagal
+   dimuat atau dimatikan reduced-motion. */
+.on-ink {
+  background-color: var(--color-ink);
+  color: var(--color-on-ink);
 }
+.on-ink h1, .on-ink h2, .on-ink h3 { color: var(--color-on-ink); }
+.on-ink .text-signal { color: var(--color-signal-on-ink); }
 
-/* Semua sprite dan gambar piksel: jangan diinterpolasi saat diperbesar. */
-.pixelated {
-  image-rendering: pixelated;
-  image-rendering: -moz-crisp-edges;
-}
-
-/* Indikator "lanjut ke bawah". Dua frame diskrit, bukan bounce halus: gerak
-   bertangga adalah kosakata 8-bit yang sesungguhnya, sementara bounce
-   cubic-bezier terbaca sebagai animasi web biasa. Sekaligus menghormati
-   reduced-motion, yang utilitas bounce bawaan Tailwind tidak lakukan. */
-@keyframes nudge-down {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(3px); }
-}
-
-.nudge-down {
-  animation: nudge-down 1.1s steps(1, end) infinite;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .nudge-down { animation: none; }
-}
-
-/* Fokus keyboard harus sangat terlihat — dan tetap kotak, bukan membulat. */
-:focus-visible {
-  outline: 2px solid var(--color-sand);
-  outline-offset: 2px;
-}
-
-/* Scanline overlay. Opacity ditahan sangat rendah dengan sengaja: begitu
-   scanline-nya "terasa", ia sudah mengganggu pembacaan. */
-.scanlines::before {
+/* ── Grain ────────────────────────────────────────────────────────────────
+   SVG feTurbulence inline lewat data URI: ~400 byte, nol request, tidak ada
+   file yang bisa hilang. Opacity ditahan sangat rendah — begitu grain-nya
+   "terasa", ia sudah jadi dekorasi. */
+.grain::after {
   content: '';
   position: fixed;
   inset: 0;
   pointer-events: none;
-  z-index: 50;
-  background: repeating-linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0.28) 0 1px,
-    transparent 1px 3px
-  );
-  opacity: 0.09;
+  z-index: var(--z-sticky);
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
+/* ── Hairline ─────────────────────────────────────────────────────────────
+   Pemisah antar record. Border penuh atau tidak sama sekali — border-left
+   tebal berwarna sebagai aksen tidak pernah merupakan keputusan. */
+.rule-t { border-top: 1px solid var(--color-rule); }
+.rule-b { border-bottom: 1px solid var(--color-rule); }
+.on-ink .rule-t { border-color: var(--color-rule-on-ink); }
+.on-ink .rule-b { border-color: var(--color-rule-on-ink); }
+
+/* ── Reduced motion ───────────────────────────────────────────────────────
+   Bukan opsional. Catatan penting untuk yang menambah animasi nanti: jangan
+   pernah menggantungkan VISIBILITAS konten pada transisi. Transisi berhenti
+   di tab background dan di renderer headless, jadi section-nya akan terkirim
+   kosong ke orang yang tidak pernah tahu kenapa. */
 @media (prefers-reduced-motion: reduce) {
-  .scanlines::before { display: none; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

@@ -18,18 +18,24 @@
          memakai thumbnail kecil dan seluruh kartunya terpotong jadi kotak. -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="https://dvdadriel.web.id/og-image.jpg" />
-    <!-- Sebelumnya #09090b — nilai sisa dari palet lama, bukan warna latar situs
-         ini. Harus cocok dengan --color-ink di index.css, kalau tidak chrome
-         browser di ponsel memakai warna yang tidak ada di halaman. -->
-    <meta name="theme-color" content="#2C3639" />
+    <!-- Harus cocok dengan --color-surface di index.css. Kalau tidak, chrome
+         browser di ponsel memakai warna yang tidak ada di halaman — dan itu
+         justru paling terlihat di HP, tempat mayoritas orang membuka ini. -->
+    <meta name="theme-color" content="#F1F6F4" />
 
     <!-- Sebelumnya tidak ada favicon sama sekali, jadi browser jatuh ke
          /favicon.ico yang tidak pernah ada. Diamond-nya sama dengan logo navbar. -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Press+Start+2P&display=swap" rel="stylesheet" />
+    <!-- Font di-host sendiri di /fonts (Gambetta display + Switzer teks), jadi
+         tidak ada preconnect ke pihak ketiga: satu domain lebih sedikit yang
+         harus hidup agar halaman ini terbaca benar.
+
+         Hanya dua face yang di-preload — yang pasti muncul di layar pertama.
+         Mem-preload kelimanya akan berebut bandwidth dengan HTML dan justru
+         memperlambat teks pertama yang terlihat. -->
+    <link rel="preload" href="/fonts/gambetta-400.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/switzer-400.woff2" as="font" type="font/woff2" crossorigin />
   </head>
   <body>
     <div id="root"></div>
@@ -41,33 +47,33 @@
       menghubungi. Cukup untuk pengunjung tanpa JS dan crawler sederhana.
     -->
     <noscript>
-      <div class="max-w-2xl mx-auto px-6 py-16 text-fg leading-relaxed">
+      <div class="max-w-2xl mx-auto px-6 py-16 text-ink leading-relaxed">
         <h1 class="text-3xl font-bold tracking-tight">David Adriel Alvyn</h1>
-        <p class="mt-2 text-fg-dim">Fullstack Developer · Go, Rails, Laravel, React</p>
+        <p class="mt-2 text-ink-soft">Fullstack Developer · Go, Rails, Laravel, React</p>
 
-        <p class="mt-8 text-fg-dim">
+        <p class="mt-8 text-ink-soft">
           Versi lengkap halaman ini butuh JavaScript. Ringkasannya:
         </p>
 
-        <h2 class="mt-10 mb-2 font-mono text-xs uppercase tracking-wide text-accent">Pengalaman</h2>
-        <p class="text-fg-dim">Web Developer · Massindo Group · 2025–sekarang</p>
+        <h2 class="mt-10 mb-2 text-sm font-medium text-verified">Pengalaman</h2>
+        <p class="text-ink-soft">Web Developer · Massindo Group · 2025–sekarang</p>
 
-        <h2 class="mt-10 mb-2 font-mono text-xs uppercase tracking-wide text-accent">Project</h2>
-        <ul class="list-disc pl-5 space-y-1 text-fg-dim">
-          <li><a href="https://github.com/dvdadriel/idx-screener" class="text-accent">IdxScreener</a>: screener saham IDX, Rails, dengan backtesting walk-forward</li>
-          <li><a href="https://github.com/dvdadriel/News-Update" class="text-accent">News Update</a>: bot berita harian di Cloudflare Workers</li>
-          <li><a href="https://github.com/dvdadriel/Go-Courier" class="text-accent">Go-Courier</a>: microservices gRPC</li>
-          <li><a href="https://github.com/dvdadriel/Go-FoodStore" class="text-accent">Go-FoodStore</a>: REST API Go berlapis</li>
+        <h2 class="mt-10 mb-2 text-sm font-medium text-verified">Project</h2>
+        <ul class="list-disc pl-5 space-y-1 text-ink-soft">
+          <li><a href="https://github.com/dvdadriel/idx-screener" class="text-verified underline underline-offset-2">IdxScreener</a>: screener saham IDX, Rails, dengan backtesting walk-forward</li>
+          <li><a href="https://github.com/dvdadriel/News-Update" class="text-verified underline underline-offset-2">News Update</a>: bot berita harian di Cloudflare Workers</li>
+          <li><a href="https://github.com/dvdadriel/Go-Courier" class="text-verified underline underline-offset-2">Go-Courier</a>: microservices gRPC</li>
+          <li><a href="https://github.com/dvdadriel/Go-FoodStore" class="text-verified underline underline-offset-2">Go-FoodStore</a>: REST API Go berlapis</li>
         </ul>
 
-        <h2 class="mt-10 mb-2 font-mono text-xs uppercase tracking-wide text-accent">Pendidikan</h2>
-        <p class="text-fg-dim">Bina Nusantara University · Computer Science, 2021–2025</p>
+        <h2 class="mt-10 mb-2 text-sm font-medium text-verified">Pendidikan</h2>
+        <p class="text-ink-soft">Bina Nusantara University · Computer Science, 2021–2025</p>
 
-        <h2 class="mt-10 mb-2 font-mono text-xs uppercase tracking-wide text-accent">Kontak</h2>
+        <h2 class="mt-10 mb-2 text-sm font-medium text-verified">Kontak</h2>
         <p>
-          <a href="mailto:dvdadrielwork@gmail.com" class="text-accent">dvdadrielwork@gmail.com</a>
-          <span class="text-fg-dim mx-2">·</span>
-          <a href="https://github.com/dvdadriel" class="text-accent">github.com/dvdadriel</a>
+          <a href="mailto:dvdadrielwork@gmail.com" class="text-verified underline underline-offset-2">dvdadrielwork@gmail.com</a>
+          <span class="text-ink-soft mx-2">·</span>
+          <a href="https://github.com/dvdadriel" class="text-verified underline underline-offset-2">github.com/dvdadriel</a>
         </p>
       </div>
     </noscript>

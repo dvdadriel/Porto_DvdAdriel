@@ -29,12 +29,12 @@ export const translations = {
     },
     work: {
       sectionNum: '02',
-      title: 'PENGALAMAN KERJA',
+      title: 'Pengalaman',
       role: 'Web Developer',
       company: 'Massindo Group',
-      period: '2025 – SEKARANG',
-      summary: 'Mengembangkan dan memelihara ekosistem web untuk sembilan brand terkemuka di bawah satu grup — pengerjaan fitur, optimasi performa, dan pemeliharaan sistem di lingkungan produksi skala besar.',
-      focusTitle: 'FOKUS TANGGUNG JAWAB:',
+      period: '2025 – sekarang',
+      summary: 'Mengembangkan dan memelihara situs sembilan brand di bawah satu grup: pengerjaan fitur, optimasi performa, dan pemeliharaan sistem yang sedang dipakai orang.',
+      focusTitle: 'Tanggung jawab',
       duties: [
         'Pengembangan & pemeliharaan arsitektur web multi-brand',
         'Implementasi fitur baru & optimalisasi alur sistem produksi',
@@ -42,8 +42,7 @@ export const translations = {
         'Perbaikan Core Web Vitals & kecepatan muat sembilan situs',
         'Deployment, pemeliharaan database & konfigurasi server',
       ],
-      sitesTitle: '9 SITUS MULTI-BRAND',
-      sitesBadge: 'PRODUKSI LIVE',
+      sitesTitle: 'Sembilan situs yang sedang berjalan',
       note: 'Kode sumber milik perusahaan (work-for-hire). Tautan di atas mengarah langsung ke domain publik yang sedang aktif.',
     },
     projects: {
@@ -222,12 +221,12 @@ export const translations = {
     },
     work: {
       sectionNum: '02',
-      title: 'WORK EXPERIENCE',
+      title: 'Experience',
       role: 'Web Developer',
       company: 'Massindo Group',
-      period: '2025 – PRESENT',
-      summary: 'Developing and maintaining the multi-brand digital ecosystem for nine renowned brands under one group — implementing production features, server configs, and long-term system maintenance.',
-      focusTitle: 'CORE RESPONSIBILITIES:',
+      period: '2025 – present',
+      summary: 'Building and maintaining the websites of nine brands under one group: shipping features, tuning performance, and keeping systems running while people use them.',
+      focusTitle: 'Responsibilities',
       duties: [
         'Development & maintenance of multi-brand web architectures',
         'Implementing production features & optimizing live system workflows',
@@ -235,8 +234,7 @@ export const translations = {
         'Core Web Vitals & page load improvements across nine sites',
         'Deployment, database maintenance & server configuration',
       ],
-      sitesTitle: '9 MULTI-BRAND SITES',
-      sitesBadge: 'LIVE PRODUCTION',
+      sitesTitle: 'Nine sites currently running',
       note: 'Proprietary company code (work-for-hire). Links above point directly to live public websites.',
     },
     projects: {

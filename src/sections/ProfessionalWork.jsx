@@ -1,115 +1,96 @@
 import React from 'react'
-import PixelCharacter from '../components/PixelCharacter.jsx'
-import ShuffleText from '../components/ShuffleText.jsx'
-import SectionDownArrow from '../components/SectionDownArrow.jsx'
 import { useLanguage } from '../context/LanguageContext.jsx'
 import { work } from '../data/work.js'
 
+/**
+ * Pengalaman kerja, dan sembilan situs sebagai satu dinding.
+ *
+ * Sembilan kartu logo akan jadi tambal sulam sembilan identitas yang saling
+ * berebut; sembilan baris berhairline terbaca sebagai satu daftar milik satu
+ * orang. Yang penting di sini bukan brand-nya — tapi bahwa kesembilannya hidup
+ * dan bisa diklik sekarang juga.
+ *
+ * Domainnya ditulis lengkap, bukan disembunyikan di balik kata "kunjungi":
+ * domain yang terlihat bisa diperiksa orang tanpa harus mengkliknya dulu.
+ */
 export default function ProfessionalWork() {
   const { t } = useLanguage()
-  const currentWork = work[0]
+  const clients = work[0].clients
 
   return (
     <section
       id="work"
-      className="min-h-screen lg:h-screen snap-start snap-always flex flex-col justify-center px-4 sm:px-8 lg:px-16 max-w-6xl mx-auto pt-16 pb-8 relative overflow-hidden"
+      className="mx-auto w-full max-w-[1360px] px-6 py-24 sm:px-10 sm:py-32 lg:px-16"
     >
-      <div className="flex items-center justify-between gap-4 mb-3 sm:mb-5">
-        <div>
-          <p className="font-pixel text-[12px] sm:text-[14px] text-sand tracking-widest">{t.work.sectionNum}</p>
-          <h2 className="font-pixel text-[20px] sm:text-[30px] md:text-[36px] text-copper leading-[1.3] tracking-wide">
-            <ShuffleText text={t.work.title} key={t.work.title} />
-          </h2>
-        </div>
-        <div
-          className="hidden sm:flex border-2 border-copper bg-surface p-2 items-center justify-center shrink-0"
-          style={{ boxShadow: '3px 3px 0 var(--color-shadow)' }}
-        >
-          <PixelCharacter action="walking" size={54} />
-        </div>
-      </div>
+      <h2>{t.work.title}</h2>
 
-      {/* Tanpa items-start: itulah yang membuat kedua kartu tingginya beda. Grid item
-          meregang penuh secara default, jadi keduanya ikut kartu tertinggi. */}
-      <div className="grid lg:grid-cols-[1fr_1.1fr] gap-6 lg:gap-8">
-        {/* Kolom Kiri: Role & Summary */}
-        <div
-          className="border-2 border-copper bg-surface p-4 sm:p-6"
-          style={{ boxShadow: '4px 4px 0 var(--color-shadow)' }}
-        >
-          <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-copper/40 pb-3">
-            <div>
-              <h3 className="font-pixel text-[14px] sm:text-[18px] text-cream">
-                {t.work.role}
-              </h3>
-              <p className="text-sand text-sm mt-1">@ {t.work.company}</p>
-            </div>
-            <span className="font-pixel text-[10px] sm:text-[11px] bg-ink px-2.5 py-1 text-copper border border-copper/60">
+      <div className="mt-14 grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-8">
+        <div className="lg:col-span-7">
+          {/* Peran dan periode satu baris: keduanya adalah fakta yang sama
+              pentingnya, dan memisahnya jadi dua blok hanya menambah jarak. */}
+          <div className="prose-measure flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
+            <h3 style={{ fontSize: 'var(--text-h3)' }}>{t.work.role}</h3>
+            <p className="numeric text-[0.9375rem]" style={{ color: 'var(--color-ink-soft)' }}>
               {t.work.period}
-            </span>
+            </p>
           </div>
-
-          <p className="mt-4 text-xs sm:text-sm text-cream/85 leading-relaxed font-normal">
-            {t.work.summary}
+          <p className="mt-1 text-[1.0625rem]" style={{ color: 'var(--color-ink-soft)' }}>
+            {t.work.company}
           </p>
 
-          <div className="mt-4 space-y-2">
-            <p className="font-pixel text-[10px] text-sand tracking-wider">
-              {t.work.focusTitle}
-            </p>
-            <ul className="space-y-1 text-xs sm:text-sm text-cream/80">
-              {t.work.duties.map((d) => (
-                <li key={d} className="flex items-start gap-2">
-                  <span className="text-copper">▪</span>
-                  <span>{d}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <p className="prose-measure mt-6">{t.work.summary}</p>
+
+          <h4 className="mt-9 text-[0.875rem] font-medium" style={{ color: 'var(--color-ink-soft)' }}>
+            {t.work.focusTitle}
+          </h4>
+          <ul className="prose-measure mt-3 space-y-2">
+            {t.work.duties.map((d) => (
+              <li key={d} className="flex text-[0.9375rem]">
+                <span aria-hidden="true" className="mr-3" style={{ color: 'var(--color-rule)' }}>
+                  —
+                </span>
+                <span>{d}</span>
+              </li>
+            ))}
+          </ul>
         </div>
 
-        {/* Kolom Kanan: 9 Multi-brand Sites */}
-        <div
-          className="border-2 border-copper bg-surface/70 p-4 sm:p-6 flex flex-col"
-          style={{ boxShadow: '4px 4px 0 var(--color-shadow)' }}
-        >
-          <div className="flex items-center justify-between mb-3 border-b border-copper/40 pb-2">
-            <span className="font-pixel text-[11px] sm:text-[12px] text-sand tracking-wider">
-              {t.work.sitesTitle}
-            </span>
-            <span className="text-[10px] font-mono text-sand/75 bg-ink px-2 py-0.5 border border-copper/50">
-              {t.work.sitesBadge}
-            </span>
-          </div>
+        <div className="lg:col-span-4 lg:col-start-9">
+          <h4 className="text-[0.875rem] font-medium" style={{ color: 'var(--color-ink-soft)' }}>
+            {t.work.sitesTitle}
+          </h4>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
-            {currentWork.clients.map((c) => (
-              <a
-                key={c.brand}
-                href={c.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group block border border-copper/70 bg-ink/80 p-2 sm:p-2.5 transition-all hover:-translate-y-0.5 hover:border-copper hover:bg-ink"
-                style={{ boxShadow: '2px 2px 0 var(--color-shadow)' }}
-              >
-                <span className="block font-pixel text-[10px] sm:text-[11px] text-cream group-hover:text-copper truncate">
-                  {c.brand}
-                </span>
-                <span className="block mt-1 text-[9px] sm:text-[10px] text-sand/70 truncate font-mono">
-                  {c.url.replace('https://', '')} ↗
-                </span>
-              </a>
+          <ul className="mt-4">
+            {clients.map((c) => (
+              <li key={c.brand}>
+                <a
+                  href={c.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group rule-t flex items-baseline justify-between gap-4 py-3 transition-colors duration-200"
+                >
+                  <span className="text-[1rem]">{c.brand}</span>
+                  {/* Domain bergeser saat hover — satu-satunya gerak di daftar
+                      ini, dan dia menjawab aksi, bukan menyambut scroll. */}
+                  <span
+                    className="text-[0.875rem] transition-transform duration-200 ease-out group-hover:translate-x-1"
+                    style={{ color: 'var(--color-ink-soft)' }}
+                  >
+                    {c.url.replace('https://', '')}
+                  </span>
+                </a>
+              </li>
             ))}
-          </div>
+          </ul>
 
-          <p className="mt-auto pt-3 text-[11px] text-cream/60 leading-relaxed italic border-t border-copper/30">
-            * {t.work.note}
+          <p
+            className="rule-t mt-6 pt-4 text-[0.875rem] leading-relaxed"
+            style={{ color: 'var(--color-ink-soft)' }}
+          >
+            {t.work.note}
           </p>
         </div>
       </div>
-
-      {/* Down Arrow Indicator to Projects */}
-      <SectionDownArrow targetId="projects" label="PROJECTS" />
     </section>
   )
 }

@@ -19,10 +19,22 @@ import { gsap, onMotionOK } from '../lib/motion.js'
  * 3. Jarak geraknya kecil (18px). Ini penekanan, bukan pertunjukan; yang
  *    melintas setengah layar menahan pembacaan, bukan membantunya.
  *
- * `start` sengaja 88% — animasinya selesai sebelum elemen sampai ke tengah
- * layar, jadi orang tidak pernah menunggu teks yang belum muncul.
+ * `start` 68%, bukan 88%. Di 88% section baru mengintip 12% dari tepi bawah,
+ * animasinya berjalan sementara orang masih membaca section sebelumnya, dan
+ * begitu ia benar-benar sampai semuanya sudah selesai — efeknya ada di kode
+ * tapi tidak pernah terlihat. Di 68% ambangnya jatuh saat sepertiga section
+ * sudah masuk layar, yaitu saat orang memang sedang menuju ke sana.
+ *
+ * Lebih rendah dari itu berbalik jadi masalah lain: teks yang animasinya baru
+ * mulai ketika sudah di tengah layar membuat orang menunggu bacaannya.
  */
-export default function SectionReveal({ children, stagger = 0.08, className, id }) {
+export default function SectionReveal({
+  children,
+  stagger = 0.08,
+  start = 'top 68%',
+  className,
+  id,
+}) {
   const root = useRef(null)
 
   useGSAP(
@@ -40,7 +52,7 @@ export default function SectionReveal({ children, stagger = 0.08, className, id 
         // punya opacity 0 pada saat muat.
         const tl = gsap.timeline({
           defaults: { ease: 'expo.out', immediateRender: false },
-          scrollTrigger: { trigger: root.current, start: 'top 88%', once: true },
+          scrollTrigger: { trigger: root.current, start, once: true },
         })
 
         // Garis kepala section ditarik dari kiri. scaleX, bukan width: width
@@ -56,7 +68,7 @@ export default function SectionReveal({ children, stagger = 0.08, className, id 
         tl.from(targets, { y: 18, opacity: 0, duration: 0.7, stagger }, rule ? '-=0.55' : 0)
       })
     },
-    { scope: root }
+    { scope: root, dependencies: [start, stagger] }
   )
 
   return (

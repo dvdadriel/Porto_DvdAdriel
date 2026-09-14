@@ -32,7 +32,7 @@ export default function Contact() {
           // Lihat catatan di SectionReveal: tanpa ini konten tersembunyi
           // sebelum ScrollTrigger menyala.
           immediateRender: false,
-          scrollTrigger: { trigger: root.current, start: 'top 88%', once: true },
+          scrollTrigger: { trigger: root.current, start: 'top 68%', once: true },
         })
       })
     },

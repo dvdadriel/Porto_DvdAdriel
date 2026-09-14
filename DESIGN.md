@@ -174,6 +174,20 @@ Aturan yang tidak boleh dilanggar:
   lalu baca opacity elemen `[data-reveal]` di section terjauh; harus 1.
 - Garis kepala dianimasikan dengan `scaleX`, bukan `width`: `width` memicu layout
   tiap frame, `scaleX` hanya compositing.
+- **Ambang `start: 'top 68%'`, bukan 88%.** Di 88% section baru mengintip 12%
+  dari tepi bawah: animasinya berjalan sementara orang masih membaca section
+  sebelumnya, dan begitu ia benar-benar sampai semuanya sudah selesai — efeknya
+  ada di kode tapi tidak pernah terlihat. Lebih rendah dari 68% berbalik jadi
+  masalah lain: teks yang baru mulai muncul saat sudah di tengah layar membuat
+  orang menunggu bacaannya.
+- **ScrollTrigger harus di-refresh setelah font selesai dimuat.** Posisi tiap
+  trigger dihitung sekali dan dipakai sampai disuruh hitung ulang, sementara
+  Anton baru menggantikan font sistem setelah woff2-nya turun — tiap judul
+  berubah tinggi dan semua section di bawahnya bergeser. Terukur: sebelum
+  refresh ini, ambang 68% menyala saat Pengalaman dan Project masih di 95% dan
+  Stack di 104%, yaitu sebelum section-nya kelihatan sama sekali. Accordion juga
+  memanggil `refresh()` setelah animasinya selesai, karena membuka panel
+  menggeser semua yang ada di bawahnya.
 - `once: true` di semua ScrollTrigger. Animasi yang mengulang tiap kali orang
   menggulung naik-turun berhenti jadi sambutan dan mulai jadi gangguan. Efek
   sampingnya: trigger yang sudah menyala hilang dari `ScrollTrigger.getAll()` —

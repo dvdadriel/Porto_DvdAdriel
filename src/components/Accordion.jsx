@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import { gsap } from '../lib/motion.js'
+import { gsap, ScrollTrigger } from '../lib/motion.js'
 
 /**
  * Accordion di atas <details>/<summary> native, dengan animasi GSAP.
@@ -42,7 +42,12 @@ export default function Accordion({ name, summary, meta, children, defaultOpen =
         opacity: 1,
         duration: 0.55,
         ease: 'expo.out',
-        onComplete: () => gsap.set(el, { height: 'auto' }),
+        onComplete: () => {
+          gsap.set(el, { height: 'auto' })
+          // Membuka panel menggeser semua section di bawahnya. Tanpa ini,
+          // ambang scroll mereka memakai posisi lama.
+          ScrollTrigger.refresh()
+        },
       }
     )
     gsap.fromTo(
@@ -68,6 +73,7 @@ export default function Accordion({ name, summary, meta, children, defaultOpen =
       onComplete: () => {
         el.open = false
         gsap.set(body.current, { height: 'auto', opacity: 1 })
+        ScrollTrigger.refresh()
       },
     })
   }

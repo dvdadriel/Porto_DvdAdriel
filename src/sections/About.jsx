@@ -1,88 +1,87 @@
 import React from 'react'
-import PixelCharacter from '../components/PixelCharacter.jsx'
-import ShuffleText from '../components/ShuffleText.jsx'
-import SectionDownArrow from '../components/SectionDownArrow.jsx'
 import { useLanguage } from '../context/LanguageContext.jsx'
 
+/**
+ * Tentang — prosa di kiri, fakta yang bisa diperiksa di kanan.
+ *
+ * Pembagian kolomnya sama dengan record project, dan itu disengaja: begitu
+ * seseorang belajar "kiri itu cerita, kanan itu data" di section project, dia
+ * tidak perlu belajar ulang di sini.
+ *
+ * Bio dipecah jadi tiga paragraf pendek. Versi sebelumnya satu blok ~150 kata,
+ * yang di layar 390px jadi dinding teks tanpa tempat mata beristirahat.
+ */
 export default function About() {
   const { t } = useLanguage()
 
   return (
     <section
       id="about"
-      className="min-h-screen lg:h-screen snap-start snap-always flex flex-col justify-center px-4 sm:px-8 lg:px-16 max-w-6xl mx-auto pt-16 pb-12 relative overflow-hidden"
+      className="mx-auto w-full max-w-[1360px] px-6 py-24 sm:px-10 sm:py-32 lg:px-16"
     >
-      <div className="flex items-center justify-between gap-4 mb-3 sm:mb-5">
-        <div>
-          <p className="font-pixel text-[12px] sm:text-[14px] text-sand tracking-widest">{t.about.sectionNum}</p>
-          <h2 className="font-pixel text-[20px] sm:text-[30px] md:text-[36px] text-copper leading-[1.3] tracking-wide">
-            <ShuffleText text={t.about.title} key={t.about.title} />
-          </h2>
-        </div>
+      <h2>{t.about.title}</h2>
 
-        <div
-          className="border-2 border-copper bg-surface p-2 flex items-center justify-center shrink-0"
-          style={{ boxShadow: '3px 3px 0 var(--color-shadow)' }}
-        >
-          <PixelCharacter action="waving" size={60} />
-        </div>
-      </div>
-
-      <div className="grid lg:grid-cols-[1.2fr_1fr] gap-5 lg:gap-7 items-start max-h-[66vh] overflow-y-auto pr-1">
-        {/* Kolom Kiri: Biodata Lengkap & Filosofi */}
-        <div
-          className="border-2 border-copper bg-surface p-4 sm:p-5 space-y-3"
-          style={{ boxShadow: '4px 4px 0 var(--color-shadow)' }}
-        >
-          {/* leading-none di kedua sisi: font-pixel mengisi penuh kotak em-nya, jadi
-              tanpa ini glyph ★ dan judulnya terlihat tidak sejajar meski
-              containernya sudah items-center. */}
-          <div className="flex items-center gap-2 border-b border-copper/40 pb-2.5">
-            <span className="text-copper leading-none">★</span>
-            <h3 className="font-pixel text-[11px] sm:text-[13px] text-cream leading-none">
-              {t.about.philosophyTitle}
-            </h3>
+      <div className="mt-14 grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-8">
+        <div className="lg:col-span-7">
+          <h3 className="text-[0.875rem] font-medium" style={{ color: 'var(--color-ink-soft)', fontFamily: 'var(--font-sans)' }}>
+            {t.about.philosophyTitle}
+          </h3>
+          <div className="prose-measure mt-3 space-y-4">
+            {t.about.bioParagraph.map((para) => (
+              <p key={para}>{para}</p>
+            ))}
           </div>
 
-          <p className="text-xs sm:text-[13px] text-cream/90 leading-relaxed font-normal text-justify sm:text-left">
-            {t.about.bioParagraph}
-          </p>
+          <h3
+            className="mt-12 text-[0.875rem] font-medium"
+            style={{ color: 'var(--color-ink-soft)', fontFamily: 'var(--font-sans)' }}
+          >
+            {t.about.philosophyTitle2}
+          </h3>
+          <div className="prose-measure mt-3 space-y-4">
+            <p>{t.about.philosophy1}</p>
+            <p>{t.about.philosophy2}</p>
+          </div>
         </div>
 
-        {/* Kolom Kanan: Quest Pendidikan & Lokasi */}
-        <div className="space-y-4">
-          <div
-            className="border-2 border-copper bg-surface p-4 sm:p-5"
-            style={{ boxShadow: '4px 4px 0 var(--color-shadow)' }}
-          >
-            <div className="flex items-center justify-between border-b border-copper/40 pb-2 mb-3">
-              <span className="font-pixel text-[11px] sm:text-[12px] text-sand tracking-wider">
+        <div className="lg:col-span-4 lg:col-start-9">
+          {/* Rasio mengikuti ukuran asli file (533x800), bukan 4:5 yang
+              "seharusnya": memaksa rasio lain berarti object-cover memotong
+              atas dan bawah — dan yang dipotong di foto portrait adalah kepala. */}
+          <img
+            src="/portrait-david.jpg"
+            width="533"
+            height="800"
+            alt={`${t.hero.name}, ${t.hero.role}`}
+            loading="lazy"
+            decoding="async"
+            className="w-full"
+            style={{ border: '1px solid var(--color-rule)' }}
+          />
+
+          <dl className="mt-8">
+            <div className="rule-t py-4">
+              <dt className="text-[0.875rem]" style={{ color: 'var(--color-ink-soft)' }}>
                 {t.about.educationTitle}
-              </span>
-              <span className="text-[10px] font-mono text-copper">{t.about.educationBadge}</span>
+              </dt>
+              <dd className="mt-1">{t.about.school}</dd>
+              <dd className="text-[0.9375rem]" style={{ color: 'var(--color-ink-soft)' }}>
+                {t.about.major}
+              </dd>
+              <dd className="numeric text-[0.9375rem]" style={{ color: 'var(--color-ink-soft)' }}>
+                {t.about.period}
+              </dd>
             </div>
 
-            <p className="font-pixel text-[11px] sm:text-[12px] text-cream">{t.about.school}</p>
-            <p className="text-xs sm:text-sm text-sand mt-1 font-normal">{t.about.major}</p>
-            <p className="font-pixel text-[10px] text-sand/60 mt-1">{t.about.period}</p>
-          </div>
-
-          <div
-            className="border-2 border-copper/70 bg-ink/80 p-4"
-            style={{ boxShadow: '3px 3px 0 var(--color-shadow)' }}
-          >
-            <p className="font-pixel text-[10px] sm:text-[11px] text-sand mb-2">
-              {t.about.locationTitle}
-            </p>
-            <p className="text-xs sm:text-sm text-cream flex items-center gap-2 font-normal">
-              <span className="text-copper">📍</span> {t.about.location}
-            </p>
-          </div>
+            <div className="rule-t py-4">
+              <dt className="text-[0.875rem]" style={{ color: 'var(--color-ink-soft)' }}>
+                {t.about.locationTitle}
+              </dt>
+              <dd className="mt-1">{t.about.location}</dd>
+            </div>
+          </dl>
         </div>
       </div>
-
-      {/* Down Arrow Indicator to Contact */}
-      <SectionDownArrow targetId="work" label={t.nav.work} />
     </section>
   )
 }

@@ -72,7 +72,14 @@ export const projects = [
       'Belum ada test. Untuk sistem dengan empat service dan panggilan antar-service, itu kekurangan terbesarnya — dan dicatat terbuka di README-nya.',
     repo: 'https://github.com/dvdadriel/Go-Courier',
     docs: 'https://github.com/dvdadriel/Go-Courier/blob/main/documentation.md',
-    live: null,
+    // API tidak punya "Live" berupa domain. Yang setara untuknya adalah run CI
+    // yang bertanggal: sembilan container dinyalakan, satu alur ditembak lewat
+    // keempat gateway, dan output mentahnya diterbitkan di halaman run.
+    //
+    // Yang ditautkan halaman workflow, bukan URL satu run — URL run membeku,
+    // dan enam bulan lagi ia menampilkan bukti basi sementara yang lebih baru
+    // ada di sebelahnya.
+    live: 'https://github.com/dvdadriel/Go-Courier/actions/workflows/ci.yml?query=branch%3Amain+is%3Asuccess',
   },
   {
     slug: 'go-foodstore',
@@ -94,6 +101,32 @@ export const projects = [
       'Status HTTP selalu 200 — kode error hanya ada di body JSON. Cacat warisan yang saya dokumentasikan alih-alih sembunyikan; perbaikannya perubahan kontrak untuk setiap endpoint.',
     repo: 'https://github.com/dvdadriel/Go-FoodStore',
     docs: 'https://github.com/dvdadriel/Go-FoodStore/blob/main/docs/Go-FoodStore.postman_collection.json',
+    // Sama seperti Go-Courier: run CI bertanggal, bukan domain. Postman
+    // collection adalah janji — request yang seharusnya bekerja. Halaman run
+    // adalah request yang benar-benar dijalankan, lengkap dengan response-nya.
+    live: 'https://github.com/dvdadriel/Go-FoodStore/actions/workflows/ci.yml?query=branch%3Amain+is%3Asuccess',
+  },
+  {
+    slug: 'weblyzer',
+    name: 'Weblyzer',
+    kicker: 'Next.js · TypeScript · Playwright',
+    summary:
+      'Dashboard audit web self-hosted: crawl situs sendiri, lalu laporkan bug, error console, keamanan, SEO, paritas mobile, dan Lighthouse. Temuan direkonsiliasi antar-run, jadi yang terjawab bukan "apa yang salah hari ini" tapi "apa yang rusak semalam dan apa yang sudah beres".',
+    highlights: [
+      '30 aturan deterministik di lima kategori, plus GEO dan Audit yang dinilai model — dipisah tabnya karena penilaian bukan pengukuran',
+      'Temuan punya riwayat open → fixed → open lewat fingerprint lintas-run',
+      'Mobile Parity merender tiap halaman di 390/820/1440 px dan membandingkannya — bukan menebak dari CSS',
+      'Analyzer adalah fungsi murni tanpa browser dan tanpa database, karena itu bisa diuji penuh',
+    ],
+    metrics: [
+      { label: 'Test', value: '434', note: 'plus 11 end-to-end' },
+      { label: 'Aturan deterministik', value: '30', note: 'lima kategori' },
+      { label: 'Ukuran bukti', value: '26 MB', note: 'per 25 halaman, dari 463 MB' },
+    ],
+    caveat:
+      'Cek yang paling menentukan belum otomatis: menjalankan scan dua kali tanpa mengubah apa pun. Checker yang tidak deterministik membuat riwayat open → fixed berbohong — kelas bug ini sudah muncul empat kali. Aplikasi penuhnya juga tidak bisa dideploy serverless, jadi tautan live hanya halaman demo read-only.',
+    repo: 'https://github.com/dvdadriel/Weblyzer',
+    docs: null,
     live: null,
   },
 ]

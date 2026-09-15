@@ -22,6 +22,16 @@ const SHOTS = [
     srcSet: '/shots/live-news-720.webp 720w, /shots/live-news.webp 1440w',
     alt: 'Dashboard News Update menampilkan jadwal transmisi Telegram dan digest terakhir.',
   },
+  // Dua frame Weblyzer diambil dari rekaman demo di repo-nya, bukan dari
+  // sesi terpisah — jadi yang terlihat di hero persis yang terlihat kalau
+  // videonya di record project diputar. Aplikasinya jalan di mesin sendiri,
+  // tidak punya domain publik; ini tangkapan terdekat dengan "yang hidup"
+  // yang bisa dipertanggungjawabkan.
+  {
+    src: '/shots/live-weblyzer.webp',
+    srcSet: '/shots/live-weblyzer-720.webp 720w, /shots/live-weblyzer.webp 1280w',
+    alt: 'Weblyzer: daftar temuan SEO dengan severity, nama aturan, halaman, dan jumlah run.',
+  },
   {
     src: '/shots/live-idx2.webp',
     srcSet: '/shots/live-idx2-720.webp 720w, /shots/live-idx2.webp 1440w',
@@ -31,6 +41,11 @@ const SHOTS = [
     src: '/shots/live-news2.webp',
     srcSet: '/shots/live-news2-720.webp 720w, /shots/live-news2.webp 1440w',
     alt: 'News Update: daftar berita per kategori hasil ringkasan model AI.',
+  },
+  {
+    src: '/shots/live-weblyzer2.webp',
+    srcSet: '/shots/live-weblyzer2-720.webp 720w, /shots/live-weblyzer2.webp 1280w',
+    alt: 'Weblyzer: temuan Bug broken-resource terbuka, menampilkan URL dan status HTTP 429 apa adanya.',
   },
 ]
 

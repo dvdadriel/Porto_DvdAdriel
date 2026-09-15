@@ -100,7 +100,34 @@ export default function Record({
         </div>
       </div>
 
-      {shot && (
+      {/* Video dipakai hanya kalau gerakannya memang isi buktinya — satu alur
+          dari awal sampai selesai, yang gambar diam tidak bisa tunjukkan.
+          `preload="none"` membuatnya nol byte sampai seseorang menekan play,
+          dan poster-nya frame asli dari video itu sendiri, jadi record ini
+          tetap terlihat utuh meski videonya tidak pernah dibuka. Tanpa
+          autoplay: 53 detik yang berjalan sendiri di samping teks adalah
+          gangguan, bukan bukti. */}
+      {shot?.video && (
+        <figure className="mt-10">
+          <video
+            src={shot.video}
+            poster={shot.src}
+            width={shot.width}
+            height={shot.height}
+            controls
+            playsInline
+            preload="none"
+            aria-label={shot.alt}
+            className="w-full"
+            style={{ border: '1.5px solid var(--color-ink)' }}
+          />
+          <figcaption className="mt-3 text-[0.9375rem]" style={{ color: 'var(--color-ink-soft)' }}>
+            {shot.caption}
+          </figcaption>
+        </figure>
+      )}
+
+      {shot && !shot.video && (
         <img
           src={shot.src}
           srcSet={shot.srcSet}

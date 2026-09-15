@@ -34,6 +34,17 @@ const shots = {
     height: 900,
     alt: 'Dashboard News Update: jadwal transmisi Telegram dan digest berita terakhir.',
   },
+  // Satu-satunya record yang memakai video, karena yang dibuktikan di sini
+  // adalah alurnya: tambah situs → scan → buka temuan → unduh Excel. Gambar
+  // diam hanya bisa menunjukkan salah satu dari empat. Poster-nya frame asli
+  // dari video yang sama, bukan tangkapan terpisah yang bisa berbeda.
+  weblyzer: {
+    src: '/shots/live-weblyzer.webp',
+    video: '/media/weblyzer-tutorial.mp4',
+    width: 1280,
+    height: 800,
+    alt: 'Rekaman layar Weblyzer: daftar temuan SEO dengan severity, nama aturan, halaman, dan jumlah run — satu temuan terbuka menampilkan detailnya.',
+  },
 }
 
 export default function Projects() {
@@ -54,7 +65,10 @@ export default function Projects() {
           // tidak ada tombol.
           const links = [
             urls.repo && { href: urls.repo, label: t.projects.sourceRepo },
-            urls.live && { href: urls.live, label: t.projects.liveDemo },
+            // "Live" untuk aplikasi yang punya domain; project tanpa tampilan
+            // memberi labelnya sendiri, karena tombol bertuliskan "Live" yang
+            // membuka halaman CI adalah janji yang tidak ditepati.
+            urls.live && { href: urls.live, label: item.liveLabel || t.projects.liveDemo },
             item.demoUrl && { href: item.demoUrl, label: item.demoLabel },
           ].filter(Boolean)
 
@@ -70,7 +84,9 @@ export default function Projects() {
               caveat={item.caveat}
               caveatTitle={t.projects.caveatTitle}
               links={links}
-              shot={shots[item.slug]}
+              // Keterangan gambar adalah teks yang terlihat, jadi ia ikut
+              // bahasa — beda dengan src dan ukuran, yang tidak.
+              shot={shots[item.slug] && { ...shots[item.slug], caption: item.demoCaption }}
               defaultOpen={i === 0}
             />
           )

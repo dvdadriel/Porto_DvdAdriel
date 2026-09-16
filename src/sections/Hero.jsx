@@ -20,7 +20,7 @@ const SHOTS = [
   {
     src: '/shots/live-news.webp',
     srcSet: '/shots/live-news-720.webp 720w, /shots/live-news.webp 1440w',
-    alt: 'Dashboard News Update menampilkan jadwal transmisi Telegram dan digest terakhir.',
+    alt: 'Dashboard News Update menampilkan jadwal kirim, riwayat 7 hari, dan berita utama digest terakhir.',
   },
   // Dua frame Weblyzer diambil dari rekaman demo di repo-nya, bukan dari
   // sesi terpisah — jadi yang terlihat di hero persis yang terlihat kalau
@@ -40,7 +40,7 @@ const SHOTS = [
   {
     src: '/shots/live-news2.webp',
     srcSet: '/shots/live-news2-720.webp 720w, /shots/live-news2.webp 1440w',
-    alt: 'News Update: daftar berita per kategori hasil ringkasan model AI.',
+    alt: 'News Update: rangkuman kategori hasil model AI di atas kartu-kartu berita bergambar.',
   },
   {
     src: '/shots/live-weblyzer2.webp',

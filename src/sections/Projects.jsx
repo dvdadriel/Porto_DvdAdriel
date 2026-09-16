@@ -32,7 +32,7 @@ const shots = {
     srcSet: '/shots/live-news-720.webp 720w, /shots/live-news.webp 1440w',
     width: 1440,
     height: 900,
-    alt: 'Dashboard News Update: jadwal transmisi Telegram dan digest berita terakhir.',
+    alt: 'Dashboard News Update: jadwal kirim, riwayat 7 hari, dan berita utama digest terakhir.',
   },
   // Satu-satunya record yang memakai video, karena yang dibuktikan di sini
   // adalah alurnya: tambah situs → scan → buka temuan → unduh Excel. Gambar

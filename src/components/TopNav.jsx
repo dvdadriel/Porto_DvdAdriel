@@ -2,12 +2,22 @@ import React, { useRef } from 'react'
 import { useLanguage } from '../context/LanguageContext.jsx'
 
 /**
- * Navigasi atas: kelompok pill bergaris, bukan rail samping.
+ * Navigasi: tiga kelompok kapsul terpisah — monogram, tautan, aksi.
  *
- * Rail 200px sebelumnya memakan seperlima lebar layar sepanjang halaman dan
- * membuat konten terdorong ke kanan tanpa pernah mengisi bidangnya. Nav di atas
- * mengembalikan lebar penuh ke tipografi — yang di desain ini adalah subjeknya,
- * bukan pelengkap.
+ * Dipisah karena ketiganya memang tiga hal berbeda: identitas, navigasi, dan
+ * tindakan. Versi sebelumnya menyatukan semuanya dalam satu bar bersudut siku,
+ * dan akibatnya monogram terbaca sebagai item nav keempat.
+ *
+ * Nav HARUS fixed, bukan pilihan gaya: isinya hidup di luar #smooth-content.
+ * Elemen fixed di dalam kontainer ber-transform jadi relatif terhadap
+ * kontainer itu dan ikut menggulung — jadi apa pun yang harus tinggal di layar
+ * harus berada di luar, dan apa pun di luar tidak bisa lagi ikut mengalir
+ * bersama halaman.
+ *
+ * Warnanya dikunci putih-dan-navy, tidak mengikuti blok di bawahnya. Halaman
+ * ini melewati putih, navy, mist, dan hitam; chrome yang mencoba menyesuaikan
+ * diri ke keempatnya akan berkedip di tiap batas blok, dan bidang putih pekat
+ * justru terbaca jelas di atas keempatnya.
  *
  * Di HP: bar bawah di zona ibu jari, index dibuka dengan <dialog> native.
  * Dialog punya ::backdrop, tutup dengan Escape, kunci fokus, dan hidup di top
@@ -19,8 +29,15 @@ const ITEMS = [
   { id: 'about', key: 'about' },
   { id: 'work', key: 'work' },
   { id: 'projects', key: 'projects' },
-  { id: 'stack', key: 'stack' },
 ]
+
+function Monogram() {
+  return (
+    <svg viewBox="78 -1760 2726 1760" className="h-3.5 w-auto" fill="currentColor" aria-hidden="true">
+      <path d="M78 0V-1760H562Q752 -1760 848.0 -1654.5Q944 -1549 944 -1346V-522Q944 -272 856.5 -136.0Q769 0 550 0ZM432 -311H493Q590 -311 590 -405V-1313Q590 -1401 566.5 -1426.5Q543 -1452 471 -1452H432Z M958.08 0 1128.08 -1760H1725.08L1892.08 0H1559.08L1534.08 -284H1322.08L1300.08 0ZM1347.08 -565H1507.08L1430.08 -1460H1414.08Z M1870.16 0 2040.16 -1760H2637.16L2804.16 0H2471.16L2446.16 -284H2234.16L2212.16 0ZM2259.16 -565H2419.16L2342.16 -1460H2326.16Z" />
+    </svg>
+  )
+}
 
 export default function TopNav({ activeSection }) {
   const { t, lang, toggleLang } = useLanguage()
@@ -30,115 +47,97 @@ export default function TopNav({ activeSection }) {
 
   return (
     <>
-      {/* Statis, bukan fixed. Halaman ini berganti-ganti terang dan gelap;
-          nav yang melayang di atasnya akan jadi blok gelap di atas section
-          gelap, dan tidak ada satu warna chrome pun yang benar di keduanya.
-          Yang ikut menggulung tidak punya masalah itu. */}
-      <header className="mx-auto hidden w-full max-w-[1600px] items-center justify-between px-6 py-5 sm:px-10 lg:flex lg:px-14">
-        {/* Monogram diambil dari outline Anton — font display yang sama dengan
-            seluruh judul di halaman ini, jadi ia tidak pernah terbaca sebagai
-            elemen pinjaman. currentColor membuatnya ikut berbalik di section
-            gelap tanpa aset kedua. */}
-        <a
-          href="#hero"
-          aria-label={t.hero.name}
-          className="btn"
-          style={{ backgroundColor: 'var(--color-surface)', color: 'var(--color-ink)' }}
-        >
-          <svg viewBox="78 -1760 2726 1760" className="h-4 w-auto" fill="currentColor" aria-hidden="true">
-            <path d="M78 0V-1760H562Q752 -1760 848.0 -1654.5Q944 -1549 944 -1346V-522Q944 -272 856.5 -136.0Q769 0 550 0ZM432 -311H493Q590 -311 590 -405V-1313Q590 -1401 566.5 -1426.5Q543 -1452 471 -1452H432Z M958.08 0 1128.08 -1760H1725.08L1892.08 0H1559.08L1534.08 -284H1322.08L1300.08 0ZM1347.08 -565H1507.08L1430.08 -1460H1414.08Z M1870.16 0 2040.16 -1760H2637.16L2804.16 0H2471.16L2446.16 -284H2234.16L2212.16 0ZM2259.16 -565H2419.16L2342.16 -1460H2326.16Z" />
-          </svg>
-        </a>
-
-        <nav
-          aria-label={lang === 'id' ? 'Navigasi halaman' : 'Page navigation'}
-          className="flex"
-          style={{ backgroundColor: 'var(--color-surface)' }}
-        >
-          {ITEMS.map((item, i) => (
-            <a
-              key={item.id}
-              href={`#${item.id}`}
-              aria-current={activeSection === item.id ? 'true' : undefined}
-              className="btn"
-              style={{
-                marginLeft: i === 0 ? 0 : '-1.5px',
-                backgroundColor:
-                  activeSection === item.id ? 'var(--color-ink)' : 'var(--color-surface)',
-                color: activeSection === item.id ? 'var(--color-surface)' : 'var(--color-ink)',
-                borderColor: 'var(--color-ink)',
-              }}
-            >
-              {t.nav[item.key]}
-            </a>
-          ))}
-        </nav>
-
-        <div className="flex">
-          <button
-            type="button"
-            onClick={toggleLang}
-            aria-label={nextLang}
-            className="btn btn-outline"
-            style={{ backgroundColor: 'var(--color-surface)' }}
-          >
-            {lang === 'id' ? 'EN' : 'ID'}
-          </button>
-          <a href="#contact" className="btn btn-solid" style={{ marginLeft: '-1.5px' }}>
-            {t.nav.contact}
+      {/* Tiga kelompok direntangkan selebar konten, bukan dikumpulkan di
+          tengah: monogram sejajar dengan tepi kiri tipografi halaman, dan
+          aksinya sejajar dengan tepi kanan. Nav yang mengambang di tengah tidak
+          punya hubungan dengan apa pun di bawahnya. */}
+      <header
+        className="fixed inset-x-0 top-0 hidden px-6 pt-5 sm:px-10 lg:block lg:px-14"
+        style={{ zIndex: 'var(--z-sticky)' }}
+      >
+        <div className="mx-auto flex w-full max-w-[1500px] items-center justify-between gap-4">
+          <a href="#hero" aria-label={t.hero.name} className="nav-group px-5 py-3">
+            <Monogram />
           </a>
+
+          <nav
+            aria-label={lang === 'id' ? 'Navigasi halaman' : 'Page navigation'}
+            className="nav-group p-1"
+          >
+            {ITEMS.map((item) => (
+              <a
+                key={item.id}
+                href={`#${item.id}`}
+                aria-current={activeSection === item.id ? 'true' : undefined}
+                className="nav-link"
+              >
+                <span className="reel">
+                  <span data-reel={t.nav[item.key]}>{t.nav[item.key]}</span>
+                </span>
+              </a>
+            ))}
+          </nav>
+
+          <div className="nav-group p-1">
+            <button
+              type="button"
+              onClick={toggleLang}
+              aria-label={nextLang}
+              className="nav-link px-4 uppercase tracking-[0.14em]"
+            >
+              {lang === 'id' ? 'EN' : 'ID'}
+            </button>
+            <a
+              href="#contact"
+              aria-current={activeSection === 'contact' ? 'true' : undefined}
+              className="nav-link"
+              style={{ background: 'var(--color-navy)', color: 'var(--color-white)' }}
+            >
+              <span className="reel">
+                <span data-reel={t.nav.contact}>{t.nav.contact}</span>
+              </span>
+            </a>
+          </div>
         </div>
       </header>
 
       {/* ── Mobile ─────────────────────────────────────────────────────── */}
       <div
-        className="fixed inset-x-0 bottom-0 flex items-stretch lg:hidden"
+        className="fixed inset-x-3 bottom-3 flex items-stretch lg:hidden"
         style={{
           zIndex: 'var(--z-sticky)',
-          backgroundColor: 'var(--color-surface)',
-          borderTop: '1.5px solid var(--color-ink)',
-          paddingBottom: 'env(safe-area-inset-bottom)',
+          marginBottom: 'env(safe-area-inset-bottom)',
         }}
       >
-        <button
-          type="button"
-          onClick={() => sheet.current?.showModal()}
-          className="flex flex-1 items-center justify-center px-5 py-4 text-[1rem] uppercase"
-          style={{ fontFamily: 'var(--font-display)' }}
-        >
-          Index
-        </button>
-        <a
-          href="#contact"
-          className="flex items-center px-5 py-4 text-[1rem] uppercase"
-          style={{
-            fontFamily: 'var(--font-display)',
-            borderLeft: '1.5px solid var(--color-ink)',
-            backgroundColor: 'var(--color-ink)',
-            color: 'var(--color-surface)',
-          }}
-        >
-          {t.nav.contact}
-        </a>
-        <button
-          type="button"
-          onClick={toggleLang}
-          aria-label={nextLang}
-          className="px-5 py-4 text-[1rem] uppercase"
-          style={{ fontFamily: 'var(--font-display)', borderLeft: '1.5px solid var(--color-ink)' }}
-        >
-          {lang === 'id' ? 'EN' : 'ID'}
-        </button>
+        <div className="nav-group flex-1 p-1">
+          <button
+            type="button"
+            onClick={() => sheet.current?.showModal()}
+            className="nav-link flex-1 justify-center"
+          >
+            Index
+          </button>
+          <button
+            type="button"
+            onClick={toggleLang}
+            aria-label={nextLang}
+            className="nav-link px-4 uppercase tracking-[0.14em]"
+          >
+            {lang === 'id' ? 'EN' : 'ID'}
+          </button>
+          <a
+            href="#contact"
+            className="nav-link"
+            style={{ background: 'var(--color-amber)', color: 'var(--color-navy)' }}
+          >
+            {t.nav.contact}
+          </a>
+        </div>
       </div>
 
       <dialog
         ref={sheet}
-        className="m-0 mt-auto w-full max-w-none p-0 backdrop:bg-black/50"
-        style={{
-          backgroundColor: 'var(--color-surface)',
-          color: 'var(--color-ink)',
-          borderTop: '1.5px solid var(--color-ink)',
-        }}
+        className="m-0 mt-auto w-full max-w-none bg-transparent p-3 backdrop:bg-black/60"
         onClick={(e) => {
           // Dibandingkan ke elemen <dialog> sendiri, jadi klik pada isi tidak
           // ikut menutup — hanya klik di area backdrop.
@@ -146,8 +145,14 @@ export default function TopNav({ activeSection }) {
         }}
       >
         <div
-          className="px-6 pt-8"
-          style={{ paddingBottom: 'calc(2.5rem + env(safe-area-inset-bottom))' }}
+          className="px-6 pb-6 pt-8"
+          style={{
+            background: 'var(--color-white)',
+            color: 'var(--color-navy)',
+            border: '2px solid var(--color-navy)',
+            borderRadius: '1.5rem',
+            marginBottom: 'calc(3.75rem + env(safe-area-inset-bottom))',
+          }}
         >
           <ul>
             {[...ITEMS, { id: 'contact', key: 'contact' }].map((item) => (
@@ -155,8 +160,14 @@ export default function TopNav({ activeSection }) {
                 <a
                   href={`#${item.id}`}
                   onClick={() => sheet.current?.close()}
-                  className="rule-t block py-4 uppercase"
-                  style={{ fontFamily: 'var(--font-display)', fontSize: '1.75rem' }}
+                  className="block py-4"
+                  style={{
+                    borderTop: '1px solid color-mix(in srgb, #14213D 16%, #FFFFFF)',
+                    fontFamily: 'var(--font-display)',
+                    fontWeight: 800,
+                    fontSize: '2rem',
+                    letterSpacing: '-0.03em',
+                  }}
                 >
                   {t.nav[item.key]}
                 </a>
@@ -166,8 +177,8 @@ export default function TopNav({ activeSection }) {
           <button
             type="button"
             onClick={() => sheet.current?.close()}
-            className="rule-t mt-4 w-full py-4 text-left text-[0.9375rem]"
-            style={{ color: 'var(--color-ink-soft)' }}
+            className="mt-4 w-full py-4 text-left text-[0.75rem] font-bold uppercase tracking-[0.18em]"
+            style={{ borderTop: '1px solid color-mix(in srgb, #14213D 16%, #FFFFFF)', opacity: 0.6 }}
           >
             {lang === 'id' ? 'Tutup' : 'Close'}
           </button>

@@ -2,95 +2,111 @@ import React from 'react'
 import { useLanguage } from '../context/LanguageContext.jsx'
 import SectionHeader from '../components/SectionHeader.jsx'
 import SectionReveal from '../components/SectionReveal.jsx'
-import Accordion from '../components/Accordion.jsx'
+import ScrollCue from '../components/ScrollCue.jsx'
 
 /**
- * Tentang — latar terang seperti section lain, potret membelah ke tepi kanan.
+ * Tentang Saya — blok navy penuh, ditutup pita amber berisi stack.
  *
- * Fotonya bukan ilustrasi di samping teks; ia bagian dari bidangnya. Tepi
- * kirinya dilarutkan dengan mask gradien supaya tidak ada garis potong yang
- * terlihat, dan seluruhnya dijadikan hitam putih: potret berwarna (kayu cokelat,
- * dedaunan hijau) di tengah palet hijau-tinta akan membawa warnanya sendiri dan
- * memecah halaman.
+ * Isinya diambil dari resume, bukan ditulis ulang bebas. Halaman ini dan
+ * resume harus mengatakan hal yang sama kalau keduanya dibaca berdampingan,
+ * dan itu memang yang terjadi di ruang wawancara — versi sebelumnya punya
+ * kalimat pembuka dan "filosofi kerja" yang tidak ada padanannya di resume
+ * sama sekali.
  *
- * Foto mulai di bawah garis kepala section, bukan dari tepi atas: hairline yang
- * memotong wajah terbaca sebagai kesalahan cetak.
- *
- * Di bawah lg, foto pindah ke atas teks dengan tinggi tetap. Potret setinggi
- * layar di HP berarti orang men-scroll melewati wajah sebelum sampai ke satu
- * kata pun.
+ * Fotonya berwarna asli. Yang mengikatnya ke palet halaman bukan filter,
+ * melainkan bingkai amber pekat di sekelilingnya.
  */
+
+/** Blok kecil berlabel. Dipakai dua kali di section ini, jadi dijadikan satu
+ *  bentuk — dua blok yang gayanya beda-beda terbaca sebagai dua hal yang tidak
+ *  berhubungan. */
+function Block({ title, children, className = '' }) {
+  return (
+    <div className={`rule-t pt-5 ${className}`}>
+      <p className="eyebrow">{title}</p>
+      <div className="mt-4">{children}</div>
+    </div>
+  )
+}
+
 export default function About() {
   const { t } = useLanguage()
+  const tools = t.stack.categories.flatMap((c) => c.items)
 
   return (
-    <SectionReveal id="about" className="relative overflow-hidden">
-      <div className="mx-auto w-full max-w-[1600px] px-6 pt-20 sm:px-10 sm:pt-28 lg:px-14">
-        <SectionHeader mark="01" title={t.about.title} />
-      </div>
+    <SectionReveal id="about" className="on-navy">
+      <div className="mx-auto w-full max-w-[1500px] px-6 py-20 sm:px-10 lg:px-14 lg:py-28">
+        <SectionHeader mark={t.about.sectionNum} title={t.about.title} />
 
-      {/* Potret: menempel ke tepi kanan dan bawah section di desktop.
+        <div className="mt-16 grid grid-cols-1 gap-12 lg:mt-20 lg:grid-cols-12 lg:gap-10">
+          <div className="lg:col-span-5" data-reveal>
+            <img
+              src="/portrait-david.jpg"
+              width="533"
+              height="800"
+              alt={`${t.hero.name}, ${t.hero.role}`}
+              loading="lazy"
+              decoding="async"
+              className="portrait aspect-[4/5] w-full object-cover"
+              style={{ border: '3px solid var(--color-amber)' }}
+            />
+          </div>
 
-          max-w-40rem bukan hiasan. Tanpa itu lebarnya ikut lebar layar, dan
-          karena object-cover menskalakan gambar mengikuti sisi terlebar,
-          layar yang makin lebar memotong makin banyak dari atas: diukur, 22%
-          di 1512px tapi 43% di 1920px — di angka kedua kepalanya hilang.
-          Dengan lebar dibatasi, pemotongannya berhenti tumbuh. */}
-      <div className="relative mt-10 h-[42vh] w-full lg:absolute lg:bottom-0 lg:right-0 lg:top-[13rem] lg:mt-0 lg:h-auto lg:w-[50%] lg:max-w-[40rem]">
-        <img
-          src="/portrait-david.jpg"
-          width="533"
-          height="800"
-          alt={`${t.hero.name}, ${t.hero.role}`}
-          loading="lazy"
-          decoding="async"
-          /* Pemotongan diatur di .portrait-bleed, bukan di sini: nilainya
-             berbeda antara HP dan desktop, dan inline style tidak bisa punya
-             media query. */
-          className="portrait-bleed h-full w-full object-cover"
-        />
-      </div>
-
-      <div className="relative mx-auto w-full max-w-[1600px] px-6 pb-20 pt-12 sm:px-10 sm:pb-28 lg:px-14 lg:pb-36">
-        <div className="lg:max-w-[46%]">
-          <h3 data-reveal>{t.about.headline}</h3>
-
-          <p className="prose-measure mt-6 text-[1.125rem]" data-reveal>
-            {t.about.lead}
-          </p>
-
-          <dl className="mt-8 flex flex-wrap gap-x-10 gap-y-2 text-[0.9375rem]" data-reveal>
-            <div className="flex gap-2">
-              <dt style={{ color: 'var(--color-ink-soft)' }}>{t.about.educationTitle}</dt>
-              <dd>
-                {t.about.school}
-                <span className="numeric"> ({t.about.period})</span>
-              </dd>
+          <div className="lg:col-span-6 lg:col-start-7">
+            <div className="prose-measure space-y-5 text-[1.0625rem]" data-reveal>
+              {t.about.profile.map((para) => (
+                <p key={para}>{para}</p>
+              ))}
             </div>
-            <div className="flex gap-2">
-              <dt style={{ color: 'var(--color-ink-soft)' }}>{t.about.locationTitle}</dt>
-              <dd>{t.about.location}</dd>
+
+            <div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2" data-reveal>
+              <Block title={t.about.educationTitle}>
+                <p className="font-bold">{t.about.school}</p>
+                <p className="text-[0.9375rem]" style={{ color: 'var(--color-ink-soft)' }}>
+                  {t.about.major}
+                </p>
+                <p className="numeric mt-1 text-[0.9375rem]" style={{ color: 'var(--color-amber)' }}>
+                  {t.about.gpa} · {t.about.period}
+                </p>
+              </Block>
+
+              <Block title={t.about.locationTitle}>
+                <p className="font-bold">{t.about.location}</p>
+              </Block>
+
             </div>
-          </dl>
-
-          <div className="mt-12" data-reveal>
-            <Accordion name="about" summary={t.about.philosophyTitle} defaultOpen>
-              <div className="prose-measure space-y-4">
-                {t.about.bioParagraph.map((para) => (
-                  <p key={para}>{para}</p>
-                ))}
-              </div>
-            </Accordion>
-
-            <Accordion name="about" summary={t.about.philosophyTitle2}>
-              <div className="prose-measure space-y-4">
-                <p>{t.about.philosophy1}</p>
-                <p>{t.about.philosophy2}</p>
-              </div>
-            </Accordion>
-            <div className="rule-t" />
           </div>
         </div>
+
+        <div className="mt-16 flex justify-center lg:mt-20" data-reveal>
+          <ScrollCue to="work" label={t.nav.work} />
+        </div>
+      </div>
+
+      {/* Pita stack. Isinya dirender DUA KALI dan tiap salinan digeser -100%:
+          itulah yang membuat perulangannya tidak punya sambungan. Satu salinan
+          akan menyisakan bidang kosong selebar layar di tiap putaran.
+
+          Salinan kedua aria-hidden supaya screen reader tidak membacakan
+          daftar yang sama dua kali. */}
+      <div className="on-amber marquee py-5" aria-label={t.about.stackTitle}>
+        {[0, 1].map((copy) => (
+          <div key={copy} aria-hidden={copy === 1 ? 'true' : undefined}>
+            {tools.map((tool) => (
+              <span
+                key={`${copy}-${tool}`}
+                className="flex shrink-0 items-center gap-5 whitespace-nowrap pr-5 text-[0.875rem] font-bold uppercase tracking-[0.16em]"
+              >
+                {tool}
+                <i
+                  aria-hidden="true"
+                  className="block h-1.5 w-1.5 shrink-0"
+                  style={{ background: 'var(--color-navy)' }}
+                />
+              </span>
+            ))}
+          </div>
+        ))}
       </div>
     </SectionReveal>
   )

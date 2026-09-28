@@ -1,18 +1,21 @@
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { ScrollSmoother } from 'gsap/ScrollSmoother'
+import { ScrollToPlugin } from 'gsap/ScrollToPlugin'
+import { SplitText } from 'gsap/SplitText'
 
-gsap.registerPlugin(ScrollTrigger)
+gsap.registerPlugin(ScrollTrigger, ScrollSmoother, ScrollToPlugin, SplitText)
 
 /**
  * ScrollTrigger menghitung posisi setiap trigger sekali, lalu memakai angka itu
  * sampai ada yang menyuruhnya menghitung ulang. Masalahnya halaman ini masih
  * bergerak sesudah itu: font display baru dipakai setelah woff2-nya turun, dan
- * Anton jauh lebih rapat daripada font pengganti sistem — tiap judul berubah
- * tinggi, dan semua section di bawahnya bergeser.
+ * Bodoni punya metrik yang jauh berbeda dari serif pengganti sistem — tiap judul
+ * berubah tinggi, dan semua section di bawahnya bergeser.
  *
- * Akibatnya terukur: sebelum ada refresh ini, ambang 68% menyala saat section
- * masih di 95% (Pengalaman, Project) dan 104% (Stack) — yaitu sebelum
- * section-nya kelihatan sama sekali.
+ * Akibatnya terukur pada versi sebelum refresh ini ada: ambang 68% menyala saat
+ * section masih di 95% dan 104% — yaitu sebelum section-nya kelihatan sama
+ * sekali.
  *
  * `document.fonts.ready` menunggu semua face selesai, lalu posisinya dihitung
  * ulang sekali. Ini bukan pengganti refresh bawaan pada event `load`; itu tetap
@@ -22,7 +25,7 @@ if (typeof document !== 'undefined' && document.fonts) {
   document.fonts.ready.then(() => ScrollTrigger.refresh())
 }
 
-export { gsap, ScrollTrigger }
+export { gsap, ScrollTrigger, ScrollSmoother, SplitText }
 
 /**
  * Menjalankan `build` hanya kalau pengguna TIDAK meminta reduced motion.

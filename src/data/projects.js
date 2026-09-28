@@ -9,6 +9,33 @@
 
 export const projects = [
   {
+    slug: 'plectra',
+    name: 'Plectra',
+    kicker: 'Go · SQLite · OpenSubsonic',
+    summary:
+      'Pemutar musik self-hosted yang ditulis di Go. Ia memindai folder musik sendiri, memutarnya lewat kartu suara mesin tempat ia berjalan, dan memberi satu halaman web sebagai remote-nya. Tanpa akun, tanpa iklan, tanpa katalog yang berusaha menjual sesuatu.',
+    highlights: [
+      'Halaman webnya remote, BUKAN pemutar: audio keluar dari mesin server, bukan dari browser',
+      'Indeks SQLite, pemutaran gapless, dan antrean yang selamat dari restart',
+      'API OpenSubsonic — mati sampai password diisi, lalu klien Subsonic mana pun bisa memakainya',
+      'ffmpeg dan yt-dlp opsional: alat yang hilang menghapus satu fitur, tidak pernah mematikan pemutaran file sendiri',
+      'Jaringan tidak pernah ada di jalur pemutaran — pengayaan metadata jalan di worker latar',
+    ],
+    metrics: [
+      { label: 'Test', value: '103', note: '14 dari 18 paket' },
+      { label: 'Paket internal', value: '15', note: 'audio, player, store, api, …' },
+      { label: 'Format audio', value: '4', note: 'MP3, FLAC, OGG, WAV' },
+    ],
+    caveat:
+      'Belum ada CI sama sekali — tidak ada satu pun workflow di repo, jadi 103 test itu hanya jalan kalau saya menjalankannya sendiri. Empat paket belum tersentuh test, termasuk entry point dan lapisan web. Dan ia tidak punya demo publik: binding-nya 127.0.0.1 dan suaranya keluar dari kartu suara server, jadi "live" untuk aplikasi ini hanya ada di mesin yang menjalankannya.',
+    repo: 'https://github.com/dvdadriel/Plectra',
+    docs: null,
+    // Tidak punya "Live" berupa domain, dan tidak akan pernah punya: audionya
+    // keluar dari mesin yang menjalankannya. Menautkan sesuatu di sini berarti
+    // menjanjikan hal yang tidak bisa ditepati.
+    live: null,
+  },
+  {
     slug: 'idx-screener',
     name: 'IdxScreener',
     kicker: 'Rails · PostgreSQL · Solid Queue',

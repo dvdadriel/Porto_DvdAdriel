@@ -1,48 +1,47 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { useGSAP } from '@gsap/react'
-import { gsap, onMotionOK } from '../lib/motion.js'
 import { useLanguage } from '../context/LanguageContext.jsx'
 import { profile } from '../data/profile.js'
+import SectionHeader from '../components/SectionHeader.jsx'
+import SectionReveal from '../components/SectionReveal.jsx'
+import ScrollCue from '../components/ScrollCue.jsx'
+
+/** Panah "keluar situs" sebagai ikon, bukan karakter ↗ di dalam teks. */
+function ExternalMark() {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 12 12"
+      className="h-4 w-4 shrink-0"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.6"
+      strokeLinecap="square"
+    >
+      <path d="M3.5 8.5 8.5 3.5M4.5 3.5h4v4" />
+    </svg>
+  )
+}
 
 /**
- * Penutup: empat baris kontak, disusun sama seperti dinding sembilan brand.
+ * Penutup: blok hitam, alamat email sebesar judul, empat baris kontak.
  *
- * Nilainya ditulis lengkap dan bisa diseleksi — email dan nomor yang terlihat
- * bisa disalin manual oleh orang yang clipboard API-nya diblokir, dan itu
- * terjadi lebih sering daripada yang biasanya diperhitungkan.
+ * Emailnya ditulis sebesar judul karena itulah satu tindakan yang diharapkan
+ * dari seluruh halaman ini. Tombol "Hubungi saya" yang membuka klien email
+ * menyembunyikan alamatnya di balik satu klik yang sebagian orang tidak mau
+ * ambil — alamat yang terlihat bisa dibaca, disalin manual, atau difoto.
+ *
+ * Nilai tiap baris ditulis lengkap dan bisa diseleksi: tombol salin memakai
+ * clipboard API yang diblokir lebih sering daripada yang biasanya
+ * diperhitungkan, dan kalau itu terjadi teksnya sudah ada di layar.
+ *
+ * Dirender sebagai <section> lewat SectionReveal, dengan <footer> di dalamnya
+ * hanya untuk baris penutup: seluruh blok ini konten utama, dan <footer>
+ * sepanjang layar membuat screen reader mengumumkannya sebagai pelengkap.
  */
 export default function Contact() {
   const { t } = useLanguage()
   const [copied, setCopied] = useState(false)
   const timer = useRef(null)
-  const root = useRef(null)
-
-  // Kontak dianimasikan di sini, bukan lewat <SectionReveal>, karena elemennya
-  // <footer> dan komponen itu merender <section>. Ritmenya sengaja disamakan
-  // persis dengan section lain.
-  useGSAP(
-    () => {
-      return onMotionOK(() => {
-        const masks = root.current.querySelectorAll('[data-reveal-mask]')
-        const targets = root.current.querySelectorAll('[data-reveal]')
-
-        // fromTo(), bukan set() lalu to() — alasannya ada di komentar
-        // SectionReveal: keadaan tersembunyi harus menjadi milik tween.
-        const tl = gsap.timeline({
-          defaults: { ease: 'expo.out' },
-          scrollTrigger: { trigger: root.current, start: 'top 68%', once: true },
-        })
-
-        tl.fromTo(masks, { yPercent: 110 }, { yPercent: 0, duration: 0.9 }).fromTo(
-          targets,
-          { y: 18, autoAlpha: 0 },
-          { y: 0, autoAlpha: 1, duration: 0.7, stagger: 0.08 },
-          '-=0.62'
-        )
-      })
-    },
-    { scope: root }
-  )
 
   // Timer dibersihkan saat unmount: setState pada komponen yang sudah hilang
   // adalah kebocoran yang baru terlihat saat orang berpindah bahasa cepat.
@@ -61,83 +60,81 @@ export default function Contact() {
   }
 
   const rows = [
-    { label: t.contact.emailLabel, value: profile.email, href: `mailto:${profile.email}` },
-    { label: t.contact.linkedinLabel, value: 'david-adriel-alvyn', href: profile.linkedin },
     { label: t.contact.phoneLabel, value: profile.phone, href: profile.whatsapp },
+    { label: t.contact.linkedinLabel, value: 'david-adriel-alvyn', href: profile.linkedin },
     { label: t.contact.githubLabel, value: 'dvdadriel', href: profile.github },
   ]
 
   return (
-    <footer
-      ref={root}
-      id="contact"
-      className="mx-auto w-full max-w-[1600px] px-6 py-20 sm:px-10 sm:py-28 lg:px-14"
-    >
-      <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-8">
-        <div className="lg:col-span-5">
-          <h2>
-            <span className="block overflow-hidden pb-[0.12em]">
-              <span className="block" data-reveal-mask>
-                {t.contact.title}
-              </span>
-            </span>
-          </h2>
-          <p
-            className="prose-measure mt-4 text-[1.0625rem]"
-            data-reveal
-            style={{ color: 'var(--color-ink-soft)' }}
-          >
-            {t.contact.subtitle}
-          </p>
+    <SectionReveal id="contact" className="on-black">
+      <div className="mx-auto w-full max-w-[1500px] px-6 py-20 sm:px-10 lg:px-14 lg:py-28">
+        <SectionHeader mark={t.contact.sectionNum} title={t.contact.title}>
+          <p className="text-[1.0625rem]">{t.contact.subtitle}</p>
+        </SectionHeader>
+
+        <div className="mt-16 lg:mt-20" data-reveal>
+          <p className="eyebrow">{t.contact.emailLabel}</p>
+
+          <div className="mt-6 flex flex-wrap items-center gap-x-8 gap-y-5">
+            <a
+              href={`mailto:${profile.email}`}
+              className="group break-all"
+              style={{
+                fontFamily: 'var(--font-display)',
+                fontWeight: 800,
+                fontSize: 'clamp(1.6rem, 4.6vw, 3.75rem)',
+                letterSpacing: '-0.035em',
+                lineHeight: 1.05,
+                color: 'var(--color-amber)',
+              }}
+            >
+              {profile.email}
+            </a>
+
+            <button type="button" onClick={copyEmail} className="btn">
+              {copied ? t.contact.copiedBtn : t.contact.copyBtn}
+            </button>
+          </div>
         </div>
 
-        <div className="lg:col-span-6 lg:col-start-7">
-          <ul data-reveal>
-            {rows.map((r) => (
-              <li key={r.label} className="rule-t flex items-baseline gap-4 py-4">
+        <ul className="mt-16 lg:mt-20" data-reveal>
+          {rows.map((r) => (
+            <li key={r.label}>
+              <a
+                href={r.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="row-project rule-t flex flex-wrap items-center gap-x-8 gap-y-2 px-0 py-6 lg:px-6"
+              >
                 <span
-                  className="w-24 shrink-0 text-[0.875rem]"
+                  className="w-28 shrink-0 text-[0.75rem] font-bold uppercase tracking-[0.18em]"
                   style={{ color: 'var(--color-ink-soft)' }}
                 >
                   {r.label}
                 </span>
-                <a
-                  href={r.href}
-                  target={r.href.startsWith('mailto:') ? undefined : '_blank'}
-                  rel="noopener noreferrer"
-                  className="min-w-0 flex-1 break-words underline decoration-1 underline-offset-4"
-                  style={{ textDecorationColor: 'var(--color-rule)' }}
-                >
+                <span className="min-w-0 flex-1 break-words text-[1.125rem] font-medium">
                   {r.value}
-                </a>
-                {r.label === t.contact.emailLabel && (
-                  <button
-                    type="button"
-                    onClick={copyEmail}
-                    className="shrink-0 px-3 py-1.5 text-[0.8125rem] transition-colors duration-200"
-                    style={{ border: '1px solid var(--color-rule)' }}
-                  >
-                    {copied ? t.contact.copiedBtn : t.contact.copyBtn}
-                  </button>
-                )}
-              </li>
-            ))}
-          </ul>
+                </span>
+                <ExternalMark />
+              </a>
+            </li>
+          ))}
+          <li className="rule-t" />
+        </ul>
 
-          {/* aria-live di luar tombol supaya pengumumannya tidak menimpa nama
-              tombol saat sedang difokuskan. */}
-          <p aria-live="polite" className="sr-only">
-            {copied ? t.contact.copiedBtn : ''}
-          </p>
+        {/* aria-live di luar tombol supaya pengumumannya tidak menimpa nama
+            tombol saat sedang difokuskan. */}
+        <p aria-live="polite" className="sr-only">
+          {copied ? t.contact.copiedBtn : ''}
+        </p>
 
-          <p
-            className="rule-t mt-8 pt-4 text-[0.875rem]"
-            style={{ color: 'var(--color-ink-soft)' }}
-          >
-            {profile.location}
+        <footer className="mt-16 flex flex-wrap items-center justify-between gap-8 lg:mt-20">
+          <ScrollCue to="hero" label={t.nav.top} up />
+          <p className="numeric text-[0.75rem] font-bold uppercase tracking-[0.18em]" style={{ color: 'var(--color-ink-soft)' }}>
+            {profile.location} · © {new Date().getFullYear()} {t.hero.name}
           </p>
-        </div>
+        </footer>
       </div>
-    </footer>
+    </SectionReveal>
   )
 }

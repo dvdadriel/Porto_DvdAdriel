@@ -5,45 +5,46 @@ import { gsap, onMotionOK } from '../lib/motion.js'
 /**
  * Efek masuk saat section pertama kali terlihat.
  *
- * Dibuat satu komponen, bukan ditulis ulang di tiap section, karena itu satu-
- * satunya cara menjaga ritmenya sama. Efek masuk yang durasinya berbeda-beda
- * antar-section terbaca sebagai halaman yang dirakit dari potongan.
+ * Dibuat satu komponen, bukan ditulis ulang di tiap section, karena itu
+ * satu-satunya cara menjaga ritmenya sama. Efek masuk yang durasinya
+ * berbeda-beda antar-section terbaca sebagai halaman yang dirakit dari
+ * potongan.
+ *
+ * Tiga jenis target, dan urutannya adalah urutan bacanya:
+ *   [data-reveal-mask]  judul, naik dari balik batas barisnya
+ *   [data-reveal]       teks pendukung, fade-up
+ *   [data-tile]         ubin bento, naik + membesar sedikit dari 0.97
+ *
+ * Ubin sengaja beda dari teks: ia BENDA, bukan kalimat. Skala kecil yang
+ * menyusul membuatnya terbaca seperti kartu yang diletakkan ke tempatnya,
+ * bukan teks yang muncul.
  *
  * ── Keadaan awal ────────────────────────────────────────────────────────────
- * Elemen tersembunyi lebih dulu, lalu dibuka saat ScrollTrigger menyala.
- *
  * Dipakai `fromTo()` dengan `immediateRender: true` (bawaannya), BUKAN
- * `gsap.set()` diikuti `.to()`. Bedanya bukan gaya penulisan: `set()` memisahkan
- * keadaan tersembunyi dari tween yang membukanya, jadi kalau tween-nya mati —
- * di-revert, di-kill, atau komponennya dipasang ulang — `set()` tertinggal dan
- * elemennya macet tersembunyi selamanya. Ini bukan dugaan; versi `set()` + `to()`
- * membuat hero membeku di keadaan tersembunyi saat React StrictMode memasang
- * komponen dua kali di mode dev.
+ * `gsap.set()` diikuti `.to()`. Bedanya bukan gaya penulisan: `set()`
+ * memisahkan keadaan tersembunyi dari tween yang membukanya, jadi kalau
+ * tween-nya mati — di-revert, di-kill, atau komponennya dipasang ulang —
+ * `set()` tertinggal dan elemennya macet tersembunyi selamanya. Ini bukan
+ * dugaan; versi `set()` + `to()` membuat hero membeku di keadaan tersembunyi
+ * saat React StrictMode memasang komponen dua kali di mode dev.
  *
- * Dengan `fromTo()`, keadaan tersembunyi itu milik tween. Kalau tween-nya hilang,
- * keadaan tersembunyinya ikut hilang, dan yang tersisa adalah konten yang
- * terlihat — arah gagal yang benar.
- *
- * Konsekuensi yang tetap harus disadari: kalau JavaScript jalan tapi
- * ScrollTrigger gagal menyala, section itu tersembunyi. Yang melindunginya,
- * `onMotionOK` tidak menjalankan apa pun untuk pengguna reduced motion, dan
- * tanpa JavaScript tidak ada satu pun gaya yang dipasang.
+ * Dengan `fromTo()`, keadaan tersembunyi itu milik tween. Kalau tween-nya
+ * hilang, keadaan tersembunyinya ikut hilang, dan yang tersisa adalah konten
+ * yang terlihat — arah gagal yang benar.
  *
  * `autoAlpha`, bukan `opacity`: pada nilai 0 GSAP ikut memasang
  * `visibility: hidden`, jadi elemen yang belum muncul tidak menangkap klik dan
  * tidak dibacakan screen reader.
  *
  * ── Ambang ──────────────────────────────────────────────────────────────────
- * `start` 68%, bukan 88%. Di 88% section baru mengintip 12% dari tepi bawah,
+ * `start` 72%, bukan 88%. Di 88% section baru mengintip 12% dari tepi bawah,
  * animasinya berjalan sementara orang masih membaca section sebelumnya, dan
- * begitu ia benar-benar sampai semuanya sudah selesai. Lebih rendah dari 68%
- * berbalik jadi masalah lain: teks yang baru mulai muncul saat sudah di tengah
- * layar membuat orang menunggu bacaannya.
+ * begitu ia benar-benar sampai semuanya sudah selesai.
  */
 export default function SectionReveal({
   children,
-  stagger = 0.08,
-  start = 'top 68%',
+  stagger = 0.07,
+  start = 'top 72%',
   className,
   id,
 }) {
@@ -52,47 +53,31 @@ export default function SectionReveal({
   useGSAP(
     () => {
       return onMotionOK(() => {
-        const masks = gsap.utils.toArray(root.current.querySelectorAll('[data-reveal-mask]'))
-        const targets = gsap.utils.toArray(root.current.querySelectorAll('[data-reveal]'))
-        const rule = root.current.querySelector('[data-section-rule]')
-        if (!masks.length && !targets.length) return
+        const q = (sel) => gsap.utils.toArray(root.current.querySelectorAll(sel))
+        const masks = q('[data-reveal-mask]')
+        const targets = q('[data-reveal]')
+        const tiles = q('[data-tile]')
+        if (!masks.length && !targets.length && !tiles.length) return
 
         const tl = gsap.timeline({
           defaults: { ease: 'expo.out' },
           scrollTrigger: { trigger: root.current, start, once: true },
         })
 
-        // Garis kepala section ditarik dari kiri. scaleX, bukan width: width
-        // memicu layout di setiap frame, scaleX hanya compositing.
-        if (rule) {
-          tl.fromTo(
-            rule,
-            { scaleX: 0, transformOrigin: 'left center' },
-            { scaleX: 1, duration: 0.8 }
-          )
-        }
-
-        // Judul section naik dari balik garis — efek yang sama dengan headline
-        // hero, jadi keduanya terbaca sebagai satu bahasa. yPercent, bukan y:
-        // persentase mengikuti tinggi barisnya sendiri, jadi nomor "01" yang
-        // kecil dan judul yang besar sama-sama tersembunyi penuh di titik mulai.
-        if (masks.length) {
-          tl.fromTo(
-            masks,
-            { yPercent: 110 },
-            { yPercent: 0, duration: 0.9, stagger: 0.07 },
-            rule ? '-=0.6' : 0
-          )
-        }
-
-        // Deskripsi dan isi section: fade-up. Sengaja beda dari judul — kalau
-        // semuanya naik dari balik garis, tidak ada lagi yang menonjol.
         if (targets.length) {
+          tl.fromTo(targets, { y: 14, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.6, stagger: 0.05 })
+        }
+
+        if (masks.length) {
+          tl.fromTo(masks, { yPercent: 112 }, { yPercent: 0, duration: 0.95, stagger: 0.07 }, 0.05)
+        }
+
+        if (tiles.length) {
           tl.fromTo(
-            targets,
-            { y: 18, autoAlpha: 0 },
-            { y: 0, autoAlpha: 1, duration: 0.7, stagger },
-            '-=0.62'
+            tiles,
+            { y: 26, scale: 0.975, autoAlpha: 0 },
+            { y: 0, scale: 1, autoAlpha: 1, duration: 0.85, stagger },
+            '-=0.55'
           )
         }
       })

@@ -2,11 +2,11 @@ export const translations = {
   id: {
     nav: {
       hero: 'Hero',
-      work: 'Pengalaman',
-      projects: 'Project',
-      stack: 'Stack',
       about: 'Tentang',
+      work: 'Pekerjaan',
+      projects: 'Project',
       contact: 'Kontak',
+      top: 'Kembali ke atas',
     },
     // Hero sebagai satu baris buku besar: angka dulu, catatan kakinya menyusul.
     // Nama sengaja datang SETELAH angka. Nama raksasa di tengah layar adalah
@@ -17,27 +17,45 @@ export const translations = {
     // 0.784 adalah angka yang sama yang dibaca salah oleh separuh pembaca
     // kalau dipaksa satu bentuk.
     hero: {
-      headline: ['Suka bikin aplikasi,', 'bahkan di waktu luang'],
+      headline: ['Merangkai logika', 'jadi keajaiban'],
       name: 'David Adriel Alvyn',
       role: 'Fullstack Developer, Jakarta',
-      thesis: 'Web dan mobile — Rails, Laravel, Go, React. Semua dipelajari dan dicoba, banyak eksperimen, biar keren.',
-      projectsBtn: 'Lihat project',
-      contactBtn: 'Hubungi saya',
+      projectsBtn: 'Jelajahi karya',
+      contactBtn: 'Mulai percakapan',
     },
     work: {
       sectionNum: '02',
-      title: 'Pengalaman',
-      role: 'Web Developer',
-      company: 'Massindo Group',
-      period: '2025 – sekarang',
-      summary: 'Mengembangkan dan memelihara situs sembilan brand di bawah satu grup: pengerjaan fitur, optimasi performa, dan pemeliharaan sistem yang sedang dipakai orang.',
+      title: 'Pekerjaan',
       focusTitle: 'Tanggung jawab',
-      duties: [
-        'Pengembangan & pemeliharaan arsitektur web multi-brand',
-        'Implementasi fitur baru & optimalisasi alur sistem produksi',
-        'Optimasi SEO teknis: struktur URL, meta tag, sitemap & data terstruktur',
-        'Perbaikan Core Web Vitals & kecepatan muat sembilan situs',
-        'Deployment, pemeliharaan database & konfigurasi server',
+      // Dua peran, urut dari yang terbaru. Sebelumnya hanya satu yang tampil
+      // di halaman ini; magang di Evotech ada di resume tapi tidak pernah
+      // dipindahkan ke sini.
+      roles: [
+        {
+          role: 'Web Developer',
+          company: 'PT. Massindo International',
+          period: 'Jun 2025 – sekarang',
+          duties: [
+            'Pengembangan & pemeliharaan arsitektur web multi-brand untuk sembilan brand',
+            'Implementasi fitur baru & optimalisasi alur sistem produksi',
+            'Optimasi SEO teknis: struktur URL, meta tag, sitemap & data terstruktur',
+            'Perbaikan Core Web Vitals & kecepatan muat sembilan situs',
+            'Deployment, pemeliharaan database & konfigurasi server',
+            'Kolaborasi lintas divisi bersama tim marketing, desain, dan konten',
+          ],
+        },
+        {
+          role: 'Web Developer Intern',
+          company: 'PT. Evotech Industri',
+          period: 'Feb 2024 – Feb 2025',
+          duties: [
+            'Membuat aplikasi baru, mengembangkan yang sudah ada, dan memeliharanya di produksi',
+            'Testing fitur & API dengan Postman, dilanjutkan bug fixing',
+            'Pemeliharaan dan pengembangan API, deployment, dan architecture review',
+            'Ikut pengembangan Artificial Intelligence bersama divisi AI',
+            'Kolaborasi dengan divisi Business Analyst, Business Intelligence, dan Business Development',
+          ],
+        },
       ],
       sitesTitle: 'Sembilan situs yang sedang berjalan',
       note: 'Kode sumber milik perusahaan (work-for-hire). Tautan di atas mengarah langsung ke domain publik yang sedang aktif.',
@@ -45,13 +63,31 @@ export const translations = {
     projects: {
       sectionNum: '03',
       title: 'Project',
-      subtitle: 'Lima project, lengkap dengan angka dan batasannya.',
       sourceRepo: 'Repo',
       liveDemo: 'Live',
       docs: 'Dokumentasi',
       highlightsTitle: 'Highlight arsitektur',
       caveatTitle: 'Batasan',
       items: [
+        {
+          slug: 'plectra',
+          name: 'Plectra',
+          kicker: 'Go 1.27 · SQLite · OpenSubsonic',
+          summary: 'Pemutar musik self-hosted yang ditulis di Go. Ia memindai folder musik sendiri, memutarnya lewat kartu suara mesin tempat ia berjalan, dan memberi satu halaman web sebagai remote-nya. Tanpa akun, tanpa iklan, tanpa katalog yang berusaha menjual sesuatu.',
+          highlights: [
+            'Halaman webnya remote, BUKAN pemutar — audio keluar dari mesin server, bukan dari browser',
+            'Indeks SQLite, pemutaran gapless, dan antrean yang selamat dari restart',
+            'API OpenSubsonic mati sampai password diisi; setelah itu klien Subsonic mana pun bisa memakainya',
+            'ffmpeg dan yt-dlp opsional: alat yang hilang menghapus satu fitur, tidak pernah mematikan pemutaran file sendiri',
+            'Jaringan tidak pernah ada di jalur pemutaran — pengayaan metadata jalan di worker latar',
+          ],
+          metrics: [
+            { label: 'Test', value: '103', note: '14 dari 18 paket' },
+            { label: 'Paket internal', value: '15', note: 'audio, player, store, api' },
+            { label: 'Format audio', value: '4', note: 'MP3, FLAC, OGG, WAV' },
+          ],
+          caveat: 'Belum ada CI sama sekali — tidak ada satu pun workflow di repo, jadi 103 test itu hanya jalan kalau saya menjalankannya sendiri. Empat paket belum tersentuh test, termasuk entry point dan lapisan web. Dan ia tidak punya demo publik: binding-nya 127.0.0.1 dan suaranya keluar dari kartu suara server, jadi "live" untuk aplikasi ini hanya ada di mesin yang menjalankannya.',
+        },
         {
           slug: 'idx-screener',
           name: 'IdxScreener',
@@ -164,7 +200,7 @@ export const translations = {
     stack: {
       sectionNum: '04',
       title: 'Stack',
-      subtitle: 'Yang dipakai sehari-hari, bukan daftar semua yang pernah disentuh.',
+      subtitle: 'Perkakas yang dikuasai, bukan yang dikoleksi. Dipilih karena membuat pekerjaan jadi lebih halus, bukan karena namanya bagus di CV.',
       categories: [
         {
           category: 'Bahasa',
@@ -186,29 +222,27 @@ export const translations = {
     },
     about: {
       sectionNum: '01',
-      title: 'Tentang',
-      headline: 'Belajar dengan membangun',
-      lead: 'Saya lebih cepat paham sesuatu kalau sudah mencoba membuatnya. Karena itu sebagian besar yang saya kuasai datang dari project kecil di luar jam kerja, bukan dari tutorial yang ditonton sampai habis.',
-      philosophyTitle: 'Latar belakang',
-      bioParagraph: [
-        'Lulusan Computer Science Bina Nusantara University. Sekarang Web Developer di Massindo Group, menangani situs sembilan brand di bawah satu grup.',
-        'Pekerjaannya berjalan di produksi: fitur baru, optimasi SEO teknis dan Core Web Vitals, deployment, pemeliharaan database, dan konfigurasi server.',
-        'Di luar jam kerja saya tetap membangun aplikasi. Sebagian project di halaman ini lahir dari situ, dan beberapa di antaranya belum berhasil.',
+      title: 'Tentang Saya',
+      stackTitle: 'Perkakas sehari-hari',
+      // Diambil dari resume, bukan ditulis ulang bebas: halaman ini dan resume
+      // harus mengatakan hal yang sama kalau keduanya dibaca berdampingan —
+      // dan itu memang yang terjadi di ruang wawancara.
+      profile: [
+        'Web Developer dan lulusan Computer Science Universitas Bina Nusantara dengan IPK 3,72. Saat ini menangani situs sembilan brand di bawah Massindo Group: pengembangan fitur baru, optimasi SEO teknis dan Core Web Vitals, deployment, pemeliharaan database, dan konfigurasi server.',
+        'Terbiasa mengerjakan aplikasi berbasis web maupun mobile, cepat mempelajari hal baru, dan terbiasa berkolaborasi lintas divisi bersama tim marketing, desain, dan konten.',
       ],
-      philosophyTitle2: 'Cara kerja',
-      philosophy1: 'Saya belajar dengan membangun. Teknologi yang menarik biasanya berakhir jadi project kecil dulu sebelum saya merasa cukup paham untuk memakainya di tempat kerja.',
-      philosophy2: 'Yang saya kejar bukan kode yang rapi hari ini, tapi kode yang masih benar tiga bulan lagi saat orang lain yang membukanya.',
       educationTitle: 'Pendidikan',
-      school: 'Bina Nusantara University',
-      major: 'Computer Science',
-      period: '2021 – 2025',
+      school: 'Universitas Bina Nusantara',
+      major: 'Bachelor of Computer Science, Streaming Database',
+      period: 'Sep 2021 – Jul 2025',
+      gpa: 'IPK 3,72',
       locationTitle: 'Lokasi',
       location: 'Jakarta, Indonesia (WIB / GMT+7)',
     },
     contact: {
-      sectionNum: '05',
+      sectionNum: '04',
       title: 'Kontak',
-      subtitle: 'Terbuka untuk pekerjaan full-time dan obrolan teknis. Paling cepat lewat email atau WhatsApp.',
+      subtitle: 'Terbuka untuk peran full-time dan percakapan teknis. Satu pesan sudah cukup untuk memulai sesuatu — email atau WhatsApp paling cepat sampai.',
       emailLabel: 'Email',
       linkedinLabel: 'LinkedIn',
       phoneLabel: 'WhatsApp',
@@ -224,34 +258,49 @@ export const translations = {
   en: {
     nav: {
       hero: 'Hero',
-      work: 'Experience',
-      projects: 'Projects',
-      stack: 'Stack',
       about: 'About',
+      work: 'Work',
+      projects: 'Projects',
       contact: 'Contact',
+      top: 'Back to top',
     },
     hero: {
-      headline: ['I like building apps,', 'even on days off'],
+      headline: ['Weaving logic', 'into wonder'],
       name: 'David Adriel Alvyn',
       role: 'Fullstack Developer, Jakarta',
-      thesis: 'Web and mobile — Rails, Laravel, Go, React. All of it learned by building, plenty of experiments, mostly because it looks cool.',
-      projectsBtn: 'See projects',
-      contactBtn: 'Get in touch',
+      projectsBtn: 'Explore the work',
+      contactBtn: 'Start a conversation',
     },
     work: {
       sectionNum: '02',
-      title: 'Experience',
-      role: 'Web Developer',
-      company: 'Massindo Group',
-      period: '2025 – present',
-      summary: 'Building and maintaining the websites of nine brands under one group: shipping features, tuning performance, and keeping systems running while people use them.',
+      title: 'Work',
       focusTitle: 'Responsibilities',
-      duties: [
-        'Development & maintenance of multi-brand web architectures',
-        'Implementing production features & optimizing live system workflows',
-        'Technical SEO: URL structure, meta tags, sitemaps & structured data',
-        'Core Web Vitals & page load improvements across nine sites',
-        'Deployment, database maintenance & server configuration',
+      roles: [
+        {
+          role: 'Web Developer',
+          company: 'PT. Massindo International',
+          period: 'Jun 2025 – present',
+          duties: [
+            'Develop & maintain a multi-brand web architecture serving nine brands',
+            'Implement new features & optimise production system flows',
+            'Technical SEO: URL structure, meta tags, sitemaps & structured data',
+            'Improve Core Web Vitals & page load speed across all nine sites',
+            'Deployment, database maintenance & server configuration',
+            'Work cross-divisionally with the marketing, design, and content teams',
+          ],
+        },
+        {
+          role: 'Web Developer Intern',
+          company: 'PT. Evotech Industri',
+          period: 'Feb 2024 – Feb 2025',
+          duties: [
+            'Built new applications, extended existing ones, and maintained them in production',
+            'Tested features & APIs with Postman, followed by bug fixing',
+            'Maintained and developed APIs, handled deployment and architecture review',
+            'Contributed to Artificial Intelligence development with the AI division',
+            'Collaborated with the Business Analyst, Business Intelligence, and Business Development divisions',
+          ],
+        },
       ],
       sitesTitle: 'Nine sites currently running',
       note: 'Proprietary company code (work-for-hire). Links above point directly to live public websites.',
@@ -259,13 +308,31 @@ export const translations = {
     projects: {
       sectionNum: '03',
       title: 'Projects',
-      subtitle: 'Five projects, each with its numbers and its limits.',
       sourceRepo: 'Repo',
       liveDemo: 'Live',
       docs: 'Documentation',
       highlightsTitle: 'Architecture highlights',
       caveatTitle: 'Limits',
       items: [
+        {
+          slug: 'plectra',
+          name: 'Plectra',
+          kicker: 'Go 1.27 · SQLite · OpenSubsonic',
+          summary: 'A self-hosted music player written in Go. It scans a folder of your own music, plays it through the sound card of the machine it runs on, and hands you a web page as the remote. No account, no ads, no catalogue trying to sell you something.',
+          highlights: [
+            'The web page is a remote, NOT a player — audio comes out of the server, not the browser',
+            'SQLite index, gapless playback, and a queue that survives a restart',
+            'The OpenSubsonic API stays off until a password is set; after that any Subsonic client can drive it',
+            'ffmpeg and yt-dlp are optional: a missing tool removes one feature, it never stops your own files from playing',
+            'The network is never on the playback path — metadata enrichment runs in a background worker',
+          ],
+          metrics: [
+            { label: 'Tests', value: '103', note: '14 of 18 packages' },
+            { label: 'Internal packages', value: '15', note: 'audio, player, store, api' },
+            { label: 'Audio formats', value: '4', note: 'MP3, FLAC, OGG, WAV' },
+          ],
+          caveat: 'There is no CI at all — not a single workflow in the repo, so those 103 tests only run when I run them myself. Four packages have no tests, including the entry point and the web layer. And it has no public demo: it binds to 127.0.0.1 and its sound leaves through the server\'s own sound card, so "live" for this app exists only on the machine running it.',
+        },
         {
           slug: 'idx-screener',
           name: 'IdxScreener',
@@ -377,7 +444,7 @@ export const translations = {
     stack: {
       sectionNum: '04',
       title: 'Stack',
-      subtitle: 'What I work in day to day, not everything I have ever touched.',
+      subtitle: 'Tools I have mastered, not tools I collect. Chosen because they make the work smoother, not because they read well on a CV.',
       categories: [
         {
           category: 'Languages',
@@ -399,29 +466,24 @@ export const translations = {
     },
     about: {
       sectionNum: '01',
-      title: 'About',
-      headline: 'Learning by building',
-      lead: 'I understand something faster once I have tried to build it. Most of what I know came from small projects outside working hours, not from tutorials watched to the end.',
-      philosophyTitle: 'Background',
-      bioParagraph: [
-        'Computer Science graduate from Bina Nusantara University. Now a Web Developer at Massindo Group, looking after the websites of nine brands under one group.',
-        'The work runs in production: new features, technical SEO and Core Web Vitals, deployment, database maintenance, and server configuration.',
-        'Outside work hours I keep building. Some of the projects on this page came from that, and a few of them have not worked out yet.',
+      title: 'About Me',
+      stackTitle: 'Everyday tools',
+      profile: [
+        'Web Developer and Computer Science graduate of Bina Nusantara University with a GPA of 3.72. Currently responsible for the websites of nine brands under Massindo Group: new feature delivery, technical SEO and Core Web Vitals, deployment, database maintenance, and server configuration.',
+        'Comfortable across web and mobile stacks, quick to pick up new tools, and used to working alongside the marketing, design, and content teams.',
       ],
-      philosophyTitle2: 'How I work',
-      philosophy1: 'I learn by building. A technology I find interesting usually becomes a small project first, before I trust myself to use it at work.',
-      philosophy2: 'What I aim for is not code that looks tidy today, but code that is still correct three months from now, when someone else opens it.',
       educationTitle: 'Education',
       school: 'Bina Nusantara University',
-      major: 'Computer Science',
-      period: '2021 – 2025',
+      major: 'Bachelor of Computer Science, Database Streaming',
+      period: 'Sep 2021 – Jul 2025',
+      gpa: 'GPA 3.72',
       locationTitle: 'Location',
       location: 'Jakarta, Indonesia (WIB / GMT+7)',
     },
     contact: {
-      sectionNum: '05',
+      sectionNum: '04',
       title: 'Contact',
-      subtitle: 'Open to full-time work and technical conversations. Email or WhatsApp reaches me fastest.',
+      subtitle: 'Open to full-time roles and technical conversations. One message is enough to start something — email or WhatsApp reaches me fastest.',
       emailLabel: 'Email',
       linkedinLabel: 'LinkedIn',
       phoneLabel: 'WhatsApp',

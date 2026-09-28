@@ -1,149 +1,142 @@
 @import "tailwindcss";
 
-/* Dua keluarga, dipasangkan pada sumbu kontras lebar: kondensasi ultrabold
-   lawan grotesk netral.
+/* ─────────────────────────────────────────────────────────────────────────
+   CHROMA — sistem desain
 
-   Anton (Google, OFL) untuk display — hanya subset latin diunduh, 12 KB.
-   Switzer (Fontshare) untuk teks dan angka.
+   Lima warna, tanpa warna keenam. Itu batasan yang membentuk seluruh halaman
+   ini, dan bukan batasan yang dibuat-buat: palet sekecil ini memaksa hierarki
+   dikerjakan lewat BIDANG dan UKURAN, bukan lewat mencari-cari rona baru tiap
+   kali ada elemen yang perlu dibedakan.
 
-   Gambetta dihapus. Serif berkontras tinggi menghasilkan halaman yang tenang
-   dan terbaca sebagai dokumen; yang diminta adalah halaman yang menghentak.
+   Bahasanya blok warna datar — bukan kartu kaca, bukan gradien lembut, bukan
+   bayangan. Bidang penuh yang bertemu di tepi lurus, tipografi besar, satu
+   aksen amber yang tidak pernah dipakai untuk apa pun selain hal yang paling
+   penting di bidang itu.
+
+   "Chromatic" juga dikerjakan harfiah di dua tempat: aura hero memakai
+   mix-blend-mode: multiply sehingga amber dan navy yang bertumpang tindih
+   benar-benar menghasilkan warna ketiga, dan judul hero punya lapisan
+   pecahan warna yang mengendap saat halaman dibuka.
+   ───────────────────────────────────────────────────────────────────────── */
+
+/* Nunito (Google, OFL) untuk display, Sora (Google, OFL) untuk teks.
+
+   Keduanya diunduh sebagai SATU file variable per keluarga, bukan satu file
+   per weight. Google Fonts memang mengirim file variable yang identik untuk
+   tiap weight yang diminta dari keluarga variable — lima permintaan weight
+   menghasilkan lima salinan byte-per-byte dari dua file yang sama, terverifikasi
+   lewat md5. Satu file dengan rentang weight memberi hasil yang sama dengan
+   tiga request lebih sedikit dan ~90 KB lebih ringan.
+
+   Pasangan ini bekerja karena temperamennya berlawanan pada sumbu yang jelas:
+   Nunito punya terminal membulat dan bentuk yang hangat, Sora geometris dengan
+   potongan lurus dan x-height tinggi. Dua sans yang mirip-tapi-tidak-sama
+   adalah kesalahan yang lebih buruk daripada satu keluarga saja — pasangan ini
+   tidak akan tertukar.
 
    font-synthesis-weight: none di body: weight yang tidak ada lebih baik salah
    daripada dipertebal sintetis oleh browser, yang selalu terlihat kotor. */
-@font-face { font-family: 'Anton';   src: url('/fonts/anton-400.woff2')   format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
-@font-face { font-family: 'Switzer'; src: url('/fonts/switzer-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
-@font-face { font-family: 'Switzer'; src: url('/fonts/switzer-500.woff2') format('woff2'); font-weight: 500; font-style: normal; font-display: swap; }
-@font-face { font-family: 'Switzer'; src: url('/fonts/switzer-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
-
-/* ─────────────────────────────────────────────────────────────────────────
-   THE LEDGER — fondasi desain
-   Rencana: docs/porto-redesign-plan.md
-
-   Premis situs ini adalah bukti: setiap klaim punya angka, setiap angka punya
-   catatan kaki, dan catatan kakinya tidak disembunyikan. Token di bawah ini
-   melayani premis itu — bukan sebaliknya.
-   ───────────────────────────────────────────────────────────────────────── */
+@font-face { font-family: 'Nunito'; src: url('/fonts/nunito.woff2') format('woff2-variations'); font-weight: 400 900; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Sora';   src: url('/fonts/sora.woff2')   format('woff2-variations'); font-weight: 100 800; font-style: normal; font-display: swap; }
 
 @theme {
-  /* ── Warna ──────────────────────────────────────────────────────────────
-     Strategi: restrained. Satu momen drenched di section gelap.
+  /* ── Palet ──────────────────────────────────────────────────────────────
+     Lima nilai, persis seperti yang diberikan. Tidak ada tint, tidak ada
+     shade, tidak ada versi 80%-nya — setiap kali sebuah palet "butuh" warna
+     keenam, yang sebenarnya kurang adalah ruang atau ukuran.
 
-     Terang sebagai default, dan alasannya konkret: pembacanya adalah recruiter
-     dan engineering lead di Jakarta, membuka link LinkedIn dari HP, siang hari,
-     sering di luar ruangan. Dark mode elegan di studio dan kalah di layar
-     500 nit kena matahari.
+     Transparansi boleh (garis, lapisan), rona baru tidak. */
+  --color-black: #000000;
+  --color-navy:  #14213D;
+  --color-amber: #FCA311;
+  --color-mist:  #E5E5E5;
+  --color-white: #FFFFFF;
 
-     Anchor hue 168 (hijau-tinta teroksidasi) untuk tinta; permukaannya di 150
-     dengan chroma 0.006 — kertas greige, bukan putih. Putih-nyaris-putih
-     membuat halaman terbaca sebagai dokumen kosong; bidang yang punya berat
-     memberi tempat bagi tipografi besar untuk berdiri.
+  /* ── Peran ──────────────────────────────────────────────────────────────
+     Nama peran dipisah dari nama warna dengan sengaja. Komponen menulis
+     var(--color-ink), bukan var(--color-navy) — jadi satu blok bisa menukar
+     seluruh isinya jadi terang hanya dengan mengganti token di satu tempat.
+     Itulah yang dilakukan .on-navy dan .on-black di bawah.
 
-     Angka kontras di bawah DIUKUR, bukan diperkirakan. Kalau Anda mengganti
-     satu nilai, ukur ulang; jangan percaya bahwa "kelihatannya masih cukup". */
+     Kontras DIUKUR, bukan diperkirakan:
+       navy  di white  15.3:1     white di navy   15.3:1
+       navy  di mist   12.5:1     amber di navy    7.6:1
+       amber di black  11.0:1     mist  di navy   11.6:1
+       amber di white   1.9:1  ← TIDAK PERNAH untuk teks; lihat catatan. */
+  --color-surface:     var(--color-white);
+  --color-surface-alt: var(--color-mist);
+  --color-ink:         var(--color-navy);
+  --color-ink-soft:    color-mix(in srgb, var(--color-navy) 68%, var(--color-white));
+  --color-line:        color-mix(in srgb, var(--color-navy) 16%, var(--color-white));
 
-  --color-ink:            oklch(0.22 0.03  168);  /* teks utama — 15.76:1 di surface */
-  --color-night:          oklch(0.22 0.03  168);  /* latar section gelap. Nilainya
-                             sama dengan --color-ink, tapi perannya berbeda dan
-                             itu bukan kemewahan: di dalam .on-ink, --color-ink
-                             ditukar jadi warna terang, jadi latar tidak boleh
-                             ikut membacanya. */
-  --color-ink-soft:       oklch(0.45 0.02  168);  /* teks sekunder — 6.76:1 */
-  --color-surface:        oklch(0.93 0.006 150);  /* latar halaman: kertas, bukan putih */
-  --color-surface-raised: oklch(0.97 0.004 150);  /* bidang terangkat */
-  --color-rule:           oklch(0.78 0.01  150);  /* hairline. 1.45:1 — sengaja
-                             lirih, dan memang bukan teks. Kalau sebuah pemisah
-                             perlu TERBACA, ia bukan hairline; pakai label. */
-  --color-verified:       oklch(0.48 0.09  168);  /* penanda metrik — 5.01:1 */
+  /* Amber adalah warna BIDANG dan PENANDA, bukan warna teks di latar terang:
+     1.9:1 di putih gagal telak. Di latar terang ia muncul sebagai isian blok
+     (dengan teks navy di atasnya) atau sebagai garis; sebagai teks ia hanya
+     dipakai di atas navy dan hitam, tempat kontrasnya 7,6:1 dan 11,0:1. */
+  --color-accent:      var(--color-amber);
+  --color-on-accent:   var(--color-navy);
 
-  /* --color-signal: HANYA untuk caveat/batasan. Hijau, bukan amber — amber
-     membaca sebagai peringatan sistem, dan batasan di sini bukan error: itu
-     bagian dari catatan.
+  /* ── Radius ─────────────────────────────────────────────────────────────
+     Satu nilai saja, dan hanya untuk navigasi. Seluruh halaman ini bicara
+     dengan bidang bersudut siku; kapsul dipakai justru untuk memisahkan chrome
+     yang melayang dari blok-blok halaman di bawahnya. Begitu radius dipakai di
+     tempat kedua, pemisahan itu hilang. */
+  --radius-pill: 999px;
 
-     Dua varian karena satu nilai tidak pernah lolos 4.5:1 di latar terang DAN
-     gelap sekaligus. Hue 150 memisahkannya dari --color-verified di 168, jadi
-     "terukur" dan "belum terbukti" tidak jadi warna yang sama. */
-  --color-signal:         oklch(0.44 0.12 150);   /* di surface — 5.99:1 */
-  --color-signal-on-ink:  oklch(0.76 0.13 150);   /* di night   — 8.41:1 */
-
-  /* Di atas --color-ink (section gelap) */
-  --color-on-ink:         oklch(0.96 0.008 168);  /* 15.32:1 */
-  --color-on-ink-soft:    oklch(0.74 0.015 168);  /*  7.49:1 */
-  --color-rule-on-ink:    oklch(0.35 0.02  168);
-
-  /* ── Tipografi ──────────────────────────────────────────────────────────
-     Dipasangkan pada sumbu kontras lebar: kondensasi ultrabold lawan grotesk
-     netral. Dua sans yang mirip-tapi-tidak-sama adalah kesalahan yang lebih
-     buruk daripada satu keluarga saja — Anton dan Switzer tidak akan pernah
-     tertukar.
-
-     Tidak ada monospace. Label kecil ber-monospace adalah tell, dan masalah
-     yang biasanya dipakai untuk menyelesaikannya — perataan angka — sudah
-     diselesaikan tabular-nums di bawah. */
-
-  --font-display: 'Anton', 'Arial Narrow', ui-sans-serif, sans-serif;
-  --font-sans:    'Switzer', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  /* ── Tipografi ────────────────────────────────────────────────────────── */
+  --font-display: 'Nunito', ui-rounded, ui-sans-serif, system-ui, sans-serif;
+  --font-sans:    'Sora', ui-sans-serif, system-ui, -apple-system, sans-serif;
 
   /* ── Spasi ──────────────────────────────────────────────────────────────
-     Non-linear dengan sengaja. Skala linier (8/16/24/32) menghasilkan halaman
-     yang rata temponya; ritme datang dari jarak yang tidak seragam. */
-
-  --spacing-2xs: 0.25rem;   /*  4px */
-  --spacing-xs:  0.5rem;    /*  8px */
-  --spacing-sm:  0.75rem;   /* 12px */
-  --spacing-md:  1.25rem;   /* 20px */
-  --spacing-lg:  2rem;      /* 32px */
-  --spacing-xl:  3.25rem;   /* 52px */
-  --spacing-2xl: 5.25rem;   /* 84px */
-  --spacing-3xl: 8.5rem;    /* 136px */
+     Non-linear dengan sengaja. Skala linier menghasilkan halaman yang rata
+     temponya; ritme datang dari jarak yang tidak seragam. */
+  --spacing-2xs: 0.25rem;
+  --spacing-xs:  0.5rem;
+  --spacing-sm:  0.75rem;
+  --spacing-md:  1.25rem;
+  --spacing-lg:  2rem;
+  --spacing-xl:  3.25rem;
+  --spacing-2xl: 5.25rem;
+  --spacing-3xl: 8.5rem;
 
   /* ── Easing ─────────────────────────────────────────────────────────────
      Eksponensial keluar. Tanpa bounce, tanpa elastic — keduanya menambahkan
      kepribadian yang tidak diminta konten ini. */
-
   --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
   --ease-out-expo:  cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* ── Z-index semantik ─────────────────────────────────────────────────────
-   Dinamai, berjarak 10. Tidak pernah 999 atau 9999: angka sembarangan adalah
-   cara sebuah stacking context berhenti bisa dipikirkan. */
+   Dinamai, berjarak 10. Tidak pernah 999: angka sembarangan adalah cara
+   sebuah stacking context berhenti bisa dipikirkan. */
 :root {
-  --z-rail: 10;
+  --z-aura: 0;
+  --z-content: 1;
+  --z-hover-shot: 15;
   --z-sticky: 20;
   --z-sheet-backdrop: 30;
   --z-sheet: 40;
-  --z-toast: 50;
+  --z-cursor: 60;
 }
-
-/* ── Skala tipografi ──────────────────────────────────────────────────────
-   Display naik ke 8.5rem (136px) di layar lebar. Versi sebelumnya berhenti di
-   84px dan itu kesalahannya: di kanvas selebar 1440px, 84px bukan peristiwa,
-   cuma teks yang agak besar. Anton kondensasi, jadi pada ukuran itu ia masih
-   muat tiga kata per baris tanpa keluar container.
-
-   Batas bawah 3rem diuji terhadap kata terpanjang di konten pada 320px. */
 
 @layer base {
   :root {
-    --text-display: clamp(3rem, 9.5vw, 8.5rem);
-    --text-h2:      clamp(2.25rem, 5.5vw, 4.5rem);
-    --text-h3:      clamp(1.5rem, 2.4vw, 2rem);
-    --text-body:    1.125rem;
-    --text-metric:  clamp(2.25rem, 4vw, 3.25rem);
-    --text-caption: 0.9375rem;
+    --text-display: clamp(3rem, 8.4vw, 8rem);
+    --text-h2:      clamp(2.25rem, 5.2vw, 4.5rem);
+    --text-h3:      clamp(1.5rem, 2.3vw, 2rem);
+    --text-body:    1.0625rem;
   }
 
   html {
     background-color: var(--color-surface);
     -webkit-text-size-adjust: 100%;
-  }
 
-  /* scroll-behavior dipasang di sini, BUKAN scroll-snap. Snap mandatory
-     membajak scroll dan membuat halaman panjang terasa melawan jari —
-     persis keluhan yang paling sering muncul di situs portofolio. */
-  @media (prefers-reduced-motion: no-preference) {
-    html { scroll-behavior: smooth; }
+    /* scroll-behavior sengaja auto: penghalusan scroll ditangani ScrollSmoother
+       di src/lib/motion.js, dan dua mekanisme smooth yang berebut satu scroll
+       position menghasilkan lompatan. Kalau pengguna meminta reduced motion,
+       ScrollSmoother tidak pernah dibuat dan anchor melompat seketika — yang
+       memang perilaku yang benar di sana. */
+    scroll-behavior: auto;
   }
 
   body {
@@ -151,110 +144,714 @@
     color: var(--color-ink);
     font-family: var(--font-sans);
     font-size: var(--text-body);
-    line-height: 1.65;
+    line-height: 1.68;
     font-synthesis-weight: none;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+    overflow-x: hidden;
   }
 
-  /* Anton hanya punya satu weight dan digambar untuk dipakai besar dan rapat.
-     text-transform: uppercase disetel di sini, bukan di tiap komponen: huruf
-     besar adalah bagian dari bentuk typeface-nya, bukan keputusan per-tempat. */
-  h1, h2, h3 {
+  /* Extrabold dan tracking negatif yang menajam mengikuti ukuran. Pada 120px
+     tracking default Nunito terlihat renggang; pada 24px tracking serapat itu
+     membuat huruf saling menempel. Satu nilai untuk semua ukuran selalu salah
+     di salah satu ujungnya. */
+  h1, h2, h3, h4 {
     font-family: var(--font-display);
-    font-weight: 400;
-    text-transform: uppercase;
+    font-weight: 800;
     text-wrap: balance;
-    line-height: 0.88;
-    letter-spacing: -0.015em;
+    line-height: 1;
   }
 
-  h1 { font-size: var(--text-display); }
-  h2 { font-size: var(--text-h2); }
-  h3 { font-size: var(--text-h3); }
+  h1 { font-size: var(--text-display); letter-spacing: -0.03em;  line-height: 0.98; }
+  h2 { font-size: var(--text-h2);      letter-spacing: -0.025em; line-height: 1.0; }
+  h3 { font-size: var(--text-h3);      letter-spacing: -0.015em; line-height: 1.12; }
+  h4 { letter-spacing: -0.01em; }
 
   p { text-wrap: pretty; }
+  a { color: inherit; }
 
-  /* Prosa tidak pernah lebih lebar dari 68ch. Baris panjang bukan masalah
+  /* Prosa tidak pernah lebih lebar dari 62ch. Baris panjang bukan masalah
      estetika — mata kehilangan awal baris berikutnya. */
-  .prose-measure { max-width: 68ch; }
+  .prose-measure { max-width: 62ch; }
 
-  /* Angka adalah materi utama situs ini, jadi perataannya bukan detail.
+  /* Angka adalah materi utama halaman ini, jadi perataannya bukan detail.
      tabular-nums membuat kolom angka sejajar; lining-nums menjaga tingginya
      seragam. Koma desimal Indonesia ditulis di data, bukan diformat di sini. */
-  .numeric {
-    font-variant-numeric: tabular-nums lining-nums;
-  }
+  .numeric { font-variant-numeric: tabular-nums lining-nums; }
 
-  /* Fokus keyboard harus terlihat di kedua latar. currentColor mengikuti
-     warna teks section, jadi satu aturan cukup untuk terang dan gelap. */
   :focus-visible {
-    outline: 2px solid currentColor;
-    outline-offset: 3px;
-    border-radius: 1px;
+    outline: 3px solid var(--color-amber);
+    outline-offset: 2px;
   }
 
   /* Target sentuh minimum. Bukan saran — di bawah 44px, jari orang dewasa
      meleset cukup sering untuk terasa rusak. */
   @media (pointer: coarse) {
-    a, button, [role="button"], summary {
-      min-height: 44px;
-    }
+    a, button, [role="button"], summary { min-height: 44px; }
   }
 
   ::selection {
-    background: var(--color-ink);
-    color: var(--color-surface);
+    background: var(--color-amber);
+    color: var(--color-navy);
   }
 }
 
-/* ── Section gelap (drenched) ─────────────────────────────────────────────
-   Palet ditukar lewat custom property, bukan lewat daftar override per
-   elemen. Alasannya praktis: komponen di dalam sini menulis warnanya sebagai
-   var(--color-ink-soft), dan kalau token itu tidak ikut berubah, teks sekunder
-   jadi hijau gelap di atas hijau gelap — persis bug yang terjadi saat section
-   ini pertama dibuat gelap.
+@layer components {
+  /* ─────────────────────────────────────────────────────────────────────
+     Kelas komponen WAJIB di dalam @layer components.
 
-   Latar memakai --color-night, bukan --color-ink: --color-ink sudah ditukar di
-   blok yang sama, jadi latarnya akan ikut jadi terang kalau membacanya. */
-.on-ink {
-  background-color: var(--color-night);
-  color: var(--color-on-ink);
+     Ini bukan kerapian: Tailwind mengurutkan layer-nya theme → base →
+     components → utilities, jadi class yang ditulis di luar layer mana pun
+     terbit SETELAH utilities dan diam-diam mengalahkannya — sebuah class
+     kustom yang membawa `position: relative` pernah membuat elemen ber-class
+     `fixed` berhenti fixed, tanpa error dan tanpa peringatan.
+     ───────────────────────────────────────────────────────────────────── */
 
-  --color-ink:      var(--color-on-ink);
-  --color-ink-soft: var(--color-on-ink-soft);
-  --color-rule:     var(--color-rule-on-ink);
-  --color-signal:   var(--color-signal-on-ink);
-  --color-surface:  var(--color-night);
+  /* ── Blok berwarna ──────────────────────────────────────────────────────
+     Token ditukar, bukan tiap elemen di-override. Alasannya praktis: isi blok
+     menulis warnanya sebagai var(--color-ink-soft), dan kalau token itu tidak
+     ikut berubah, teks sekunder jadi gelap di atas gelap.
+
+     Latar memakai --color-navy / --color-black langsung, bukan
+     var(--color-surface): surface sudah ditukar di blok yang sama, jadi
+     latarnya akan ikut salah kalau membacanya. */
+  .on-navy {
+    background-color: var(--color-navy);
+    color: var(--color-white);
+
+    --color-surface:     var(--color-navy);
+    --color-surface-alt: color-mix(in srgb, var(--color-navy) 82%, var(--color-black));
+    --color-ink:         var(--color-white);
+    --color-ink-soft:    color-mix(in srgb, var(--color-white) 72%, var(--color-navy));
+    --color-line:        color-mix(in srgb, var(--color-white) 22%, var(--color-navy));
+  }
+
+  .on-black {
+    background-color: var(--color-black);
+    color: var(--color-white);
+
+    --color-surface:     var(--color-black);
+    --color-surface-alt: color-mix(in srgb, var(--color-white) 8%, var(--color-black));
+    --color-ink:         var(--color-white);
+    --color-ink-soft:    color-mix(in srgb, var(--color-white) 68%, var(--color-black));
+    --color-line:        color-mix(in srgb, var(--color-white) 22%, var(--color-black));
+  }
+
+  .on-mist {
+    background-color: var(--color-mist);
+
+    --color-surface:     var(--color-mist);
+    --color-surface-alt: var(--color-white);
+    --color-line:        color-mix(in srgb, var(--color-navy) 20%, var(--color-mist));
+  }
+
+  /* Blok amber. Teksnya SELALU navy — amber di atas putih cuma 1,9:1, jadi
+     apa pun yang diletakkan di bidang ini harus gelap. */
+  .on-amber {
+    background-color: var(--color-amber);
+    color: var(--color-navy);
+
+    --color-surface:     var(--color-amber);
+    --color-surface-alt: color-mix(in srgb, var(--color-amber) 82%, var(--color-navy));
+    --color-ink:         var(--color-navy);
+    --color-ink-soft:    color-mix(in srgb, var(--color-navy) 78%, var(--color-amber));
+    --color-line:        color-mix(in srgb, var(--color-navy) 28%, var(--color-amber));
+  }
+
+  /* ── Panel ──────────────────────────────────────────────────────────────
+     Bidang di dalam blok. Sudut tidak membulat dan tidak ada bayangan: dua
+     hal itu adalah kosakata kartu SaaS, dan halaman ini bicara dengan bidang
+     datar yang bertemu di tepi lurus. */
+  .panel {
+    background-color: var(--color-surface-alt);
+    border: 1px solid var(--color-line);
+  }
+
+  /* ── Aturan garis ───────────────────────────────────────────────────────
+     Border penuh atau tidak sama sekali. Garis tebal berwarna di satu sisi
+     sebagai aksen adalah dekorasi yang menyamar jadi struktur. */
+  .rule-t { border-top: 1px solid var(--color-line); }
+  .rule-b { border-bottom: 1px solid var(--color-line); }
+
+  /* ── Eyebrow ────────────────────────────────────────────────────────────
+     Nomor atau label kecil, selalu didahului satu balok amber. Balok itu
+     penanda posisi yang sama di seluruh halaman — bukan hiasan yang
+     kebetulan berwarna. */
+  .eyebrow {
+    display: inline-flex;
+    align-items: flex-start;
+    gap: 0.7rem;
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-ink-soft);
+  }
+  /* align-self + margin-top, bukan mengandalkan align-items:center di
+     induknya: di layar sempit label ini membungkus jadi dua baris, dan balok
+     yang dipusatkan secara vertikal berhenti di antara kedua baris — persis
+     terlihat di 390px pada eyebrow hero. */
+  .eyebrow::before {
+    content: '';
+    align-self: flex-start;
+    margin-top: 0.42em;
+    width: 1.5rem;
+    height: 0.4rem;
+    flex-shrink: 0;
+    background: var(--color-amber);
+  }
+
+  /* ── Chip ───────────────────────────────────────────────────────────────
+     Kapsul persegi untuk stack dan kicker. Bukan tombol: tidak punya keadaan
+     hover, dan itu disengaja supaya tidak ada yang mencoba mengkliknya. */
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.3rem 0.7rem;
+    border: 1px solid var(--color-line);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    line-height: 1.4;
+    color: var(--color-ink);
+  }
+
+  /* ── Tombol ─────────────────────────────────────────────────────────────
+     Persegi, tebal, tanpa radius. Isian hover datang sebagai sapuan dari kiri
+     (::before yang di-scaleX), bukan pergantian background-color — satu
+     terbaca sebagai keadaan, satunya sebagai gerakan. */
+  .btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    padding: 0.95rem 1.6rem;
+    overflow: hidden;
+    isolation: isolate;
+    border: 2px solid var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--color-ink);
+    transition: color 280ms var(--ease-out-quart),
+                border-color 280ms var(--ease-out-quart);
+  }
+  .btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--color-amber);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 420ms var(--ease-out-expo);
+  }
+  .btn:hover::before, .btn:focus-visible::before { transform: scaleX(1); }
+  .btn:hover, .btn:focus-visible {
+    color: var(--color-navy);
+    border-color: var(--color-amber);
+  }
+
+  /* Varian terisi: sapuannya sudah penuh, lalu SURUT ke kanan saat disentuh.
+     Arahnya berlawanan dengan varian bergaris supaya dua tombol bersebelahan
+     tidak bergerak identik. */
+  .btn-solid {
+    color: var(--color-navy);
+    border-color: var(--color-amber);
+  }
+  .btn-solid::before {
+    transform: scaleX(1);
+    transform-origin: right center;
+  }
+  .btn-solid:hover::before, .btn-solid:focus-visible::before { transform: scaleX(0); }
+  .btn-solid:hover, .btn-solid:focus-visible {
+    color: var(--color-ink);
+    border-color: var(--color-ink);
+  }
+
+  /* ── Aura hero ──────────────────────────────────────────────────────────
+     Di sinilah "chromatic" dikerjakan harfiah.
+
+     mix-blend-mode: multiply berarti bidang amber yang lewat di atas bidang
+     navy menghasilkan warna ketiga yang tidak ada di palet — dan warna itu
+     berubah terus selama keduanya bergerak. Tanpa blend mode, yang terlihat
+     cuma satu lingkaran menutupi lingkaran lain, yang bukan apa-apa.
+
+     isolation: isolate di .aura mengurung pencampuran itu di dalam dirinya
+     sendiri. Tanpa itu, blob-nya akan ikut menggelapkan teks hero di atasnya.
+
+     will-change: transform dipasang di blob, BUKAN di .aura: yang dianimasikan
+     GSAP adalah tiap blob, dan menaikkan induknya jadi layer sendiri hanya
+     menambah satu tekstur besar untuk dikomposit tanpa ada yang bergerak. */
+  .aura {
+    position: absolute;
+    inset: 0;
+    z-index: var(--z-aura);
+    pointer-events: none;
+    overflow: hidden;
+    isolation: isolate;
+
+    /* Opasitas dipasang di INDUK, bukan di tiap bidang. Bedanya bukan gaya
+       penulisan: multiply bekerja antar-bidang di dalam grup yang terisolasi,
+       jadi menurunkan alpha tiap bidang juga melemahkan pencampurannya sampai
+       warna ketiganya hilang. Dengan opasitas di induk, bidang-bidangnya tetap
+       bercampur pada kekuatan penuh lalu hasilnya yang diredupkan.
+
+       0,28 adalah batas yang terukur: di atas itu, teks sekunder di atas awan
+       navy turun di bawah 4,5:1. */
+    opacity: 0.28;
+  }
+  .aura > i {
+    position: absolute;
+    display: block;
+    border-radius: 50%;
+    mix-blend-mode: multiply;
+    filter: blur(80px);
+    will-change: transform;
+  }
+
+  /* ── Kisi ───────────────────────────────────────────────────────────────
+     Lapisan paling tipis di hero, dan satu-satunya yang diam. Gunanya memberi
+     aura di belakangnya sesuatu untuk diukur — bidang yang melayang di atas
+     latar polos tidak terbaca bergerak sampai ada raster diam yang
+     dilewatinya.
+
+     Dilarutkan ke tepi dengan mask supaya kisinya tidak berhenti di garis
+     lurus, yang selalu terlihat seperti tekstur yang lupa dipotong. */
+  .grid-rule {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    -webkit-mask-image: radial-gradient(120% 90% at 50% 40%, black 30%, transparent 85%);
+    mask-image: radial-gradient(120% 90% at 50% 40%, black 30%, transparent 85%);
+  }
+
+  /* Kisinya MELAYANG, bukan diam. Yang membuat latar hero terbaca hidup bukan
+     bola cahayanya sendiri — bola sebesar itu, di-blur 80px, bergerak terlalu
+     halus untuk tertangkap mata. Raster yang ikut bergeser memberi gerakan itu
+     ukuran.
+
+     Digeser persis satu petak (84px) lalu diulang, jadi sambungannya tidak
+     pernah terlihat. Dan digeser dengan transform, bukan background-position:
+     background-position memicu paint di seluruh bidang tiap frame, transform
+     hanya compositing. inset negatif menyediakan bahan untuk petak yang masuk
+     dari tepi. */
+  .grid-rule > i {
+    position: absolute;
+    inset: -84px;
+    display: block;
+    background-image:
+      linear-gradient(to right, color-mix(in srgb, var(--color-navy) 9%, transparent) 1px, transparent 1px),
+      linear-gradient(to bottom, color-mix(in srgb, var(--color-navy) 9%, transparent) 1px, transparent 1px);
+    background-size: 84px 84px;
+    animation: grid-drift 16s linear infinite;
+    will-change: transform;
+  }
+  @keyframes grid-drift {
+    from { transform: translate3d(0, 0, 0); }
+    to   { transform: translate3d(84px, 84px, 0); }
+  }
+
+  /* ── Pecahan warna pada judul ───────────────────────────────────────────
+     Aberasi kromatik: dua salinan judul di amber dan navy, digeser beberapa
+     piksel ke arah berlawanan, dengan blend multiply.
+
+     Salinannya aria-hidden dan dibuat dari elemen terpisah, BUKAN dari
+     text-shadow. Bedanya nyata: text-shadow tidak bisa di-blend sendiri, jadi
+     yang keluar cuma bayangan berwarna, bukan pencampuran.
+
+     Geserannya mengendap ke nol dalam ~1,2 detik saat halaman dibuka, lalu
+     diam. Aberasi yang berdenyut terus-menerus terbaca sebagai layar rusak. */
+  .chroma { position: relative; display: inline-block; }
+  .chroma > .chroma-ghost {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    mix-blend-mode: multiply;
+    will-change: transform;
+  }
+
+  /* ── Penanda scroll ─────────────────────────────────────────────────────
+     Kotak bergaris dengan panah yang turun-naik pelan.
+
+     Gerakannya ada di PANAH, bukan di kotaknya. Kotak yang ikut bergerak
+     menarik perhatian sekuat konten di sebelahnya — yang perlu terbaca di
+     sini cuma arahnya. */
+  .scroll-cue-box {
+    border: 2px solid var(--color-line);
+    color: var(--color-ink);
+    transition: border-color 300ms var(--ease-out-quart),
+                background-color 300ms var(--ease-out-quart),
+                color 300ms var(--ease-out-quart);
+  }
+  .group:hover .scroll-cue-box,
+  .group:focus-visible .scroll-cue-box {
+    background: var(--color-amber);
+    border-color: var(--color-amber);
+    color: var(--color-navy);
+  }
+  .scroll-cue-arrow { animation: cue-bob 2.2s var(--ease-out-quart) infinite; }
+  @keyframes cue-bob {
+    0%, 100% { transform: translateY(-3px); }
+    50%      { transform: translateY(3px); }
+  }
+
+  /* ── Marquee ────────────────────────────────────────────────────────────
+     Pita berjalan untuk stack. Isinya dirender DUA KALI di markup dan tiap
+     salinan digeser -50%: itulah yang membuat perulangannya tidak punya
+     sambungan. Satu salinan dengan animasi dari 0 ke -100% akan menyisakan
+     bidang kosong selebar layar di tiap putaran.
+
+     Salinan kedua aria-hidden supaya screen reader tidak membacakan daftar
+     yang sama dua kali. */
+  .marquee { display: flex; overflow: hidden; }
+  .marquee > * {
+    display: flex;
+    flex-shrink: 0;
+    min-width: 100%;
+    animation: marquee-run 34s linear infinite;
+  }
+  .marquee:hover > * { animation-play-state: paused; }
+  @keyframes marquee-run {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-100%); }
+  }
+
+  /* ── Navigasi ───────────────────────────────────────────────────────────
+     Tiga kelompok terpisah — monogram, tautan, aksi — bukan satu bar panjang
+     yang menyatu. Dipisah karena ketiganya memang tiga hal berbeda: identitas,
+     navigasi, dan tindakan; menyatukannya dalam satu kapsul membuat monogram
+     terbaca sebagai item nav keempat.
+
+     Sudutnya penuh (kapsul). Ini satu-satunya tempat di halaman yang
+     membulat, dan justru itu gunanya: chrome yang melayang di atas konten
+     harus terbaca sebagai lapisan yang berbeda, bukan sebagai blok halaman
+     yang kebetulan menempel di atas. */
+  .nav-group {
+    display: flex;
+    align-items: stretch;
+    border-radius: var(--radius-pill);
+    border: 2px solid var(--color-navy);
+    background: var(--color-white);
+    color: var(--color-navy);
+    overflow: hidden;
+  }
+
+  .nav-link {
+    display: flex;
+    align-items: center;
+    padding: 0.7rem 1.15rem;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    border-radius: var(--radius-pill);
+    transition: background-color 320ms var(--ease-out-quart),
+                color 320ms var(--ease-out-quart);
+  }
+  .nav-link:hover { background: color-mix(in srgb, var(--color-navy) 8%, var(--color-white)); }
+  .nav-link[aria-current='true'] {
+    background: var(--color-amber);
+    color: var(--color-navy);
+  }
+
+  /* ── Accordion ──────────────────────────────────────────────────────────
+     Dibangun di atas <details>/<summary> native. Yang perlu ditulis di sini
+     cuma menghapus segitiga bawaan dan memberi kepalanya bentuk — sisanya
+     (peran ARIA, keyboard, "cari di halaman" yang membuka panel tertutup)
+     sudah ada tanpa satu baris pun. */
+  .acc > summary {
+    list-style: none;
+    cursor: pointer;
+  }
+  .acc > summary::-webkit-details-marker { display: none; }
+
+  .acc-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 2rem;
+    padding: 2rem 0;
+    transition: color 320ms var(--ease-out-quart);
+  }
+  .acc-head:hover { color: color-mix(in srgb, var(--color-navy) 70%, var(--color-amber)); }
+
+  .acc-body { padding-bottom: 2.5rem; }
+
+  /* Penanda buka/tutup: dua garis bersilang, yang vertikal menghilang saat
+     panel terbuka. Digambar, bukan ditulis sebagai karakter + dan −, karena
+     lebar kedua karakter itu berbeda di hampir semua font dan tepi kanan
+     kepalanya akan bergoyang tiap kali panel dibuka. */
+  .acc-mark {
+    position: relative;
+    flex-shrink: 0;
+    width: 2.75rem;
+    height: 2.75rem;
+    border: 2px solid var(--color-line);
+    transition: background-color 320ms var(--ease-out-quart),
+                border-color 320ms var(--ease-out-quart);
+  }
+  .acc-mark > i {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0.875rem;
+    height: 2px;
+    margin: -1px 0 0 -0.4375rem;
+    background: currentColor;
+    transition: transform 420ms var(--ease-out-expo), opacity 320ms var(--ease-out-quart);
+  }
+  .acc-mark > i:last-child { transform: rotate(90deg); }
+  .acc[open] .acc-mark { background: var(--color-amber); border-color: var(--color-amber); color: var(--color-navy); }
+  .acc[open] .acc-mark > i:last-child { transform: rotate(0deg); opacity: 0; }
+
+  /* ── Tab ────────────────────────────────────────────────────────────────
+     Baris tab yang bisa digeser di layar sempit. scrollbar disembunyikan,
+     TAPI scroll-nya tetap ada — menyembunyikan scrollbar pada elemen yang
+     tidak bisa di-scroll dengan cara lain adalah cara paling umum daftar tab
+     jadi tidak bisa dicapai seluruhnya di HP. */
+  .tabs {
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    scroll-snap-type: x proximity;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+
+  /* Pelarutan di tepi kanan, hanya di layar sempit. Tanpa penanda apa pun,
+     deretan tab yang terpotong persis di batas layar terbaca sebagai deretan
+     yang memang berakhir di situ — dan dua project terakhir tidak pernah
+     ditemukan siapa pun.
+
+     Batasnya 640px karena di atas itu kelima tab selalu muat, jadi tidak ada
+     yang perlu diisyaratkan. Konsekuensi yang disadari: saat digeser sampai
+     mentok kanan, tab terakhir ikut memudar sedikit. Itu harga yang lebih
+     murah daripada dua project yang tidak terlihat. */
+  @media (max-width: 640px) {
+    .tabs {
+      -webkit-mask-image: linear-gradient(to right, black 80%, transparent);
+      mask-image: linear-gradient(to right, black 80%, transparent);
+    }
+  }
+
+  .tab {
+    flex-shrink: 0;
+    scroll-snap-align: start;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.8rem 1.25rem;
+    border: 2px solid var(--color-line);
+    font-size: 0.875rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    color: var(--color-ink-soft);
+    transition: color 280ms var(--ease-out-quart),
+                border-color 280ms var(--ease-out-quart),
+                background-color 280ms var(--ease-out-quart);
+  }
+  .tab:hover { color: var(--color-ink); border-color: var(--color-ink); }
+  .tab[aria-selected='true'] {
+    background: var(--color-amber);
+    border-color: var(--color-amber);
+    color: var(--color-navy);
+  }
+  .tab-num {
+    font-variant-numeric: tabular-nums;
+    font-size: 0.6875rem;
+    opacity: 0.65;
+  }
+
+  /* ── Text reel ──────────────────────────────────────────────────────────
+     Label yang berputar naik ke salinan dirinya sendiri saat disentuh
+     kursor. Dipakai di nav dan tautan project.
+
+     Salinannya aria-hidden dan diletakkan absolut TEPAT di bawah yang asli,
+     lalu keduanya digeser bersama. Dibuat begini, bukan dengan mengganti
+     teksnya, karena lebar elemen tidak boleh berubah saat di-hover — nav yang
+     itemnya melar sedikit saat disentuh membuat seluruh baris bergoyang.
+
+     overflow-hidden ada di .reel, jadi salinan yang belum naik benar-benar
+     tidak terlihat, bukan sekadar transparan. */
+  .reel {
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: bottom;
+  }
+  .reel > span {
+    display: block;
+    transition: transform 420ms var(--ease-out-expo);
+  }
+  .reel > span::after {
+    content: attr(data-reel);
+    position: absolute;
+    left: 0;
+    top: 100%;
+    width: 100%;
+  }
+  .reel:hover > span,
+  a:focus-visible .reel > span,
+  button:focus-visible .reel > span { transform: translateY(-100%); }
+
+  /* ── Baris project ──────────────────────────────────────────────────────
+     Satu project satu baris penuh, dipisah hairline. Latar amber menyapu dari
+     kiri saat disentuh — bukan karena manis, tapi karena baris selebar layar
+     butuh sesuatu yang menandai SATU baris mana yang sedang aktif; pada lebar
+     itu, perubahan warna teks saja tidak cukup terlihat di ujung kanan. */
+  .row-project {
+    position: relative;
+    isolation: isolate;
+    transition: color 320ms var(--ease-out-quart);
+  }
+  .row-project::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--color-amber);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 620ms var(--ease-out-expo);
+  }
+  .row-project:hover::before,
+  .row-project:focus-within::before { transform: scaleX(1); }
+
+  /* Isi baris ikut berbalik ke navy saat sapuan amber lewat. Token ditukar,
+     bukan tiap elemen di-override — sama alasannya dengan blok warna. */
+  .row-project:hover, .row-project:focus-within {
+    --color-ink:      var(--color-navy);
+    --color-ink-soft: color-mix(in srgb, var(--color-navy) 76%, var(--color-amber));
+    --color-line:     color-mix(in srgb, var(--color-navy) 30%, var(--color-amber));
+    color: var(--color-navy);
+  }
+
+  /* ── Pratinjau melayang ─────────────────────────────────────────────────
+     Tangkapan layar yang mengikuti kursor di atas baris project.
+
+     Hanya ada di perangkat berpenunjuk presisi, dan itu bukan penghematan:
+     di layar sentuh tidak ada keadaan "hover", jadi pratinjau ini tidak akan
+     pernah bisa dibuka. Di sana gambarnya dirender langsung di dalam baris —
+     lihat .row-shot. */
+  .hover-shot {
+    position: fixed;
+    top: 0;
+    left: 0;
+    /* Di BAWAH --z-sticky. Pratinjau yang menutupi navigasi berarti bar nav
+       berhenti bisa diklik setiap kali kursor kebetulan lewat di atas baris
+       project — dan itu persis terjadi pada nilai 50. */
+    z-index: var(--z-hover-shot);
+    width: 22rem;
+    pointer-events: none;
+    opacity: 0;
+    will-change: transform;
+    border: 2px solid var(--color-navy);
+    background: var(--color-navy);
+  }
+  @media (pointer: coarse), (prefers-reduced-motion: reduce) {
+    .hover-shot { display: none; }
+  }
+  @media (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    .row-shot { display: none; }
+  }
+
+  /* ── Kursor kustom ──────────────────────────────────────────────────────
+     Satu cincin yang mengekor dan satu titik yang mengikuti persis. Selisih
+     kecepatan itulah seluruh efeknya: kalau keduanya bergerak sama cepat,
+     yang terlihat cuma kursor bawaan yang digambar ulang.
+
+     Versi sebelumnya kotak, bukan lingkaran — sisa dari penghapusan token
+     radius, dan hasilnya dua persegi putih yang menempel di kursor. Bentuk
+     lingkaran di sini BUKAN dekorasi: penunjuk harus bisa dibedakan seketika
+     dari bidang-bidang persegi yang menyusun seluruh halaman ini.
+
+     Hanya di perangkat dengan penunjuk presisi. Kursor bawaan disembunyikan
+     HANYA kalau reduced motion tidak diminta: kursor yang mengekor adalah
+     gerakan yang tidak diminta, dan pengguna yang mematikan gerak tetap harus
+     punya penunjuk yang bisa dilihat. */
+  @media (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    html.has-cursor, html.has-cursor * { cursor: none; }
+  }
+
+  .cursor-dot, .cursor-ring {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: var(--z-cursor);
+    pointer-events: none;
+    border-radius: 50%;
+    will-change: transform;
+  }
+
+  .cursor-dot {
+    width: 6px;
+    height: 6px;
+    margin: -3px 0 0 -3px;
+    background: var(--color-amber);
+    transition: opacity 260ms var(--ease-out-expo);
+  }
+
+  /* Cincinnya amber, bukan putih ber-blend difference. Difference memang
+     otomatis terlihat di semua latar, tapi ia juga mengubah warna kursor di
+     tiap blok — di halaman yang identitasnya cuma lima warna, penunjuk yang
+     warnanya berubah-ubah terbaca sebagai kesalahan render. Amber terlihat di
+     kelima bidang dan tetap satu warna di mana pun. */
+  .cursor-ring {
+    width: 34px;
+    height: 34px;
+    margin: -17px 0 0 -17px;
+    border: 1.5px solid color-mix(in srgb, var(--color-amber) 75%, transparent);
+    transition: width 320ms var(--ease-out-expo),
+                height 320ms var(--ease-out-expo),
+                margin 320ms var(--ease-out-expo),
+                background-color 320ms var(--ease-out-expo),
+                border-width 320ms var(--ease-out-expo);
+  }
+
+  /* Di atas elemen interaktif cincinnya membesar dan terisi tipis, dan
+     titiknya menyusut jadi nol — dua tanda yang berlawanan arah lebih cepat
+     terbaca daripada satu perubahan ukuran saja. */
+  .cursor-ring[data-hot='true'] {
+    width: 58px;
+    height: 58px;
+    margin: -29px 0 0 -29px;
+    border-width: 2px;
+    border-color: var(--color-amber);
+    background: color-mix(in srgb, var(--color-amber) 18%, transparent);
+  }
+  /* Titiknya menghilang saat cincin membesar. opacity, bukan scale: cincin
+     dan titik sama-sama di-tween transform-nya oleh GSAP (quickTo), dan
+     transisi CSS pada properti yang sama akan berebut dengan tween itu. */
+  .cursor-dot[data-hot='true'] { opacity: 0; }
+
+  /* ── Potret ─────────────────────────────────────────────────────────────
+     Warna asli, tanpa filter. Sebelumnya dipaksa jadi duotone amber supaya
+     tidak membawa rona di luar palet; yang membuat itu tidak lagi perlu adalah
+     bingkai amber pekat di sekelilingnya — bingkai itu yang mengikat foto ke
+     palet halaman, bukan warnanya sendiri. */
+  .portrait {
+    object-position: 50% 28%;
+  }
+  @media (min-width: 1024px) {
+    .portrait { object-position: 50% 45%; }
+  }
 }
-.on-ink h1, .on-ink h2, .on-ink h3 { color: var(--color-on-ink); }
-
-/* ── Grain ────────────────────────────────────────────────────────────────
-   SVG feTurbulence inline lewat data URI: ~400 byte, nol request, tidak ada
-   file yang bisa hilang. Opacity ditahan sangat rendah — begitu grain-nya
-   "terasa", ia sudah jadi dekorasi. */
-.grain::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: var(--z-sticky);
-  opacity: 0.035;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-
-/* ── Hairline ─────────────────────────────────────────────────────────────
-   Pemisah antar record. Border penuh atau tidak sama sekali — border-left
-   tebal berwarna sebagai aksen tidak pernah merupakan keputusan. */
-.rule-t { border-top: 1px solid var(--color-rule); }
-.rule-b { border-bottom: 1px solid var(--color-rule); }
 
 /* ── Reduced motion ───────────────────────────────────────────────────────
    Bukan opsional. Catatan penting untuk yang menambah animasi nanti: jangan
-   pernah menggantungkan VISIBILITAS konten pada transisi. Transisi berhenti
-   di tab background dan di renderer headless, jadi section-nya akan terkirim
-   kosong ke orang yang tidak pernah tahu kenapa. */
+   pernah menggantungkan VISIBILITAS konten pada transisi. Transisi berhenti di
+   tab background dan di renderer headless, jadi section-nya akan terkirim
+   kosong ke orang yang tidak pernah tahu kenapa.
+
+   Tidak ada scroll-behavior: smooth di sini. ScrollSmoother memang tidak
+   pernah dibuat untuk pengguna ini, tapi menggantinya dengan smooth scroll CSS
+   cuma memindahkan gerak yang sama ke mesin lain — yang diminta adalah
+   lompatan seketika. */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
@@ -262,92 +859,5 @@
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-}
-
-/* ── Tombol ───────────────────────────────────────────────────────────────
-   Border 1,5px tegas, sudut tidak membulat. Satu bentuk, dua varian: terisi
-   untuk aksi utama, bergaris untuk sekunder. Tidak ada shadow — bayangan
-   lembut di bawah setiap elemen adalah kosakata kartu SaaS, dan halaman ini
-   bukan dashboard. */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.875rem 1.5rem;
-  font-family: var(--font-display);
-  font-size: 1rem;
-  letter-spacing: 0.01em;
-  text-transform: uppercase;
-  border: 1.5px solid currentColor;
-  transition: background-color 180ms var(--ease-out-quart),
-              color 180ms var(--ease-out-quart);
-}
-
-.btn-solid {
-  background-color: var(--color-ink);
-  color: var(--color-surface);
-  border-color: var(--color-ink);
-}
-.btn-solid:hover { background-color: transparent; color: var(--color-ink); }
-
-.btn-outline { color: var(--color-ink); }
-.btn-outline:hover { background-color: var(--color-ink); color: var(--color-surface); }
-
-.on-ink .btn-solid {
-  background-color: var(--color-on-ink);
-  color: var(--color-ink);
-  border-color: var(--color-on-ink);
-}
-.on-ink .btn-solid:hover { background-color: transparent; color: var(--color-on-ink); }
-
-.on-ink .btn-outline { color: var(--color-on-ink); }
-.on-ink .btn-outline:hover { background-color: var(--color-on-ink); color: var(--color-ink); }
-
-/* ── Penanda urutan section ───────────────────────────────────────────────
-   Angka besar di kolom kiri. Ini BUKAN eyebrow dekoratif: halaman ini memang
-   dibaca berurutan dari atas ke bawah, dan angkanya memberi orang tempat
-   berpijak saat men-scroll panjang. */
-.section-mark {
-  font-family: var(--font-display);
-  font-size: clamp(2rem, 4vw, 3.5rem);
-  line-height: 0.85;
-  color: var(--color-ink);
-}
-.on-ink .section-mark { color: var(--color-on-ink); }
-
-/* ── Potret Tentang ───────────────────────────────────────────────────────
-   Hitam putih, tepinya dilarutkan supaya menyatu dengan bidang halaman.
-
-   DUA hal di sini berbeda antara HP dan desktop, dan keduanya karena bentuk
-   kotaknya berbeda — bukan karena selera:
-
-   1. Pelarutan ke arah kiri hanya di layar lebar. Di HP fotonya selebar layar,
-      jadi gradien kiri-ke-kanan membuat separuh kirinya jadi kabut.
-
-   2. object-position. Di desktop kotaknya tinggi-sempit, jadi mengunci ke tepi
-      bawah (100%) memotong ukiran dan atap, dan orangnya mengisi penuh. Di HP
-      kotaknya lebar-pendek, dan angka yang sama justru memenggal kepala —
-      terlihat di 390px. Di sana bingkainya dinaikkan ke 34%.
-
-      Nilai desktop 92%, bukan 100%: menyisakan margin supaya kepala tetap aman
-      walau tinggi section berubah mengikuti panjang teks. */
-.portrait-bleed {
-  filter: grayscale(1) contrast(1.06);
-  object-position: 50% 34%;
-  -webkit-mask-image: linear-gradient(to bottom, transparent, black 14%, black 88%, transparent);
-  mask-image: linear-gradient(to bottom, transparent, black 14%, black 88%, transparent);
-}
-
-@media (min-width: 1024px) {
-  .portrait-bleed {
-    object-position: 50% 92%;
-    -webkit-mask-image:
-      linear-gradient(to bottom, transparent, black 18%),
-      linear-gradient(to right, transparent, black 42%);
-    -webkit-mask-composite: source-in;
-    mask-image:
-      linear-gradient(to bottom, transparent, black 18%),
-      linear-gradient(to right, transparent, black 42%);
-    mask-composite: intersect;
-  }
+  .marquee > * { animation: none !important; }
 }

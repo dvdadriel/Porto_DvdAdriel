@@ -1,7 +1,7 @@
 export const profile = {
   name: 'David Adriel Alvyn',
   headline: 'Fullstack Developer',
-  tagline: 'Go, Rails, Laravel, React — dan kebiasaan mengukur sebelum mengklaim.',
+  tagline: 'Go, Rails, Laravel, React — merangkai kode jadi pengalaman, dan tetap mengukur sebelum mengklaim.',
   email: 'dvdadrielwork@gmail.com',
   linkedin: 'https://www.linkedin.com/in/david-adriel-alvyn/',
   phone: '+62 851-2130-6206', // Sesuaikan dengan nomor aktif Anda
